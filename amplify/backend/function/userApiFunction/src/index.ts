@@ -19,7 +19,8 @@ export const handler = async (
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
 
   switch (true) {
-    case event.httpMethod === "GET" &&
+    case event.path === "/products" &&
+      event.httpMethod === "GET" &&
       event.queryStringParameters &&
       event.queryStringParameters.get === "getProducts":
       response = await getProducts(event.body, PRODUCTS_TABLE_NAME);

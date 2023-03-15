@@ -1,4 +1,10 @@
 import * as queries from "./querys";
+/**
+ * It queries the database for products based on the query parameters passed in the request.
+ * @param {any} queryBody - any - this is the body of the request.
+ * @param {string} tableName - the name of the table
+ * @returns An object with two properties: statuesCode and body.
+ */
 
 export async function getProducts(queryBody: any, tableName: string) {
   let limit = queryBody.limit ?? 20;

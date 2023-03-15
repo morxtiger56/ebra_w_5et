@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.scan = exports.query = void 0;
+exports.getItem = exports.scan = exports.query = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
 function query(tableName, queryBy, limit, fieldName, value, startKey = "") {
@@ -37,3 +37,14 @@ function scan(tableName, limit, startKey = "") {
         .promise();
 }
 exports.scan = scan;
+function getItem(tableName, id) {
+    return documentClient
+        .get({
+        TableName: tableName,
+        Key: {
+            id: id,
+        },
+    })
+        .promise();
+}
+exports.getItem = getItem;

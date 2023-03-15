@@ -1,9 +1,13 @@
+import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/routes.dart';
 import 'package:ebra_w_5et/widgets/bottom_navigation_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'color_schemes.g.dart';
 import 'screens/home_page_screen.dart';
+
+import './amplifyconfiguration.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,11 +24,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: lightColorScheme,
         textTheme: const TextTheme(
-          headline3: TextStyle(
+          displaySmall: TextStyle(
             fontSize: 16,
             color: Colors.black,
           ),
-          subtitle1: TextStyle(
+          titleMedium: TextStyle(
             color: Colors.grey,
             fontSize: 14,
           ),
@@ -50,11 +54,50 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Widget _activeRoute = routes['Home']!['route'];
+  // loading ui state - initially set to a loading state
+  bool _isLoading = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // kick off app initialization
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    // configure Amplify
+    await _configureAmplify();
+
+    // after configuring Amplify, update loading ui state to loaded state
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   void _changeTab(label) {
     setState(() {
       _activeRoute = routes[label]!['route'];
     });
+  }
+
+  Future<void> _configureAmplify() async {
+    try {
+      // amplify plugins
+
+      final restApiPlugin = AmplifyAPI();
+
+      // add Amplify plugins
+      await Amplify.addPlugins([restApiPlugin]);
+
+      // configure Amplify
+      //
+      // note that Amplify cannot be configured more than once!
+      await Amplify.configure(amplifyconfig);
+    } catch (e) {
+      // error handling can be improved for sure!
+      // but this will be sufficient for the purposes of this tutorial
+      safePrint('An error occurred while configuring Amplify: $e');
+    }
   }
 
   // This widget is the root of your application.
@@ -75,7 +118,11 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: _activeRoute,
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : _activeRoute,
       bottomNavigationBar: BottomNavBarWidget(
         navigateTo: _changeTab,
         routes: routes,
