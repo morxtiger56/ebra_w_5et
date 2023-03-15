@@ -16,7 +16,9 @@
         "ebraw5et": {}
       },
       "function": {
-        "userApiFunction": {}
+        "userApiFunction": {},
+        "ebraw5et": {},
+        "products": {}
       }
     }
   }
