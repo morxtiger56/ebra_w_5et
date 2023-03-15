@@ -7,8 +7,8 @@ import * as queries from "./querys";
  */
 
 export async function getProducts(queryBody: any, tableName: string) {
-  let limit = queryBody.limit ?? 20;
-  let queryBy = queryBody.queryBy ?? undefined;
+  let limit = queryBody && queryBody.limit ? queryBody.limit : 20;
+  let queryBy = queryBody && queryBody.queryBy ? queryBody.queryBy : undefined;
   let res;
 
   try {

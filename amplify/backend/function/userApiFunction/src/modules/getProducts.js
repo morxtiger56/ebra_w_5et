@@ -41,10 +41,9 @@ const queries = __importStar(require("./querys"));
  * @returns An object with two properties: statuesCode and body.
  */
 function getProducts(queryBody, tableName) {
-    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
-        let limit = (_a = queryBody.limit) !== null && _a !== void 0 ? _a : 20;
-        let queryBy = (_b = queryBody.queryBy) !== null && _b !== void 0 ? _b : undefined;
+        let limit = queryBody && queryBody.limit ? queryBody.limit : 20;
+        let queryBy = queryBody && queryBody.queryBy ? queryBody.queryBy : undefined;
         let res;
         try {
             if (queryBy) {

@@ -21,9 +21,11 @@ function query(tableName, queryBy, limit, fieldName, value, startKey = "") {
         Limit: limit,
         ScanIndexForward: true,
         KeyConditionExpression: "#5ccb0 = :5ccb0",
-        ExclusiveStartKey: {
-            id: startKey,
-        },
+        ExclusiveStartKey: startKey
+            ? {
+                id: startKey,
+            }
+            : undefined,
         ExpressionAttributeNames: {
             "#5ccb0": fieldName,
         },
@@ -47,9 +49,11 @@ function scan(tableName, limit, startKey = "") {
         TableName: tableName,
         Limit: limit,
         ConsistentRead: true,
-        ExclusiveStartKey: {
-            id: startKey,
-        },
+        ExclusiveStartKey: startKey
+            ? {
+                id: startKey,
+            }
+            : undefined,
     })
         .promise();
 }

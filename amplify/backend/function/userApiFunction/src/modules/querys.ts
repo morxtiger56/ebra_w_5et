@@ -16,7 +16,7 @@ const documentClient: DynamoDB.DocumentClient = new DynamoDB.DocumentClient();
 export function query(
   tableName: string,
   queryBy: string,
-  limit,
+  limit: number,
   fieldName: string,
   value: any,
   startKey: string = ""
@@ -28,9 +28,11 @@ export function query(
       Limit: limit,
       ScanIndexForward: true,
       KeyConditionExpression: "#5ccb0 = :5ccb0",
-      ExclusiveStartKey: {
-        id: startKey,
-      },
+      ExclusiveStartKey: startKey
+        ? {
+            id: startKey,
+          }
+        : undefined,
       ExpressionAttributeNames: {
         "#5ccb0": fieldName,
       },
@@ -55,9 +57,11 @@ export function scan(tableName: string, limit: number, startKey: string = "") {
       TableName: tableName,
       Limit: limit,
       ConsistentRead: true,
-      ExclusiveStartKey: {
-        id: startKey,
-      },
+      ExclusiveStartKey: startKey
+        ? {
+            id: startKey,
+          }
+        : undefined,
     })
     .promise();
 }
