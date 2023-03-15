@@ -1,6 +1,15 @@
 import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
-import { DynamoDB } from "aws-sdk";
-import * as data from "./data.json";
+
+import { getProducts } from "./modules/getProducts";
+
+const PRODUCTS_TABLE_NAME = `products-${process.env.ENV}`;
+
+type CustomResponse = {
+  statuesCode: number;
+  body: any | string | undefined;
+};
+
+let response: CustomResponse | undefined;
 
 export const handler = async (
   event: APIGatewayEvent,
@@ -8,10 +17,20 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
+
+  switch (true) {
+    case event.httpMethod === "GET" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.get === "getProducts":
+      response = await getProducts(event.body, PRODUCTS_TABLE_NAME);
+      break;
+
+    default:
+      break;
+  }
+
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "hello world",
-    }),
+    statusCode: response!.statuesCode ?? 200,
+    body: JSON.stringify(response?.body),
   };
 };

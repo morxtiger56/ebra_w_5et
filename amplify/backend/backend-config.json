@@ -28,6 +28,24 @@
   "function": {
     "userApiFunction": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "ebraw5et"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "products"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }

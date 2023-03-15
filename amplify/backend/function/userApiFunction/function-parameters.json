@@ -1,3 +1,19 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "permissions": {
+    "auth": {
+      "ebraw5et": [
+        "create",
+        "read",
+        "update"
+      ]
+    },
+    "storage": {
+      "products": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  }
 }
