@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "paths": {
+    "/products": {
+      "name": "/products",
+      "lambdaFunction": "userApiFunction",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/categories": {
+      "name": "/categories",
+      "lambdaFunction": "userApiFunction",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
