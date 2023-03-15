@@ -1,0 +1,36 @@
+{
+  "resourceName": "products",
+  "tableName": "products",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "products_by_category",
+      "partitionKey": {
+        "fieldName": "category",
+        "fieldType": "string"
+      }
+    },
+    {
+      "name": "products_by_owner",
+      "partitionKey": {
+        "fieldName": "ownerId",
+        "fieldType": "string"
+      }
+    },
+    {
+      "name": "products_by_category_filter_by_price",
+      "partitionKey": {
+        "fieldName": "category",
+        "fieldType": "string"
+      },
+      "sortKey": {
+        "fieldName": "price",
+        "fieldType": "number"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

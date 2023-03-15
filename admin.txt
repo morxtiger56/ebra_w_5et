@@ -1,0 +1,5 @@
+admin
+RLXYTxJqugK8rg8)00
+
+key: ck_557e2bb9f7985097b6ed2c7d8a167e9b42921d6b
+secret: cs_6bc092e0f5dbe997e3010ebc03f2459546888aab
