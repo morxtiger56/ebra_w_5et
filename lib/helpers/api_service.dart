@@ -6,20 +6,17 @@ class WooCommerceApi {
     try {
       // Get data using the "products" endpoint
       var products = '';
-
-      var response = await Amplify.API
-          .get(
-            restOptions: const RestOptions(
-              path: '/products',
-              apiName: 'userApi',
-              queryParameters: {
-                "get": "getProducts",
-              },
-            ),
-          )
-          .response;
+      var response = Amplify.API.get(
+        restOptions: const RestOptions(
+          path: '/products',
+          apiName: 'userApi',
+          queryParameters: {
+            "get": "getProducts",
+          },
+        ),
+      );
       print('passed');
-      print(response);
+      print(await response.response);
       return (products as List<Product>);
     } catch (e) {
       print(e);
