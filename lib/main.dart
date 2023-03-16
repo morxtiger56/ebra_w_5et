@@ -1,4 +1,5 @@
 import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/routes.dart';
 import 'package:ebra_w_5et/widgets/bottom_navigation_bar_widget.dart';
@@ -85,9 +86,10 @@ class _HomeState extends State<Home> {
       // amplify plugins
 
       final restApiPlugin = AmplifyAPI();
+      final authPlugin = AmplifyAuthCognito();
 
       // add Amplify plugins
-      await Amplify.addPlugins([restApiPlugin]);
+      await Amplify.addPlugins([restApiPlugin, authPlugin]);
 
       // configure Amplify
       //

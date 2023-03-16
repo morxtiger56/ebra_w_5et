@@ -15,34 +15,7 @@
       "service": "API Gateway"
     }
   },
-  "auth": {
-    "ebraw5et89556dd2": {
-      "customAuth": false,
-      "dependsOn": [],
-      "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ],
-        "passwordProtectionSettings": {
-          "passwordPolicyCharacters": [],
-          "passwordPolicyMinLength": 8
-        },
-        "signupAttributes": [
-          "EMAIL"
-        ],
-        "socialProviders": [],
-        "usernameAttributes": [
-          "EMAIL"
-        ],
-        "verificationMechanisms": [
-          "EMAIL"
-        ]
-      },
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito"
-    }
-  },
+  "auth": {},
   "function": {
     "userApiFunction": {
       "build": true,
@@ -55,13 +28,6 @@
           ],
           "category": "storage",
           "resourceName": "products"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "ebraw5et89556dd2"
         }
       ],
       "providerPlugin": "awscloudformation",

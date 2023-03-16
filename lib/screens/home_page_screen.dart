@@ -20,14 +20,14 @@ class HomePageScreen extends StatelessWidget {
         children: [
           Text(
             'Hello Mohamed',
-            style: Theme.of(context).textTheme.headline3,
+            style: Theme.of(context).textTheme.displaySmall,
           ),
           const SizedBox(
             height: 5,
           ),
           Text(
             'Lets get a deal for you',
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(
             height: 10,
