@@ -27,6 +27,10 @@
     "storageproductsStreamArn": {
       "Type": "String",
       "Default": "storageproductsStreamArn"
+    },
+    "storageebraW5etStorageBucketName": {
+      "Type": "String",
+      "Default": "storageebraW5etStorageBucketName"
     }
   },
   "Conditions": {
@@ -90,6 +94,9 @@
             },
             "STORAGE_PRODUCTS_STREAMARN": {
               "Ref": "storageproductsStreamArn"
+            },
+            "STORAGE_EBRAW5ETSTORAGE_BUCKETNAME": {
+              "Ref": "storageebraW5etStorageBucketName"
             }
           }
         },
@@ -228,6 +235,44 @@
                         "Ref": "storageproductsArn"
                       },
                       "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": "s3:ListBucket",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:s3:::",
+                      {
+                        "Ref": "storageebraW5etStorageBucketName"
+                      }
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:PutObject",
+                "s3:GetObject"
+              ],
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:s3:::",
+                      {
+                        "Ref": "storageebraW5etStorageBucketName"
+                      },
+                      "/*"
                     ]
                   ]
                 }

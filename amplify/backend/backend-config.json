@@ -55,6 +55,13 @@
           ],
           "category": "storage",
           "resourceName": "products"
+        },
+        {
+          "attributes": [
+            "BucketName"
+          ],
+          "category": "storage",
+          "resourceName": "ebraW5etStorage"
         }
       ],
       "providerPlugin": "awscloudformation",

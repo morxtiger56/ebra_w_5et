@@ -32,40 +32,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProducts = void 0;
-const queries = __importStar(require("./querys"));
-const getProductsImages_1 = require("./getProductsImages");
-/**
- * It queries the database for products based on the query parameters passed in the request.
- * @param {any} queryBody - any - this is the body of the request.
- * @param {string} tableName - the name of the table
- * @returns An object with two properties: statuesCode and body.
- */
-function getProducts(queryBody, tableName) {
+exports.getProductsImages = void 0;
+const s3Queries = __importStar(require("./s3_calls"));
+function getProductsImages(products) {
     return __awaiter(this, void 0, void 0, function* () {
-        let limit = queryBody && queryBody.limit ? queryBody.limit : 20;
-        let queryBy = queryBody && queryBody.queryBy ? queryBody.queryBy : undefined;
-        let res;
-        try {
-            if (queryBy) {
-                res = (yield queries.query(tableName, `products_by_${queryBy}`, limit, queryBy, queryBody.value)).Items;
-            }
-            else {
-                res = (yield queries.scan(tableName, limit)).Items;
-            }
-            if (!res) {
-                return;
-            }
-            res = yield (0, getProductsImages_1.getProductsImages)(res);
+        const imagesRequests = [];
+        for (const product of products) {
+            product.images = [];
+            imagesRequests.push(s3Queries.getObjectUrl(product.id));
         }
-        catch (e) {
-            console.error(e);
-            throw e;
+        const responses = yield Promise.all(imagesRequests);
+        for (const product of products) {
+            const images = responses.filter((e) => e.number === product.id);
+            if (!images) {
+                continue;
+            }
+            for (const image of images) {
+                product.images.push(image.url);
+            }
         }
-        return {
-            statuesCode: 200,
-            body: res,
-        };
+        return products;
     });
 }
-exports.getProducts = getProducts;
+exports.getProductsImages = getProductsImages;

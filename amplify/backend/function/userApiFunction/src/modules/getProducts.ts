@@ -1,4 +1,6 @@
 import * as queries from "./querys";
+import { getProductsImages } from "./getProductsImages";
+
 /**
  * It queries the database for products based on the query parameters passed in the request.
  * @param {any} queryBody - any - this is the body of the request.
@@ -25,6 +27,10 @@ export async function getProducts(queryBody: any, tableName: string) {
     } else {
       res = (await queries.scan(tableName, limit)).Items;
     }
+    if (!res) {
+      return;
+    }
+    res = await getProductsImages(res);
   } catch (e) {
     console.error(e);
     throw e;
