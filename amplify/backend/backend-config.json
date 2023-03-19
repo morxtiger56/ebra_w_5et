@@ -62,6 +62,15 @@
     }
   },
   "storage": {
+    "categories": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "ebraW5etStorage": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    },
     "products": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

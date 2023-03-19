@@ -1,0 +1,15 @@
+{
+  "resourceName": "ebraW5etStorage",
+  "policyUUID": "7665ba9d",
+  "bucketName": "ebraw5et058a2e99386f439d978ebd1f93bf685c",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

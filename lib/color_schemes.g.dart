@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
@@ -62,4 +63,35 @@ const darkColorScheme = ColorScheme(
   inversePrimary: Color(0xFFAE3203),
   shadow: Color(0xFF000000),
   surfaceTint: Color(0xFFFFB59F),
+);
+
+ThemeData lightThemeData = ThemeData(
+  colorScheme: lightColorScheme,
+  useMaterial3: true,
+  textTheme: const TextTheme(
+    displaySmall: TextStyle(
+      fontSize: 16,
+      color: Colors.black,
+    ),
+    titleMedium: TextStyle(
+      color: Colors.grey,
+      fontSize: 14,
+    ),
+  ),
+  fontFamily: GoogleFonts.poppins().fontFamily,
+);
+ThemeData darkThemeData = ThemeData(
+  colorScheme: darkColorScheme,
+  useMaterial3: true,
+  textTheme: const TextTheme(
+    displaySmall: TextStyle(
+      fontSize: 16,
+      color: Colors.white,
+    ),
+    titleMedium: TextStyle(
+      color: Colors.white,
+      fontSize: 14,
+    ),
+  ),
+  fontFamily: GoogleFonts.poppins().fontFamily,
 );

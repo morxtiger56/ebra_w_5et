@@ -19,9 +19,16 @@ class _ListProductsWidgetState extends State<ListProductsWidget> {
     super.initState();
   }
 
+  double height = 200;
+
   Future<void> getProducts() async {
     var data = await WooCommerceApi.getProducts();
     print(data);
+  }
+
+  getHeight() {
+    height = MediaQuery.of(context).size.height - 70 - 200;
+    return height;
   }
 
   @override
@@ -32,20 +39,19 @@ class _ListProductsWidgetState extends State<ListProductsWidget> {
         vertical: 20,
       ),
       child: Column(children: [
-        ElevatedButton(
-          onPressed: getProducts,
-          child: const Text('get products'),
-        ),
         SizedBox(
-          height: 400,
+          height: getHeight(),
           child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
+              mainAxisSpacing: 20.0,
+              childAspectRatio: (MediaQuery.of(context).size.width / 4) /
+                  (MediaQuery.of(context).size.height / 5),
             ),
             itemBuilder: (context, index) => ProductCardWidget(
               product: widget.products[index],
+              height: (MediaQuery.of(context).size.width / 5) * 4,
             ),
             itemCount: widget.products.length,
           ),
