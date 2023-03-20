@@ -10,6 +10,6 @@ export async function getObjectUrl(key: string) {
       Key: "jacket.png",
       Expires: 60 * 60,
     }),
-    number: key,
+    key: key,
   };
 }

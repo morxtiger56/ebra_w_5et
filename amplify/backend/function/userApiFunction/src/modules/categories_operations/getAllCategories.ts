@@ -1,6 +1,6 @@
 import { CATEGORIES_TABLE_NAME } from "./../config";
 import { scan } from "../querys";
-import { getProductsImages } from "../products_operations/getProductsImages";
+import { getObjectUrl } from "../s3_calls";
 
 export async function getAllCategories() {
   try {
@@ -8,7 +8,16 @@ export async function getAllCategories() {
     if (!res) {
       return;
     }
-    res = await getProductsImages(res);
+    const calls = [];
+    for (const cat of res) {
+      calls.push(getObjectUrl(cat.key));
+    }
+
+    const s3Response = await Promise.all(calls);
+
+    for (const cat of res) {
+      cat.image = s3Response.find((e) => e.key === cat.key)?.url;
+    }
   } catch (e) {
     throw e;
   }

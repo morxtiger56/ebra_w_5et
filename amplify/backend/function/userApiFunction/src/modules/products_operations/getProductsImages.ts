@@ -11,7 +11,7 @@ export async function getProductsImages(products: any) {
   const responses = await Promise.all(imagesRequests);
 
   for (const product of products) {
-    const images = responses.filter((e) => e.number === product.id);
+    const images = responses.filter((e) => e.key === product.id);
     if (!images) {
       continue;
     }
