@@ -20,7 +20,7 @@ function getProductsImages(products) {
         }
         const responses = yield Promise.all(imagesRequests);
         for (const product of products) {
-            const images = responses.filter((e) => e.number === product.id);
+            const images = responses.filter((e) => e.key === product.id);
             if (!images) {
                 continue;
             }

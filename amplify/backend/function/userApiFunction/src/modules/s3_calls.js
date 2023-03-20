@@ -11,17 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObjectUrl = void 0;
 const aws_sdk_1 = require("aws-sdk");
-const BUCKET_NAME = "ebraw5et058a2e99386f439d978ebd1f93bf685c214445-dev";
+const config_1 = require("./config");
 const s3 = new aws_sdk_1.S3();
 function getObjectUrl(key) {
     return __awaiter(this, void 0, void 0, function* () {
         return {
             url: s3.getSignedUrl("getObject", {
-                Bucket: BUCKET_NAME,
+                Bucket: config_1.BUCKET_NAME,
                 Key: "jacket.png",
                 Expires: 60 * 60,
             }),
-            number: key,
+            key: key,
         };
     });
 }

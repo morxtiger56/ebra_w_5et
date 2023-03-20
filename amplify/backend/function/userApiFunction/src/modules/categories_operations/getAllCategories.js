@@ -9,25 +9,34 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeFromFavorites = void 0;
+exports.getAllCategories = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
-function removeFromFavorites(userId, productId) {
+const s3_calls_1 = require("../s3_calls");
+function getAllCategories() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const object = {
-            userId,
-            productId,
-        };
         try {
-            yield (0, querys_1.removeItem)(config_1.FAVORITES_TABLE_NAME, object);
+            var res = (yield (0, querys_1.scan)(config_1.CATEGORIES_TABLE_NAME, 50)).Items;
+            if (!res) {
+                return;
+            }
+            const calls = [];
+            for (const cat of res) {
+                calls.push((0, s3_calls_1.getObjectUrl)(cat.key));
+            }
+            const s3Response = yield Promise.all(calls);
+            for (const cat of res) {
+                cat.image = (_a = s3Response.find((e) => e.key === cat.key)) === null || _a === void 0 ? void 0 : _a.url;
+            }
         }
         catch (e) {
             throw e;
         }
         return {
-            statuesCode: 200,
-            body: { message: "product removed from favorites" },
+            statusCode: 200,
+            body: res,
         };
     });
 }
-exports.removeFromFavorites = removeFromFavorites;
+exports.getAllCategories = getAllCategories;

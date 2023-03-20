@@ -10,25 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProducts = void 0;
+const config_1 = require("./../config");
 const querys_1 = require("../querys");
 const getProductsImages_1 = require("./getProductsImages");
 /**
  * It queries the database for products based on the query parameters passed in the request.
  * @param {any} queryBody - any - this is the body of the request.
- * @param {string} tableName - the name of the table
  * @returns An object with two properties: statuesCode and body.
  */
-function getProducts(queryBody, tableName) {
+function getProducts(queryBody) {
     return __awaiter(this, void 0, void 0, function* () {
         let limit = queryBody && queryBody.limit ? queryBody.limit : 20;
         let queryBy = queryBody && queryBody.queryBy ? queryBody.queryBy : undefined;
         let res;
         try {
             if (queryBy) {
-                res = (yield (0, querys_1.query)(tableName, `products_by_${queryBy}`, limit, queryBy, queryBody.value)).Items;
+                res = (yield (0, querys_1.query)(config_1.PRODUCTS_TABLE_NAME, `products_by_${queryBy}`, limit, queryBy, queryBody.value)).Items;
             }
             else {
-                res = (yield (0, querys_1.scan)(tableName, limit)).Items;
+                res = (yield (0, querys_1.scan)(config_1.PRODUCTS_TABLE_NAME, limit)).Items;
             }
             if (!res) {
                 return;

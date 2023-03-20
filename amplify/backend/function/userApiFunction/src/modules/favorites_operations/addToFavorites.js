@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addToFavorites = void 0;
+const config_1 = require("./../config");
 const querys_1 = require("../querys");
-const FAVORITES_TABLE_NAME = `favorites-${process.env.ENV}`;
 function addToFavorites(userId, productId) {
     return __awaiter(this, void 0, void 0, function* () {
         const object = {
@@ -20,7 +20,7 @@ function addToFavorites(userId, productId) {
             createdAt: new Date(Date.now()).getTime() / 1000,
         };
         try {
-            yield (0, querys_1.addItem)(FAVORITES_TABLE_NAME, object);
+            yield (0, querys_1.addItem)(config_1.FAVORITES_TABLE_NAME, object);
         }
         catch (e) {
             throw e;

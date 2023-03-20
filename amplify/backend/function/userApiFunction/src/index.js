@@ -13,7 +13,6 @@ exports.handler = void 0;
 const getProducts_1 = require("./modules/products_operations/getProducts");
 const removeFromFavorites_1 = require("./modules/favorites_operations/removeFromFavorites");
 const addToFavorites_1 = require("./modules/favorites_operations/addToFavorites");
-const PRODUCTS_TABLE_NAME = `products-${process.env.ENV}`;
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -24,7 +23,7 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.httpMethod === "GET" &&
             event.queryStringParameters &&
             event.queryStringParameters.get === "getProducts":
-            response = yield (0, getProducts_1.getProducts)(event.body, PRODUCTS_TABLE_NAME);
+            response = yield (0, getProducts_1.getProducts)(event.body);
             break;
         case event.path === "/favorites" &&
             event.httpMethod === "POST" &&
