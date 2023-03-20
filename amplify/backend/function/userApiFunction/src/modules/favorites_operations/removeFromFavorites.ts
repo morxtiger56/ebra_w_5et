@@ -1,6 +1,5 @@
+import { FAVORITES_TABLE_NAME } from "./../config";
 import { removeItem } from "../querys";
-
-const FAVORITES_TABLE_NAME = `favorites-${process.env.ENV}`;
 
 export async function removeFromFavorites(userId: string, productId: string) {
   const object = {

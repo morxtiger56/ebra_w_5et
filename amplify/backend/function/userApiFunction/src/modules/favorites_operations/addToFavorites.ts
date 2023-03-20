@@ -1,6 +1,5 @@
+import { FAVORITES_TABLE_NAME } from "./../config";
 import { addItem } from "../querys";
-
-const FAVORITES_TABLE_NAME = `favorites-${process.env.ENV}`;
 
 export async function addToFavorites(userId: string, productId: string) {
   const object = {

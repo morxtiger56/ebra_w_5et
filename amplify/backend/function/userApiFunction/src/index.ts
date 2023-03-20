@@ -4,8 +4,6 @@ import { getProducts } from "./modules/products_operations/getProducts";
 import { removeFromFavorites } from "./modules/favorites_operations/removeFromFavorites";
 import { addToFavorites } from "./modules/favorites_operations/addToFavorites";
 
-const PRODUCTS_TABLE_NAME = `products-${process.env.ENV}`;
-
 type CustomResponse = {
   statuesCode: number;
   body: any | string | undefined;
@@ -25,7 +23,7 @@ export const handler = async (
       event.httpMethod === "GET" &&
       event.queryStringParameters &&
       event.queryStringParameters.get === "getProducts":
-      response = await getProducts(event.body, PRODUCTS_TABLE_NAME);
+      response = await getProducts(event.body);
       break;
 
     case event.path === "/favorites" &&

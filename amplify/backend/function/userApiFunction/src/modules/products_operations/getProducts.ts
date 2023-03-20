@@ -1,14 +1,14 @@
+import { PRODUCTS_TABLE_NAME } from "./../config";
 import { query, scan } from "../querys";
 import { getProductsImages } from "./getProductsImages";
 
 /**
  * It queries the database for products based on the query parameters passed in the request.
  * @param {any} queryBody - any - this is the body of the request.
- * @param {string} tableName - the name of the table
  * @returns An object with two properties: statuesCode and body.
  */
 
-export async function getProducts(queryBody: any, tableName: string) {
+export async function getProducts(queryBody: any) {
   let limit = queryBody && queryBody.limit ? queryBody.limit : 20;
   let queryBy = queryBody && queryBody.queryBy ? queryBody.queryBy : undefined;
   let res;
@@ -17,7 +17,7 @@ export async function getProducts(queryBody: any, tableName: string) {
     if (queryBy) {
       res = (
         await query(
-          tableName,
+          PRODUCTS_TABLE_NAME,
           `products_by_${queryBy}`,
           limit,
           queryBy,
@@ -25,7 +25,7 @@ export async function getProducts(queryBody: any, tableName: string) {
         )
       ).Items;
     } else {
-      res = (await scan(tableName, limit)).Items;
+      res = (await scan(PRODUCTS_TABLE_NAME, limit)).Items;
     }
     if (!res) {
       return;
