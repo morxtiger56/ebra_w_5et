@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.addToFavorites = void 0;
 const querys_1 = require("../querys");
-const FAVORITES_TABLE_NAME = ``;
+const FAVORITES_TABLE_NAME = `favorites-${process.env.ENV}`;
 function addToFavorites(userId, productId) {
     return __awaiter(this, void 0, void 0, function* () {
         const object = {

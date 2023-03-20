@@ -1,4 +1,3 @@
-import { ItemList } from "aws-sdk/clients/dynamodb";
 import { getObjectUrl } from "../s3_calls";
 
 export async function getProductsImages(products: any) {
