@@ -10,7 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
-const getProducts_1 = require("./modules/getProducts");
+const getProducts_1 = require("./modules/products_operations/getProducts");
+const removeFromFavorites_1 = require("./modules/favorites_operations/removeFromFavorites");
+const addToFavorites_1 = require("./modules/favorites_operations/addToFavorites");
 const PRODUCTS_TABLE_NAME = `products-${process.env.ENV}`;
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,6 +25,20 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters &&
             event.queryStringParameters.get === "getProducts":
             response = yield (0, getProducts_1.getProducts)(event.body, PRODUCTS_TABLE_NAME);
+            break;
+        case event.path === "/favorites" &&
+            event.httpMethod === "POST" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== null &&
+            event.queryStringParameters.productId:
+            response = yield (0, addToFavorites_1.addToFavorites)(event.queryStringParameters.id, event.queryStringParameters.productId);
+            break;
+        case event.path === "/favorites" &&
+            event.httpMethod === "DELETE" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== null &&
+            event.queryStringParameters.productId:
+            response = yield (0, removeFromFavorites_1.removeFromFavorites)(event.queryStringParameters.id, event.queryStringParameters.productId);
             break;
         default:
             break;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getItem = exports.scan = exports.query = void 0;
+exports.removeItem = exports.addItem = exports.getItem = exports.scan = exports.query = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
 /**
@@ -75,3 +75,28 @@ function getItem(tableName, id) {
         .promise();
 }
 exports.getItem = getItem;
+/**
+ * This function takes a table name and an item, and returns a promise that resolves to the result of
+ * putting the item into the table.
+ * @param {string} tableName - The name of the table you want to add the item to.
+ * @param {any} item - the item to be added to the table
+ * @returns A promise.
+ */
+function addItem(tableName, item) {
+    return documentClient
+        .put({
+        TableName: tableName,
+        Item: item,
+    })
+        .promise();
+}
+exports.addItem = addItem;
+function removeItem(tableName, key) {
+    return documentClient
+        .delete({
+        TableName: tableName,
+        Key: key,
+    })
+        .promise();
+}
+exports.removeItem = removeItem;

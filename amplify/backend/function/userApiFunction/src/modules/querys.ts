@@ -1,4 +1,5 @@
 import { DynamoDB } from "aws-sdk";
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
 
 const documentClient: DynamoDB.DocumentClient = new DynamoDB.DocumentClient();
 
@@ -96,6 +97,15 @@ export function addItem(tableName: string, item: any) {
     .put({
       TableName: tableName,
       Item: item,
+    })
+    .promise();
+}
+
+export function removeItem(tableName: string, key: DocumentClient.Key) {
+  return documentClient
+    .delete({
+      TableName: tableName,
+      Key: key,
     })
     .promise();
 }

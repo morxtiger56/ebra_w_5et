@@ -1,4 +1,4 @@
-import * as queries from "./querys";
+import { query, scan } from "../querys";
 import { getProductsImages } from "./getProductsImages";
 
 /**
@@ -16,7 +16,7 @@ export async function getProducts(queryBody: any, tableName: string) {
   try {
     if (queryBy) {
       res = (
-        await queries.query(
+        await query(
           tableName,
           `products_by_${queryBy}`,
           limit,
@@ -25,7 +25,7 @@ export async function getProducts(queryBody: any, tableName: string) {
         )
       ).Items;
     } else {
-      res = (await queries.scan(tableName, limit)).Items;
+      res = (await scan(tableName, limit)).Items;
     }
     if (!res) {
       return;

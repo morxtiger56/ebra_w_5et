@@ -69,7 +69,7 @@ class ProductPageScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.grey,
                   image: DecorationImage(
-                    fit: BoxFit.fill  ,
+                    fit: BoxFit.fill,
                     image: NetworkImage(product.images!.first),
                   ),
                 ),

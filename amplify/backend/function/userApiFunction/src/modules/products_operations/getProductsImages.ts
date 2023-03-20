@@ -1,12 +1,12 @@
 import { ItemList } from "aws-sdk/clients/dynamodb";
-import * as s3Queries from "./s3_calls";
+import { getObjectUrl } from "../s3_calls";
 
 export async function getProductsImages(products: any) {
   const imagesRequests = [];
 
   for (const product of products) {
     product.images = [];
-    imagesRequests.push(s3Queries.getObjectUrl(product.id));
+    imagesRequests.push(getObjectUrl(product.id));
   }
 
   const responses = await Promise.all(imagesRequests);
