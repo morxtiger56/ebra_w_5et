@@ -60,17 +60,18 @@ class ProductPageScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Hero(
               tag: product.id,
               child: Container(
                 height: 400,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.grey,
-                ),
-                child: const Center(
-                  child: Text('Image'),
+                  image: DecorationImage(
+                    fit: BoxFit.fill  ,
+                    image: NetworkImage(product.images!.first),
+                  ),
                 ),
               ),
             ),

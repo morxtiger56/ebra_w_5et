@@ -83,3 +83,19 @@ export function getItem(tableName: string, id: string) {
     })
     .promise();
 }
+
+/**
+ * This function takes a table name and an item, and returns a promise that resolves to the result of
+ * putting the item into the table.
+ * @param {string} tableName - The name of the table you want to add the item to.
+ * @param {any} item - the item to be added to the table
+ * @returns A promise.
+ */
+export function addItem(tableName: string, item: any) {
+  return documentClient
+    .put({
+      TableName: tableName,
+      Item: item,
+    })
+    .promise();
+}

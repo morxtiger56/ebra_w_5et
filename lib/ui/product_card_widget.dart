@@ -39,6 +39,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.product.images);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
@@ -55,15 +56,21 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
               Hero(
                 tag: widget.product.id,
                 child: Container(
-                  padding: const EdgeInsets.all(50),
                   height: widget.height - 65,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.grey,
                   ),
-                  child: const Center(
-                    child: Text('Image'),
-                  ),
+                  child: widget.product.images!.first != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            widget.product.images!.first,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.center,
+                          ),
+                        )
+                      : const Text("Image"),
                 ),
               ),
               Padding(

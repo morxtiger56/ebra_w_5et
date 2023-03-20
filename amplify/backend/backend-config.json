@@ -78,6 +78,10 @@
       "providerPlugin": "awscloudformation",
       "service": "S3"
     },
+    "favorites": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "products": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

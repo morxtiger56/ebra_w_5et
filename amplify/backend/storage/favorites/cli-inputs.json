@@ -1,0 +1,22 @@
+{
+  "resourceName": "favorites",
+  "tableName": "favorites",
+  "partitionKey": {
+    "fieldName": "userId",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "productId",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "products_by_user",
+      "partitionKey": {
+        "fieldName": "userId",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

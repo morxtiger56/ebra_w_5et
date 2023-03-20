@@ -9,6 +9,7 @@ class Product {
   late double originalPrice;
   late List<Color>? colors;
   late List<String>? sizes;
+  late List<String>? images;
 
   Product({
     required this.id,
@@ -19,6 +20,7 @@ class Product {
     this.isFavorite = false,
     this.colors,
     this.sizes,
+    this.images,
   });
 
   /// Construct a color from a hex code string, of the format #RRGGBB.
@@ -34,28 +36,24 @@ class Product {
     originalPrice = object['original_price'] != null
         ? (object['original_price'] as int).toDouble()
         : ((object['price'] * 2) as int).toDouble();
+
     colors = [];
     sizes = [];
+    images = [];
+
     for (var element in (object['colors'] as List<dynamic>)) {
       colors!.add(hexToColor(element));
     }
     for (var element in (object['sizes'] as List<dynamic>)) {
       sizes!.add(element);
     }
+    for (var element in (object['images'] as List<dynamic>)) {
+      images!.add(element);
+    }
     isFavorite = false;
   }
 
   likeProduct() {
     isFavorite = !isFavorite;
-  }
-}
-
-class Image {
-  String url = '';
-
-  Image({required this.url});
-
-  Image.fromJson(Map<String, dynamic> object) {
-    url = object['src'];
   }
 }
