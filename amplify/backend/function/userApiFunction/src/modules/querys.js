@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeItem = exports.addItem = exports.getItem = exports.scan = exports.query = void 0;
+exports.batchGetItems = exports.removeItem = exports.addItem = exports.getItem = exports.scan = exports.query = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
 /**
@@ -13,7 +13,7 @@ const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
  * @param {string} [startKey] - The last key from the previous query.
  * @returns The query returns a promise that resolves to an object with the following properties:
  */
-function query(tableName, queryBy, limit, fieldName, value, startKey = "") {
+function query({ tableName, queryBy, limit, fieldName, value, startKey = "", attToGet = undefined, }) {
     return documentClient
         .query({
         TableName: tableName,
@@ -32,6 +32,8 @@ function query(tableName, queryBy, limit, fieldName, value, startKey = "") {
         ExpressionAttributeValues: {
             ":5ccb0": value,
         },
+        Select: attToGet !== undefined ? "SPECIFIC_ATTRIBUTES" : "ALL_ATTRIBUTES",
+        AttributesToGet: attToGet,
     })
         .promise();
 }
@@ -91,6 +93,13 @@ function addItem(tableName, item) {
         .promise();
 }
 exports.addItem = addItem;
+/**
+ * It takes a table name and a key, and returns a promise that resolves to the result of deleting the
+ * item with that key from the table
+ * @param {string} tableName - The name of the table you want to query
+ * @param key - {
+ * @returns A promise that resolves to the result of the delete operation.
+ */
 function removeItem(tableName, key) {
     return documentClient
         .delete({
@@ -100,3 +109,22 @@ function removeItem(tableName, key) {
         .promise();
 }
 exports.removeItem = removeItem;
+/**
+ * This function takes a table name and an array of keys and returns a promise that resolves to an
+ * object containing the items that match the keys.
+ * @param {string} tableName - string
+ * @param {any} keys - [{id: '1'}, {id: '2'}]
+ * @returns The response from the batchGetItems function is an object with the following structure:
+ */
+function batchGetItems(tableName, keys) {
+    return documentClient
+        .batchGet({
+        RequestItems: {
+            [`${tableName}`]: {
+                Keys: keys,
+            },
+        },
+    })
+        .promise();
+}
+exports.batchGetItems = batchGetItems;

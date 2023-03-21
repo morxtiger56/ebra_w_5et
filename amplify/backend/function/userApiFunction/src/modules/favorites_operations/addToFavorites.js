@@ -12,6 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.addToFavorites = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
+/**
+ * It adds a product to a user's favorites list
+ * @param {string} userId - string, productId: string
+ * @param {string} productId - string
+ * @returns an object with two properties: statuesCode and body.
+ */
 function addToFavorites(userId, productId) {
     return __awaiter(this, void 0, void 0, function* () {
         const object = {

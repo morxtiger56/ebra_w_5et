@@ -7,5 +7,9 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
     "@types/node": "^18.15.3"
+  },
+  "dependencies": {
+    "@types/uuid": "^9.0.1",
+    "uuid": "^9.0.0"
   }
 }

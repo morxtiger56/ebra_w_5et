@@ -25,7 +25,13 @@ function getProducts(queryBody) {
         let res;
         try {
             if (queryBy) {
-                res = (yield (0, querys_1.query)(config_1.PRODUCTS_TABLE_NAME, `products_by_${queryBy}`, limit, queryBy, queryBody.value)).Items;
+                res = (yield (0, querys_1.query)({
+                    tableName: config_1.PRODUCTS_TABLE_NAME,
+                    queryBy: `products_by_${queryBy}`,
+                    limit,
+                    fieldName: queryBy,
+                    value: queryBody.value,
+                })).Items;
             }
             else {
                 res = (yield (0, querys_1.scan)(config_1.PRODUCTS_TABLE_NAME, limit)).Items;

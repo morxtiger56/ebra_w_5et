@@ -1,5 +1,11 @@
 import { getObjectUrl } from "../s3_calls";
 
+/**
+ * It takes an array of products, and for each product, it gets the images from the database, and then
+ * adds the images to the product.
+ * @param {any} products - an array of products
+ * @returns An array of products with images.
+ */
 export async function getProductsImages(products: any) {
   const imagesRequests = [];
 

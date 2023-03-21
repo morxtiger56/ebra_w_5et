@@ -14,14 +14,23 @@ const documentClient: DynamoDB.DocumentClient = new DynamoDB.DocumentClient();
  * @returns The query returns a promise that resolves to an object with the following properties:
  */
 
-export function query(
-  tableName: string,
-  queryBy: string,
-  limit: number,
-  fieldName: string,
-  value: any,
-  startKey: string = ""
-) {
+export function query({
+  tableName,
+  queryBy,
+  limit,
+  fieldName,
+  value,
+  startKey = "",
+  attToGet = undefined,
+}: {
+  tableName: string;
+  queryBy: string;
+  limit: number;
+  fieldName: string;
+  value: any;
+  startKey?: string;
+  attToGet?: any;
+}) {
   return documentClient
     .query({
       TableName: tableName,
@@ -40,6 +49,8 @@ export function query(
       ExpressionAttributeValues: {
         ":5ccb0": value,
       },
+      Select: attToGet !== undefined ? "SPECIFIC_ATTRIBUTES" : "ALL_ATTRIBUTES",
+      AttributesToGet: attToGet,
     })
     .promise();
 }
@@ -101,11 +112,37 @@ export function addItem(tableName: string, item: any) {
     .promise();
 }
 
+/**
+ * It takes a table name and a key, and returns a promise that resolves to the result of deleting the
+ * item with that key from the table
+ * @param {string} tableName - The name of the table you want to query
+ * @param key - {
+ * @returns A promise that resolves to the result of the delete operation.
+ */
 export function removeItem(tableName: string, key: DocumentClient.Key) {
   return documentClient
     .delete({
       TableName: tableName,
       Key: key,
+    })
+    .promise();
+}
+
+/**
+ * This function takes a table name and an array of keys and returns a promise that resolves to an
+ * object containing the items that match the keys.
+ * @param {string} tableName - string
+ * @param {any} keys - [{id: '1'}, {id: '2'}]
+ * @returns The response from the batchGetItems function is an object with the following structure:
+ */
+export function batchGetItems(tableName: string, keys: any) {
+  return documentClient
+    .batchGet({
+      RequestItems: {
+        [`${tableName}`]: {
+          Keys: keys,
+        },
+      },
     })
     .promise();
 }

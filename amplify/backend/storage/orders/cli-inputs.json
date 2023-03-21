@@ -1,0 +1,25 @@
+{
+  "resourceName": "orders",
+  "tableName": "orders",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "orders_by_owner",
+      "partitionKey": {
+        "fieldName": "ownerId",
+        "fieldType": "string"
+      }
+    },
+    {
+      "name": "orders_by_statues",
+      "partitionKey": {
+        "fieldName": "statues",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

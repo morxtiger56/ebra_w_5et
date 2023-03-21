@@ -11,6 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getProductsImages = void 0;
 const s3_calls_1 = require("../s3_calls");
+/**
+ * It takes an array of products, and for each product, it gets the images from the database, and then
+ * adds the images to the product.
+ * @param {any} products - an array of products
+ * @returns An array of products with images.
+ */
 function getProductsImages(products) {
     return __awaiter(this, void 0, void 0, function* () {
         const imagesRequests = [];

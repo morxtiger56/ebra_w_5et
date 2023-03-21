@@ -16,13 +16,13 @@ export async function getProducts(queryBody: any) {
   try {
     if (queryBy) {
       res = (
-        await query(
-          PRODUCTS_TABLE_NAME,
-          `products_by_${queryBy}`,
+        await query({
+          tableName: PRODUCTS_TABLE_NAME,
+          queryBy: `products_by_${queryBy}`,
           limit,
-          queryBy,
-          queryBody.value
-        )
+          fieldName: queryBy,
+          value: queryBody.value,
+        })
       ).Items;
     } else {
       res = (await scan(PRODUCTS_TABLE_NAME, limit)).Items;

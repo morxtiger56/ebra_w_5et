@@ -13,6 +13,11 @@ exports.getObjectUrl = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const config_1 = require("./config");
 const s3 = new aws_sdk_1.S3();
+/**
+ * It returns a signed URL for an object in an S3 bucket.
+ * @param {string} key - The name of the file you want to upload.
+ * @returns An object with two properties: url and key.
+ */
 function getObjectUrl(key) {
     return __awaiter(this, void 0, void 0, function* () {
         return {

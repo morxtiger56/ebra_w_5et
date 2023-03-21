@@ -12,6 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.removeFromFavorites = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
+/**
+ * It removes a product from the favorites table.
+ * @param {string} userId - string,
+ * @param {string} productId - string
+ * @returns an object with two properties: statuesCode and body.
+ */
 function removeFromFavorites(userId, productId) {
     return __awaiter(this, void 0, void 0, function* () {
         const object = {

@@ -82,6 +82,10 @@
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     },
+    "orders": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "products": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

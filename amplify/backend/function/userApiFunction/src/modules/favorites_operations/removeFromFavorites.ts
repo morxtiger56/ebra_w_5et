@@ -1,6 +1,12 @@
 import { FAVORITES_TABLE_NAME } from "./../config";
 import { removeItem } from "../querys";
 
+/**
+ * It removes a product from the favorites table.
+ * @param {string} userId - string,
+ * @param {string} productId - string
+ * @returns an object with two properties: statuesCode and body.
+ */
 export async function removeFromFavorites(userId: string, productId: string) {
   const object = {
     userId,

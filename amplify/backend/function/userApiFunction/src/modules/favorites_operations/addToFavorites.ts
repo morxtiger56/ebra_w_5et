@@ -1,6 +1,12 @@
 import { FAVORITES_TABLE_NAME } from "./../config";
 import { addItem } from "../querys";
 
+/**
+ * It adds a product to a user's favorites list
+ * @param {string} userId - string, productId: string
+ * @param {string} productId - string
+ * @returns an object with two properties: statuesCode and body.
+ */
 export async function addToFavorites(userId: string, productId: string) {
   const object = {
     userId,

@@ -3,6 +3,8 @@ import { Context, APIGatewayProxyResult, APIGatewayEvent } from "aws-lambda";
 import { getProducts } from "./modules/products_operations/getProducts";
 import { removeFromFavorites } from "./modules/favorites_operations/removeFromFavorites";
 import { addToFavorites } from "./modules/favorites_operations/addToFavorites";
+import { getAllOrders } from "./modules/order_operations/getAllOrders";
+import { checkout } from "./modules/order_operations/checkout";
 
 type CustomResponse = {
   statuesCode: number;
@@ -17,6 +19,13 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
+
+  /* 
+  This is a switch statement. 
+  It is checks if the checks on multiple parameters in the request. 
+  If all of these conditions are true then it will calls the right function and
+  pass in the all the required parameters. 
+  **/
 
   switch (true) {
     case event.path === "/products" &&
@@ -41,18 +50,42 @@ export const handler = async (
       event.httpMethod === "DELETE" &&
       event.queryStringParameters &&
       event.queryStringParameters.id !== null &&
-      event.queryStringParameters.productId:
+      event.queryStringParameters.productId !== null:
       response = await removeFromFavorites(
         event.queryStringParameters!.id!,
         event.queryStringParameters!.productId!
       );
       break;
+
+    case event.path === "/orders" &&
+      event.httpMethod === "GET" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== null:
+      response = await getAllOrders(event.queryStringParameters!.id!);
+      break;
+
+    case event.path === "/orders" &&
+      event.httpMethod === "POST" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== null &&
+      event.body !== null:
+      response = await checkout(event.queryStringParameters!.id!, event.body);
+      break;
+
     default:
+      response = {
+        statuesCode: 400,
+        body: { message: "no request found" },
+      };
       break;
   }
 
   return {
     statusCode: response!.statuesCode ?? 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+    },
     body: JSON.stringify(response?.body),
   };
 };
