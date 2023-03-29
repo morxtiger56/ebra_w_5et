@@ -1,4 +1,6 @@
+import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/products_modal.dart';
 
@@ -19,7 +21,9 @@ class _FavoriteButtonWidgetState extends State<FavoriteButtonWidget> {
     return IconButton(
       onPressed: () {
         setState(() {
-          widget.product.likeProduct();
+          Provider.of<ProductProvider>(context, listen: false).toggleFavorite(
+            widget.product.id,
+          );
         });
       },
       icon: Icon(

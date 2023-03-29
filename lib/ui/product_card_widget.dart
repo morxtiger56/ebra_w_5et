@@ -9,8 +9,11 @@ import 'favorite_button_widget.dart';
 class ProductCardWidget extends StatefulWidget {
   final Product product;
   final double height;
-  const ProductCardWidget(
-      {super.key, required this.product, required this.height});
+  const ProductCardWidget({
+    super.key,
+    required this.product,
+    required this.height,
+  });
 
   @override
   State<ProductCardWidget> createState() => _ProductCardWidgetState();
@@ -44,7 +47,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
       onTap: () {
         Navigator.of(context).pushNamed(
           ProductPageScreen.routeName,
-          arguments: {"product": widget.product},
+          arguments: {"productId": widget.product.id},
         );
       },
       child: Column(

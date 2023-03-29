@@ -1,6 +1,5 @@
-import 'package:ebra_w_5et/helpers/api_service.dart';
-import 'package:ebra_w_5et/models/products_modal.dart';
 import 'package:ebra_w_5et/providers/auth_provider.dart';
+import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:ebra_w_5et/widgets/list_products_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -48,19 +47,34 @@ class _HomePageScreenState extends State<HomePageScreen> {
           const SizedBox(
             height: 10,
           ),
-          FutureBuilder(
-            future: WooCommerceApi.getProducts(),
-            builder: (context, snapshot) =>
-                snapshot.connectionState == ConnectionState.done
-                    ? ListProductsWidget(
-                        products: (snapshot.data as List<Product>),
-                      )
-                    : const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-          ),
+          const FetchProductsWidget(),
         ],
       ),
+    );
+  }
+}
+
+class FetchProductsWidget extends StatelessWidget {
+  const FetchProductsWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future:
+          //TODO: Make dynamic
+          Provider.of<ProductProvider>(context, listen: false).getProducts(),
+      builder: (context, snapshot) =>
+          snapshot.connectionState == ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                )
+              : Consumer<ProductProvider>(
+                  builder: (_, value, child) => ListProductsWidget(
+                    products: value.products,
+                  ),
+                ),
     );
   }
 }

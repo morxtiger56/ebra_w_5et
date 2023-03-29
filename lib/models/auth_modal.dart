@@ -4,7 +4,6 @@ class AuthData {
   String _authToken;
 
   String _id;
-
   String email;
   String password;
   bool _isSignedIn;

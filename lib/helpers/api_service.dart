@@ -1,14 +1,9 @@
-import 'dart:convert';
-
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:ebra_w_5et/models/products_modal.dart';
 
 class WooCommerceApi {
-  static Future<List<Product>> getProducts() async {
+  static Future<RestResponse> getProducts() async {
     try {
-      safePrint("Calling Api");
       // Get data using the "products" endpoint
-      var products = <Product>[];
       const options = RestOptions(
         path: '/products',
         apiName: 'userApi',
@@ -17,14 +12,50 @@ class WooCommerceApi {
         },
       );
       final restResponse = Amplify.API.get(restOptions: options);
-      safePrint("Rest Response $restResponse");
 
-      final response = await restResponse.response;
+      return restResponse.response;
+    } catch (e) {
+      safePrint(e);
+      throw 'No Internet Connection';
+    }
+  }
 
-      for (var element in (jsonDecode(response.body) as List<dynamic>)) {
-        products.add(Product.fromJson(element));
-      }
-      return products;
+  static Future<RestResponse> addToFavorites(
+      String id, String productId) async {
+    try {
+      // Get data using the "products" endpoint
+      var options = RestOptions(
+        path: '/favorites',
+        apiName: 'userApi',
+        queryParameters: {
+          "id": id,
+          "productId": productId,
+        },
+      );
+      final restResponse = Amplify.API.post(restOptions: options);
+
+      return restResponse.response;
+    } catch (e) {
+      safePrint(e);
+      throw 'No Internet Connection';
+    }
+  }
+
+  static Future<RestResponse> removeFromFavorites(
+      String id, String productId) async {
+    try {
+      // Get data using the "products" endpoint
+      var options = RestOptions(
+        path: '/favorites',
+        apiName: 'userApi',
+        queryParameters: {
+          "id": id,
+          "productId": productId,
+        },
+      );
+      final restResponse = Amplify.API.delete(restOptions: options);
+
+      return restResponse.response;
     } catch (e) {
       safePrint(e);
       throw 'No Internet Connection';

@@ -12,6 +12,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllFavorites = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
+/**
+ * It queries the database for all the products that a user has favorited, then it gets the product
+ * information for each of those products.
+ * @param {string} id - string - the user id
+ * @returns An array of arrays of objects.
+ */
 function getAllFavorites(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const response = [];

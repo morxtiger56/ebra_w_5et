@@ -1,6 +1,7 @@
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/models/products_modal.dart';
+import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../ui/choose_color_size_widget.dart';
 import '../ui/favorite_button_widget.dart';
@@ -27,9 +28,14 @@ class ProductPageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Product>;
-    final Product product = args['product']!;
-    safePrint(product.colors);
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final String productId = args['productId']!;
+    Product product = Provider.of<ProductProvider>(
+      context,
+      listen: false,
+    ).getProduct(
+      productId,
+    );
     return Scaffold(
       appBar: AppBar(
         leading: Padding(

@@ -5,6 +5,7 @@ import { removeFromFavorites } from "./modules/favorites_operations/removeFromFa
 import { addToFavorites } from "./modules/favorites_operations/addToFavorites";
 import { getAllOrders } from "./modules/order_operations/getAllOrders";
 import { checkout } from "./modules/order_operations/checkout";
+import { getUserId } from "./modules/cognito";
 
 type CustomResponse = {
   statuesCode: number;
@@ -19,7 +20,7 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
-
+  await getUserId();
   /* 
   This is a switch statement. 
   It is checks if the checks on multiple parameters in the request. 

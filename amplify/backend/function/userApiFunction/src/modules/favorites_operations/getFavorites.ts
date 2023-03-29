@@ -1,6 +1,12 @@
 import { PRODUCTS_TABLE_NAME } from "./../config";
 import { batchGetItems, query } from "../querys";
 
+/**
+ * It queries the database for all the products that a user has favorited, then it gets the product
+ * information for each of those products.
+ * @param {string} id - string - the user id
+ * @returns An array of arrays of objects.
+ */
 export async function getAllFavorites(id: string) {
   const response = [];
 

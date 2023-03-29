@@ -15,11 +15,13 @@ const removeFromFavorites_1 = require("./modules/favorites_operations/removeFrom
 const addToFavorites_1 = require("./modules/favorites_operations/addToFavorites");
 const getAllOrders_1 = require("./modules/order_operations/getAllOrders");
 const checkout_1 = require("./modules/order_operations/checkout");
+const cognito_1 = require("./modules/cognito");
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     console.log(`Event: ${JSON.stringify(event, null, 2)}`);
     console.log(`Context: ${JSON.stringify(context, null, 2)}`);
+    yield (0, cognito_1.getUserId)();
     /*
     This is a switch statement.
     It is checks if the checks on multiple parameters in the request.

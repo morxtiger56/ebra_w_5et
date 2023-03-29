@@ -21,6 +21,7 @@ class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
   Widget build(BuildContext context) {
     if (widget.isColor) {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             "Color",
@@ -52,18 +53,16 @@ class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
         ],
       );
     } else {
-      return Row(
-        children: widget.product.sizes!
-            .map(
-              (e) => Column(
-                children: [
-                  const Text(
-                    "Sizes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Row(
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "Sizes",
+          ),
+          Row(
+            children: widget.product.sizes!
+                .map(
+                  (e) => Row(
                     children: [
                       Container(
                         height: 40,
@@ -78,13 +77,13 @@ class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
                       ),
                       const SizedBox(
                         width: 5,
-                      ),
+                      )
                     ],
                   ),
-                ],
-              ),
-            )
-            .toList(),
+                )
+                .toList(),
+          ),
+        ],
       );
     }
   }
