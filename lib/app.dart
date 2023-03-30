@@ -1,3 +1,5 @@
+import 'package:ebra_w_5et/providers/cart_provider.dart';
+
 import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
 import 'screens/home.dart';
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+        )
       ],
       child: MaterialApp(
         theme: lightThemeData,

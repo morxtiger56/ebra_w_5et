@@ -1,7 +1,10 @@
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import '../providers/auth_provider.dart' as custom;
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../amplifyconfiguration.dart';
 import '../routes.dart';
@@ -73,34 +76,35 @@ class _HomeState extends State<Home> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    if (loggedIn) {
-      return Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.transparent,
-          foregroundColor: const Color(0xFFAE3203),
-          title: const Text("Logo"),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-                color: Color(0xFFAE3203),
-              ),
-            )
-          ],
-        ),
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : _activeRoute,
-        bottomNavigationBar: BottomNavBarWidget(
-          navigateTo: _changeTab,
-          routes: routes,
-        ),
-      );
-    } else {
-      return const AuthenticationScreen();
-    }
+    return FutureBuilder(
+      future: Provider.of<custom.AuthProvider>(context, listen: false).getUserAttributes(),
+      builder: (_, snapShot) => snapShot.connectionState == ConnectionState.waiting ? const Center(
+        child: CircularProgressIndicator.adaptive(),
+      ) : Consumer<custom.AuthProvider>(
+          builder: (_, value, c) => value.isSignedIn
+              ? Scaffold(
+                  appBar: AppBar(
+                    shadowColor: Colors.transparent,
+                    foregroundColor: const Color(0xFFAE3203),
+                    title: const Text("Logo"),
+                    actions: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.search,
+                          color: Color(0xFFAE3203),
+                        ),
+                      )
+                    ],
+                  ),
+                  body: _activeRoute,
+                  bottomNavigationBar: BottomNavBarWidget(
+                    navigateTo: _changeTab,
+                    routes: routes,
+                  ),
+                )
+              : c!,
+          child: const AuthenticationScreen()),
+    );
   }
 }

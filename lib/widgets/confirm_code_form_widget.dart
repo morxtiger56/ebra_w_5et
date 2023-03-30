@@ -15,7 +15,7 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _confirmationCodeController =
       TextEditingController();
-
+  var _loading = false;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -30,8 +30,11 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    setState(() {
+      _loading = true;
+    });
     try {
-      await Provider.of<custom.AuthProvider>(context).confirmUser(
+      await Provider.of<custom.AuthProvider>(context, listen: false).confirmUser(
         _confirmationCodeController.value.text,
       );
     } on AuthException catch (e) {
@@ -57,6 +60,10 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
         context: context,
         builder: (_) => alert,
       );
+    } finally {
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -83,8 +90,18 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
             height: 20,
           ),
           FilledButton(
-            onPressed: () {},
-            child: const Text("Proceed"),
+            onPressed: _loading? ()  {}: _confirmCode,
+
+            child: _loading
+                ? const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Center(
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: Colors.white,
+                ),
+              ),
+            )
+                : const Text("Proceed"),
           ),
         ],
       ),

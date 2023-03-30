@@ -37,7 +37,7 @@ export const handler = async (
       break;
 
     case event.path === "/favorites" &&
-      event.httpMethod === "POST" &&
+      event.httpMethod === "PUT" &&
       event.queryStringParameters &&
       event.queryStringParameters.id !== null &&
       event.queryStringParameters.productId:

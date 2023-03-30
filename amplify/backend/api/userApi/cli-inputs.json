@@ -14,6 +14,20 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/favorites": {
+      "name": "/favorites",
+      "lambdaFunction": "userApiFunction",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/orders": {
+      "name": "/orders",
+      "lambdaFunction": "userApiFunction",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }

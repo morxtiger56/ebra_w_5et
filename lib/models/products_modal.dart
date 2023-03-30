@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 class Product {
@@ -16,8 +17,8 @@ class Product {
     required this.name,
     required this.price,
     required this.description,
-    required this.originalPrice,
     this.isFavorite = false,
+    required this.originalPrice,
     this.colors,
     this.sizes,
     this.images,
@@ -55,5 +56,55 @@ class Product {
 
   likeProduct() {
     isFavorite = !isFavorite;
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'price': price,
+      'description': description,
+      'isFavorite': isFavorite,
+      'originalPrice': originalPrice,
+      'colors': colors,
+      'sizes': sizes,
+      'images': images,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return 'Product(id: $id, name: $name, price: $price, description: $description, isFavorite: $isFavorite, originalPrice: $originalPrice, colors: $colors, sizes: $sizes, images: $images)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Product &&
+        other.id == id &&
+        other.name == name &&
+        other.price == price &&
+        other.description == description &&
+        other.isFavorite == isFavorite &&
+        other.originalPrice == originalPrice &&
+        other.colors == colors &&
+        other.sizes == sizes &&
+        other.images == images;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        name.hashCode ^
+        price.hashCode ^
+        description.hashCode ^
+        isFavorite.hashCode ^
+        originalPrice.hashCode ^
+        colors.hashCode ^
+        sizes.hashCode ^
+        images.hashCode;
   }
 }

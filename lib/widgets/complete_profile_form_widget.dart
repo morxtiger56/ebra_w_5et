@@ -22,7 +22,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-
+  var _loading = false;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -41,8 +41,11 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    setState(() {
+      _loading = true;
+    });
     try {
-      await Provider.of<custom.AuthProvider>(context)
+      await Provider.of<custom.AuthProvider>(context,listen: false)
           .updateMultipleUserAttributes(
         name: _nameController.value.text,
         dateOfBirth: _dateController.value.text,
@@ -72,6 +75,8 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
         context: context,
         builder: (_) => alert,
       );
+    } finally{
+      _loading = false;
     }
   }
 
@@ -111,7 +116,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
             height: 10,
           ),
           FilledButton(
-            onPressed: () {},
+            onPressed: _loading? () {} : _updateAttributes,
             child: const Text("Proceed"),
           ),
         ],

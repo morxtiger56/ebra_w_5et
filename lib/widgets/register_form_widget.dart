@@ -27,8 +27,10 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
   Future<void> _register() async {
     _formKeyGlobal.currentState!.save();
     if (!_formKeyGlobal.currentState!.validate()) {
+      print("unvalid");
       return;
     }
+    print("valid");
 
     setState(() {
       _loading = true;
@@ -139,7 +141,7 @@ class _RegisterFormWidgetState extends State<RegisterFormWidget> {
             height: 10,
           ),
           FilledButton(
-            onPressed: _loading ? () {} : _register,
+            onPressed: _loading? ()  {}: _register,
             child: _loading
                 ? const Padding(
                     padding: EdgeInsets.all(8.0),

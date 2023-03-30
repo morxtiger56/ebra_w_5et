@@ -1,3 +1,4 @@
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 
@@ -19,25 +20,22 @@ class AuthProvider with ChangeNotifier {
   AuthProvider();
   // Create a boolean for checking the sign up status
   bool isSignUpComplete = false;
+  bool isSignedIn = false;
 
   Future<void> signUpUser(String email, String password) async {
     try {
-      await getUserAttributes();
-      if (authData == null) {
-        return;
-      }
+      authData ??= AuthData(authToken: "", id: "", email: "", password: "", isSignedIn: false, isSignUpComplete: false, );
       authData!.email = email;
       authData!.password = password;
+      print("signing up");
 
-      final userAttributes = <CognitoUserAttributeKey, String>{
-        CognitoUserAttributeKey.sub: authData!.id.toString(),
-      };
       final result = await Amplify.Auth.signUp(
         username: email,
         password: password,
-        options: CognitoSignUpOptions(userAttributes: userAttributes),
       );
       isSignUpComplete = result.isSignUpComplete;
+      authState = AuthState.confirmCode;
+      notifyListeners();
     } on AuthException catch (e) {
       safePrint(e.message);
     }
@@ -71,6 +69,7 @@ class AuthProvider with ChangeNotifier {
     try {
       final result =
           await Amplify.Auth.updateUserAttributes(attributes: attributes);
+
       result.forEach((key, value) {
         if (value.nextStep.updateAttributeStep ==
             'CONFIRM_ATTRIBUTE_WITH_CODE') {
@@ -80,10 +79,13 @@ class AuthProvider with ChangeNotifier {
           print('Update completed for $key');
         }
       });
+      isSignedIn = true;
+      notifyListeners();
     } on AmplifyException catch (e) {
       print(e.message);
       rethrow;
     }
+    notifyListeners();
   }
 
   Future<void> confirmUser(String confirmationCode) async {
@@ -91,14 +93,19 @@ class AuthProvider with ChangeNotifier {
       if (authData == null || authData!.email == "") {
         return;
       }
+      print("confimUserStep");
       final result = await Amplify.Auth.confirmSignUp(
         username: authData!.email,
         confirmationCode: confirmationCode,
       );
-
+      await Amplify.Auth.signIn(
+        username: authData!.email,
+        password: authData!.password,
+      );
       isSignUpComplete = result.isSignUpComplete;
-      print("confirmed");
+
       authState = AuthState.completeProfile;
+
     } on AuthException catch (e) {
       safePrint(e.message);
     }
@@ -120,6 +127,9 @@ class AuthProvider with ChangeNotifier {
         username: username,
         password: password,
       );
+
+      isSignedIn = true;
+      notifyListeners();
     } on AuthException {
       rethrow;
     }
@@ -155,14 +165,36 @@ class AuthProvider with ChangeNotifier {
           getAWSCredentials: true,
         ),
       ) as CognitoAuthSession);
-      safePrint(userSession.identityId);
+      if(!userSession.isSignedIn){
+        authData = AuthData(
+          authToken: "",
+          id: getStringAfterEuWest1(userSession.identityId!)!,
+          email: "",
+          password: "",
+          isSignedIn: false,
+          isSignUpComplete: false,
+        );
+        return;
+      }
+
+      final userData = await Amplify.Auth.fetchUserAttributes();
+      var email = "";
+      userData.forEach((element) {
+        if(element.userAttributeKey == CognitoUserAttributeKey.email){
+          email = element.value;
+        }
+
+      });
+
+      isSignedIn = userSession.isSignedIn;
+      print("isSignedIn: $isSignedIn");
       authData = AuthData(
-        authToken: "",
-        id: getStringAfterEuWest1(userSession.identityId!)!,
-        email: "",
+        authToken: userSession.userPoolTokens!.accessToken,
+        id: userSession!.userSub!,
+        email: email,
         password: "",
-        isSignedIn: false,
-        isSignUpComplete: false,
+        isSignedIn: true,
+        isSignUpComplete: true,
       );
       notifyListeners();
     } catch (e) {

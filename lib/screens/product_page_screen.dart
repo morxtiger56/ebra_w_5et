@@ -1,4 +1,5 @@
 import 'package:ebra_w_5et/models/products_modal.dart';
+import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,7 @@ class ProductPageScreen extends StatelessWidget {
   ProductPageScreen({super.key, required this.product});
 
   static String routeName = '/product-screen';
+
   String capitalize(String value) {
     var result = value[0].toUpperCase();
     bool cap = true;
@@ -36,6 +38,16 @@ class ProductPageScreen extends StatelessWidget {
     ).getProduct(
       productId,
     );
+
+    Future<void> _addToCart() async {
+      try {
+        Provider.of<CartProvider>(context, listen: false)
+            .addToCart(product, {"color": "red"}, 1);
+      } catch (e) {
+        print(e);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -127,7 +139,10 @@ class ProductPageScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: ProductBottomNavBar(product: product),
+      bottomNavigationBar: ProductBottomNavBar(
+        product: product,
+        addToCart: _addToCart,
+      ),
     );
   }
 }
@@ -136,9 +151,11 @@ class ProductBottomNavBar extends StatelessWidget {
   const ProductBottomNavBar({
     super.key,
     required this.product,
+    required this.addToCart,
   });
 
   final Product product;
+  final VoidCallback addToCart;
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +171,7 @@ class ProductBottomNavBar extends StatelessWidget {
           ),
           Expanded(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: addToCart,
               child: Text("Add To Cart".toUpperCase()),
             ),
           ),

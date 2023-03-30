@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/helpers/api_service.dart';
 import 'package:flutter/material.dart';
 
@@ -30,9 +32,29 @@ class ProductProvider with ChangeNotifier {
     return products.firstWhere((element) => element.id == id);
   }
 
-  void toggleFavorite(String id) {
+   Future<void> toggleFavorite(String id) async {
     var product = products.firstWhere((element) => element.id == id);
     product.likeProduct();
     notifyListeners();
+
+    try{
+      var user = await Amplify.Auth.getCurrentUser();
+      print("adding");
+      var params = RestOptions(
+        path: "/favorites",
+        apiName: "userApi",
+        queryParameters: {
+          "id": user.userId,
+          "productId": id,
+        },
+        body: Uint8List.fromList([]),
+      );
+      var response = await Amplify.API.put(restOptions: params).response;
+      print(response.body);
+    } catch (e) {
+      print(e);
+      product.likeProduct();
+      notifyListeners();
+    }
   }
 }
