@@ -39,8 +39,8 @@ export const handler = async (
     case event.path === "/favorites" &&
       event.httpMethod === "PUT" &&
       event.queryStringParameters &&
-      event.queryStringParameters.id !== null &&
-      event.queryStringParameters.productId:
+      event.queryStringParameters.id !== undefined &&
+      event.queryStringParameters.productId !== undefined:
       response = await addToFavorites(
         event.queryStringParameters!.id!,
         event.queryStringParameters!.productId!
@@ -50,8 +50,8 @@ export const handler = async (
     case event.path === "/favorites" &&
       event.httpMethod === "DELETE" &&
       event.queryStringParameters &&
-      event.queryStringParameters.id !== null &&
-      event.queryStringParameters.productId !== null:
+      event.queryStringParameters.id !== undefined &&
+      event.queryStringParameters.productId !== undefined:
       response = await removeFromFavorites(
         event.queryStringParameters!.id!,
         event.queryStringParameters!.productId!
@@ -61,15 +61,15 @@ export const handler = async (
     case event.path === "/orders" &&
       event.httpMethod === "GET" &&
       event.queryStringParameters &&
-      event.queryStringParameters.id !== null:
+      event.queryStringParameters.id !== undefined:
       response = await getAllOrders(event.queryStringParameters!.id!);
       break;
 
     case event.path === "/orders" &&
       event.httpMethod === "POST" &&
       event.queryStringParameters &&
-      event.queryStringParameters.id !== null &&
-      event.body !== null:
+      event.queryStringParameters.id !== undefined &&
+      event.body !== undefined:
       response = await checkout(event.queryStringParameters!.id!, event.body);
       break;
 

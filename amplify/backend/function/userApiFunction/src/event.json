@@ -1,7 +1,8 @@
 {
-  "path": "/products",
-  "httpMethod": "GET",
+  "path": "/favorites",
+  "httpMethod": "PUT",
   "queryStringParameters": {
-    "get": "getProducts"
+    "id": "41153956-1a8a-4e2d-8e01-1fceeb9677f5",
+    "productId": "642D5F4D-39C8-5C31-B591-5696D44A38D8"
   }
 }

@@ -19,6 +19,9 @@ class ProductProvider with ChangeNotifier {
   ProductProvider();
 
   Future<void> getProducts() async {
+    if (products.isNotEmpty) {
+      return;
+    }
     products = [];
     var response = await WooCommerceApi.getProducts();
     print(response.toString());
@@ -32,14 +35,15 @@ class ProductProvider with ChangeNotifier {
     return products.firstWhere((element) => element.id == id);
   }
 
-   Future<void> toggleFavorite(String id) async {
+  Future<void> toggleFavorite(String id) async {
     var product = products.firstWhere((element) => element.id == id);
     product.likeProduct();
     notifyListeners();
 
-    try{
+    try {
       var user = await Amplify.Auth.getCurrentUser();
       print("adding");
+      print(user.userId);
       var params = RestOptions(
         path: "/favorites",
         apiName: "userApi",

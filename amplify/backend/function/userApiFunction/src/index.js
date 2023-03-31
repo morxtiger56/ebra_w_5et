@@ -36,30 +36,30 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             response = yield (0, getProducts_1.getProducts)(event.body);
             break;
         case event.path === "/favorites" &&
-            event.httpMethod === "POST" &&
+            event.httpMethod === "PUT" &&
             event.queryStringParameters &&
-            event.queryStringParameters.id !== null &&
-            event.queryStringParameters.productId:
+            event.queryStringParameters.id !== undefined &&
+            event.queryStringParameters.productId !== undefined:
             response = yield (0, addToFavorites_1.addToFavorites)(event.queryStringParameters.id, event.queryStringParameters.productId);
             break;
         case event.path === "/favorites" &&
             event.httpMethod === "DELETE" &&
             event.queryStringParameters &&
-            event.queryStringParameters.id !== null &&
-            event.queryStringParameters.productId !== null:
+            event.queryStringParameters.id !== undefined &&
+            event.queryStringParameters.productId !== undefined:
             response = yield (0, removeFromFavorites_1.removeFromFavorites)(event.queryStringParameters.id, event.queryStringParameters.productId);
             break;
         case event.path === "/orders" &&
             event.httpMethod === "GET" &&
             event.queryStringParameters &&
-            event.queryStringParameters.id !== null:
+            event.queryStringParameters.id !== undefined:
             response = yield (0, getAllOrders_1.getAllOrders)(event.queryStringParameters.id);
             break;
         case event.path === "/orders" &&
             event.httpMethod === "POST" &&
             event.queryStringParameters &&
-            event.queryStringParameters.id !== null &&
-            event.body !== null:
+            event.queryStringParameters.id !== undefined &&
+            event.body !== undefined:
             response = yield (0, checkout_1.checkout)(event.queryStringParameters.id, event.body);
             break;
         default:
