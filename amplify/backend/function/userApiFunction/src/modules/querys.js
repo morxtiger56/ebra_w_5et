@@ -14,6 +14,7 @@ const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
  * @returns The query returns a promise that resolves to an object with the following properties:
  */
 function query({ tableName, queryBy, limit, fieldName, value, startKey = "", attToGet = undefined, }) {
+    console.log(attToGet);
     return documentClient
         .query({
         TableName: tableName,
@@ -32,8 +33,6 @@ function query({ tableName, queryBy, limit, fieldName, value, startKey = "", att
         ExpressionAttributeValues: {
             ":5ccb0": value,
         },
-        Select: attToGet !== undefined ? "SPECIFIC_ATTRIBUTES" : "ALL_ATTRIBUTES",
-        AttributesToGet: attToGet,
     })
         .promise();
 }

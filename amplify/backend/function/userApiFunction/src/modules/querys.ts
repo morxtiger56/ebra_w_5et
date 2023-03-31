@@ -31,6 +31,8 @@ export function query({
   startKey?: string;
   attToGet?: any;
 }) {
+  console.log(attToGet);
+
   return documentClient
     .query({
       TableName: tableName,
@@ -49,8 +51,6 @@ export function query({
       ExpressionAttributeValues: {
         ":5ccb0": value,
       },
-      Select: attToGet !== undefined ? "SPECIFIC_ATTRIBUTES" : "ALL_ATTRIBUTES",
-      AttributesToGet: attToGet,
     })
     .promise();
 }

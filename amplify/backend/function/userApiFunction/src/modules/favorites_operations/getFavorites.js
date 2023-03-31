@@ -23,12 +23,11 @@ function getAllFavorites(id) {
         const response = [];
         try {
             const res = (yield (0, querys_1.query)({
-                tableName: config_1.PRODUCTS_TABLE_NAME,
+                tableName: config_1.FAVORITES_TABLE_NAME,
                 queryBy: "products_by_user",
                 limit: 100,
                 fieldName: "userId",
                 value: id,
-                attToGet: ["productId"],
             })).Items;
             if (!res) {
                 return {

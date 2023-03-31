@@ -1,4 +1,4 @@
-import { PRODUCTS_TABLE_NAME } from "./../config";
+import { FAVORITES_TABLE_NAME, PRODUCTS_TABLE_NAME } from "./../config";
 import { batchGetItems, query } from "../querys";
 
 /**
@@ -13,12 +13,11 @@ export async function getAllFavorites(id: string) {
   try {
     const res = (
       await query({
-        tableName: PRODUCTS_TABLE_NAME,
+        tableName: FAVORITES_TABLE_NAME,
         queryBy: "products_by_user",
         limit: 100,
         fieldName: "userId",
         value: id,
-        attToGet: ["productId"],
       })
     ).Items;
 
