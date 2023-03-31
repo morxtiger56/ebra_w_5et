@@ -8,6 +8,7 @@ import { checkout } from "./modules/order_operations/checkout";
 import { getUserId } from "./modules/cognito";
 import { getAllFavorites } from "./modules/favorites_operations/getFavorites";
 import { getOpenCart } from "./modules/cart_operations/getOpenCart";
+import { addToCart } from "./modules/cart_operations/addToCart";
 
 type CustomResponse = {
   statuesCode: number;
@@ -87,6 +88,18 @@ export const handler = async (
       event.queryStringParameters &&
       event.queryStringParameters.id !== undefined:
       response = await getOpenCart(event.queryStringParameters!.id!);
+      break;
+
+    case event.path === "/cart" &&
+      event.httpMethod === "POST" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== undefined &&
+      event.body === undefined:
+      response = await addToCart(
+        event.queryStringParameters!.id!,
+        event.queryStringParameters!.cartId,
+        event.body
+      );
       break;
 
     default:

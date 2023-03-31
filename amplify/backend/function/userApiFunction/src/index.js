@@ -1,23 +1,4 @@
-/* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-	STORAGE_CART_ARN
-	STORAGE_CART_NAME
-	STORAGE_CART_STREAMARN
-	STORAGE_CATEGORIES_ARN
-	STORAGE_CATEGORIES_NAME
-	STORAGE_CATEGORIES_STREAMARN
-	STORAGE_EBRAW5ETSTORAGE_BUCKETNAME
-	STORAGE_FAVORITES_ARN
-	STORAGE_FAVORITES_NAME
-	STORAGE_FAVORITES_STREAMARN
-	STORAGE_ORDERS_ARN
-	STORAGE_ORDERS_NAME
-	STORAGE_ORDERS_STREAMARN
-	STORAGE_PRODUCTS_ARN
-	STORAGE_PRODUCTS_NAME
-	STORAGE_PRODUCTS_STREAMARN
-Amplify Params - DO NOT EDIT */"use strict";
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,14 +15,14 @@ const removeFromFavorites_1 = require("./modules/favorites_operations/removeFrom
 const addToFavorites_1 = require("./modules/favorites_operations/addToFavorites");
 const getAllOrders_1 = require("./modules/order_operations/getAllOrders");
 const checkout_1 = require("./modules/order_operations/checkout");
-const cognito_1 = require("./modules/cognito");
 const getFavorites_1 = require("./modules/favorites_operations/getFavorites");
+const getOpenCart_1 = require("./modules/cart_operations/getOpenCart");
+const addToCart_1 = require("./modules/cart_operations/addToCart");
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     console.log(`Event: ${JSON.stringify(event, null, 2)}`);
     console.log(`Context: ${JSON.stringify(context, null, 2)}`);
-    yield (0, cognito_1.getUserId)();
     /*
     This is a switch statement.
     It is checks if the checks on multiple parameters in the request.
@@ -87,6 +68,19 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters.id !== undefined &&
             event.body !== undefined:
             response = yield (0, checkout_1.checkout)(event.queryStringParameters.id, event.body);
+            break;
+        case event.path === "/cart" &&
+            event.httpMethod === "GET" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== undefined:
+            response = yield (0, getOpenCart_1.getOpenCart)(event.queryStringParameters.id);
+            break;
+        case event.path === "/cart" &&
+            event.httpMethod === "POST" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== undefined &&
+            event.body === undefined:
+            response = yield (0, addToCart_1.addToCart)(event.queryStringParameters.id, event.queryStringParameters.cartId, event.body);
             break;
         default:
             response = {

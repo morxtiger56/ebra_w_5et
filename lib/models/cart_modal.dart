@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:ebra_w_5et/models/products_modal.dart';
 
 class CartModal {

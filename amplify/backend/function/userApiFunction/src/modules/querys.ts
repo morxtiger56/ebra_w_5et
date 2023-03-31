@@ -85,13 +85,16 @@ export function scan(tableName: string, limit: number, startKey: string = "") {
  * @returns A promise that resolves to an object with the following properties:
  */
 
-export function getItem(tableName: string, id: string) {
+export function getItem(tableName: string, id: any) {
   return documentClient
     .get({
       TableName: tableName,
-      Key: {
-        id: id,
-      },
+      Key:
+        typeof id === "string"
+          ? {
+              id: id,
+            }
+          : id,
     })
     .promise();
 }

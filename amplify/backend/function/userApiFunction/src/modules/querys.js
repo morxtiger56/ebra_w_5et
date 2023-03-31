@@ -69,9 +69,11 @@ function getItem(tableName, id) {
     return documentClient
         .get({
         TableName: tableName,
-        Key: {
-            id: id,
-        },
+        Key: typeof id === "string"
+            ? {
+                id: id,
+            }
+            : id,
     })
         .promise();
 }
