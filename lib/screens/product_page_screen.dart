@@ -7,12 +7,17 @@ import 'package:provider/provider.dart';
 import '../ui/choose_color_size_widget.dart';
 import '../ui/favorite_button_widget.dart';
 
-class ProductPageScreen extends StatelessWidget {
+class ProductPageScreen extends StatefulWidget {
   Product product;
   ProductPageScreen({super.key, required this.product});
 
   static String routeName = '/product-screen';
 
+  @override
+  State<ProductPageScreen> createState() => _ProductPageScreenState();
+}
+
+class _ProductPageScreenState extends State<ProductPageScreen> {
   String capitalize(String value) {
     var result = value[0].toUpperCase();
     bool cap = true;
@@ -25,6 +30,22 @@ class ProductPageScreen extends StatelessWidget {
       }
     }
     return result;
+  }
+
+  String currentColor = "";
+  String currentSize = "";
+
+  void _changeColor(Color value) {
+    setState(() {
+      currentColor = value.value.toRadixString(16);
+    });
+  }
+
+  void _changeSize(String value) {
+    print(value);
+    setState(() {
+      currentSize = value;
+    });
   }
 
   @override
@@ -42,7 +63,24 @@ class ProductPageScreen extends StatelessWidget {
     Future<void> _addToCart() async {
       try {
         Provider.of<CartProvider>(context, listen: false)
-            .addToCart(product, {"color": "red"}, 1);
+            .addToCart(
+                product,
+                {
+                  "color": currentColor.isEmpty
+                      ? product.colors![0].value.toRadixString(16)
+                      : currentColor,
+                  "size": currentSize
+                },
+                1)
+            .then(
+              (value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    value,
+                  ),
+                ),
+              ),
+            );
       } catch (e) {
         print(e);
       }
@@ -128,11 +166,24 @@ class ProductPageScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  ChooseColorSizeWidget(product: product, isColor: true),
+                  ChooseColorSizeWidget(
+                    product: product,
+                    isColor: true,
+                    changeValue: _changeColor,
+                    activeValue: currentColor.isEmpty
+                        ? product.colors![0]
+                        : Color(int.parse(currentColor, radix: 16)),
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
-                  ChooseColorSizeWidget(product: product, isColor: false),
+                  ChooseColorSizeWidget(
+                    product: product,
+                    isColor: false,
+                    changeValue: _changeSize,
+                    activeValue:
+                        currentSize.isEmpty ? product.sizes![0] : currentSize,
+                  ),
                 ],
               ),
             ),

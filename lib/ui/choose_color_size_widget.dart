@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../models/products_modal.dart';
 
-class ChooseColorSizeWidget extends StatefulWidget {
+class ChooseColorSizeWidget extends StatelessWidget {
   const ChooseColorSizeWidget({
     super.key,
     required this.product,
     required this.isColor,
+    required this.changeValue,
+    required this.activeValue,
   });
 
+  final Function changeValue;
   final Product product;
   final bool isColor;
+  final dynamic activeValue;
 
-  @override
-  State<ChooseColorSizeWidget> createState() => _ChooseColorSizeWidgetState();
-}
-
-class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.isColor) {
+    if (isColor) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,16 +29,26 @@ class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
             ),
           ),
           Row(
-            children: widget.product.colors!
+            children: product.colors!
                 .map(
                   (e) => Row(
                     children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: e,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () => changeValue(e),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: e == activeValue
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.black,
+                              width: 2,
+                            ),
+                            color: e,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -60,19 +69,28 @@ class _ChooseColorSizeWidgetState extends State<ChooseColorSizeWidget> {
             "Sizes",
           ),
           Row(
-            children: widget.product.sizes!
+            children: product.sizes!
                 .map(
                   (e) => Row(
                     children: [
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: Colors.black),
-                        ),
-                        child: Center(
-                          child: Text(e),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () => changeValue(e),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: e == activeValue
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.black,
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(e),
+                          ),
                         ),
                       ),
                       const SizedBox(

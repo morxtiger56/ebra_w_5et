@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/models/cart_modal.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +12,7 @@ class CartProvider with ChangeNotifier {
 
   Future<void> getCart() async {}
 
-  Future<void> addToCart(
+  Future<String> addToCart(
     Product product,
     Map<String, String> options,
     int quantity,
@@ -20,28 +22,36 @@ class CartProvider with ChangeNotifier {
       if (cart != null) {
         cart!.addToCart(product, options, quantity);
         cartId = cart!.id;
-        return;
       }
       notifyListeners();
       var user = await Amplify.Auth.getCurrentUser();
+      var body = json.encode({
+        "product": product.id,
+        "options": {
+          "color": options["color"]!.toString(),
+          "size": options["size"]!,
+        },
+        "quantity": quantity
+      });
       var params = RestOptions(
         path: "/cart",
         apiName: "userApi",
         body: Uint8List.fromList(
-          CartItem(product: product, options: options, quantity: quantity)
-              .toJson()
-              .codeUnits,
+          body.codeUnits,
         ),
         queryParameters: {
           "id": user.userId,
           "cartId": cartId,
         },
       );
+      print("here");
+
       var res = await Amplify.API.post(restOptions: params).response;
       print(res.body);
+      return "Product Added";
     } catch (e) {
       print(e);
-      rethrow;
+      return "Failed to add item";
     }
   }
 }

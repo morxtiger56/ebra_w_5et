@@ -28,6 +28,13 @@
       "permissions": {
         "setting": "open"
       }
+    },
+    "/cart": {
+      "name": "/cart",
+      "lambdaFunction": "userApiFunction",
+      "permissions": {
+        "setting": "open"
+      }
     }
   }
 }
