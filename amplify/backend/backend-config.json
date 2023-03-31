@@ -89,6 +89,15 @@
           ],
           "category": "storage",
           "resourceName": "orders"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "cart"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -96,6 +105,10 @@
     }
   },
   "storage": {
+    "cart": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
     "categories": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"

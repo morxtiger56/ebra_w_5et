@@ -31,11 +31,21 @@ class ProductProvider with ChangeNotifier {
     }
     products = [];
     var response = await WooCommerceApi.getProducts();
-    print(response.toString());
     for (var element in (jsonDecode(response.body) as List<dynamic>)) {
-      products.add(Product.fromJson(element));
+      Product product = Product.fromJson(element);
+      products.add(product);
     }
+
+    checkFavorites();
+
     notifyListeners();
+  }
+
+  void checkFavorites() {
+    for (var product in favorites) {
+      var index = products.indexWhere((element) => product.id == element.id);
+      products[index].likeProduct();
+    }
   }
 
   Product getProduct(String id) {
@@ -43,6 +53,9 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> getUserFavorites() async {
+    if (favorites.isNotEmpty) {
+      return;
+    }
     var user = await Amplify.Auth.getCurrentUser();
     var response = await Amplify.API
         .get(
@@ -58,6 +71,7 @@ class ProductProvider with ChangeNotifier {
     for (var element in (jsonDecode(response.body) as List<dynamic>)) {
       favorites.add(Product.fromJson(element));
     }
+    print(favorites.length);
 
     for (var prod in favorites) {
       print(prod.toString());
@@ -83,9 +97,11 @@ class ProductProvider with ChangeNotifier {
       );
       if (isFavorite) {
         var response = await Amplify.API.put(restOptions: params).response;
+        favorites.add(product);
         return "Product added to favorites";
       } else {
         var response = await Amplify.API.delete(restOptions: params).response;
+        favorites.removeWhere((element) => element.id == product.id);
         return "Product removed from favorites";
       }
     } catch (e) {

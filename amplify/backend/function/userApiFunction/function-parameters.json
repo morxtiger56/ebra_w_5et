@@ -26,6 +26,12 @@
         "read",
         "update",
         "delete"
+      ],
+      "cart": [
+        "create",
+        "read",
+        "update",
+        "delete"
       ]
     }
   }

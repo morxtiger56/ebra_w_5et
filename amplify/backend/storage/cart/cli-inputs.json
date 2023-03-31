@@ -1,0 +1,22 @@
+{
+  "resourceName": "cart",
+  "tableName": "cart",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "ownerId",
+    "fieldType": "string"
+  },
+  "gsi": [
+    {
+      "name": "carts_by_owner",
+      "partitionKey": {
+        "fieldName": "ownerId",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}

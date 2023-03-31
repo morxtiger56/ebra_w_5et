@@ -1,4 +1,3 @@
-import 'package:ebra_w_5et/providers/auth_provider.dart';
 import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:ebra_w_5et/widgets/list_products_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<AuthProvider>(context, listen: false).getUserAttributes();
     Provider.of<ProductProvider>(context, listen: false).getUserFavorites();
   }
 

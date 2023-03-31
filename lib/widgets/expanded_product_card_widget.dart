@@ -29,63 +29,66 @@ class ExpandedProductCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          height: 150,
-          width: 100,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: product.images == null
-                ? const Placeholder()
-                : Image.network(
-                    product.images!.first,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center,
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: [
+          SizedBox(
+            height: 150,
+            width: 100,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: product.images == null
+                  ? const Placeholder()
+                  : Image.network(
+                      product.images!.first,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
+            ),
           ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                capitalize(product.name),
-              ),
-              const SizedBox(
-                height: 3,
-              ),
-              Text(
-                "${NumberFormat("###.0#", "en_US").format(product.price - 0.01)}\$",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
+          const SizedBox(
+            width: 20,
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  capitalize(product.name),
                 ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(product.description),
-              const SizedBox(
-                height: 10,
-              ),
-              inCart
-                  ? const ModifyProductInCartWidget()
-                  : FilledButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.add,
-                      ),
-                      label: const Text(
-                        "Add To Cart",
-                      ),
-                    )
-            ],
-          ),
-        )
-      ],
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  "${NumberFormat("###.0#", "en_US").format(product.price - 0.01)}\$",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text("${product.description.substring(0, 100)}..."),
+                const SizedBox(
+                  height: 10,
+                ),
+                inCart
+                    ? const ModifyProductInCartWidget()
+                    : FilledButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.add,
+                        ),
+                        label: const Text(
+                          "Add To Cart",
+                        ),
+                      )
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

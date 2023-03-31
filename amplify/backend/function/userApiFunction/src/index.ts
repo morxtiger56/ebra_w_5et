@@ -7,6 +7,7 @@ import { getAllOrders } from "./modules/order_operations/getAllOrders";
 import { checkout } from "./modules/order_operations/checkout";
 import { getUserId } from "./modules/cognito";
 import { getAllFavorites } from "./modules/favorites_operations/getFavorites";
+import { getOpenCart } from "./modules/cart_operations/getOpenCart";
 
 type CustomResponse = {
   statuesCode: number;
@@ -21,7 +22,7 @@ export const handler = async (
 ): Promise<APIGatewayProxyResult> => {
   console.log(`Event: ${JSON.stringify(event, null, 2)}`);
   console.log(`Context: ${JSON.stringify(context, null, 2)}`);
-  await getUserId();
+
   /* 
   This is a switch statement. 
   It is checks if the checks on multiple parameters in the request. 
@@ -79,6 +80,13 @@ export const handler = async (
       event.queryStringParameters.id !== undefined &&
       event.body !== undefined:
       response = await checkout(event.queryStringParameters!.id!, event.body);
+      break;
+
+    case event.path === "/cart" &&
+      event.httpMethod === "GET" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== undefined:
+      response = await getOpenCart(event.queryStringParameters!.id!);
       break;
 
     default:
