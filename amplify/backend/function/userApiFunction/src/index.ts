@@ -6,6 +6,7 @@ import { addToFavorites } from "./modules/favorites_operations/addToFavorites";
 import { getAllOrders } from "./modules/order_operations/getAllOrders";
 import { checkout } from "./modules/order_operations/checkout";
 import { getUserId } from "./modules/cognito";
+import { getAllFavorites } from "./modules/favorites_operations/getFavorites";
 
 type CustomResponse = {
   statuesCode: number;
@@ -45,6 +46,13 @@ export const handler = async (
         event.queryStringParameters!.id!,
         event.queryStringParameters!.productId!
       );
+      break;
+
+    case event.path === "/favorites" &&
+      event.httpMethod === "GET" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== undefined:
+      response = await getAllFavorites(event.queryStringParameters!.id!);
       break;
 
     case event.path === "/favorites" &&

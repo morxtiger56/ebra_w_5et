@@ -9,6 +9,7 @@ import '../models/products_modal.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
+  final List<Product> _favorites = [];
 
   List<Product> get products => _products;
 
@@ -35,9 +36,26 @@ class ProductProvider with ChangeNotifier {
     return products.firstWhere((element) => element.id == id);
   }
 
-  Future<void> toggleFavorite(String id) async {
+  Future<void> getUserFavorites() async {
+    var user = await Amplify.Auth.getCurrentUser();
+    var response = await Amplify.API
+        .get(
+          restOptions: RestOptions(
+            path: "/favorites",
+            queryParameters: {
+              "id": user.userId,
+            },
+            apiName: "userApi",
+          ),
+        )
+        .response;
+
+    print(response);
+  }
+
+  Future<String> toggleFavorite(String id) async {
     var product = products.firstWhere((element) => element.id == id);
-    product.likeProduct();
+    final isFavorite = product.likeProduct();
     notifyListeners();
 
     try {
@@ -52,12 +70,22 @@ class ProductProvider with ChangeNotifier {
         },
         body: Uint8List.fromList([]),
       );
-      var response = await Amplify.API.put(restOptions: params).response;
-      print(response.body);
+      if (isFavorite) {
+        var response = await Amplify.API.put(restOptions: params).response;
+        return "Product added to favorites";
+      } else {
+        var response = await Amplify.API.delete(restOptions: params).response;
+        return "Product removed from favorites";
+      }
     } catch (e) {
       print(e);
       product.likeProduct();
       notifyListeners();
+      if (isFavorite) {
+        return "Failed to add product to favorites";
+      } else {
+        return "Failed to remove product to favorites";
+      }
     }
   }
 }

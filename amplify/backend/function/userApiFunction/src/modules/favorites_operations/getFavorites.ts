@@ -24,8 +24,8 @@ export async function getAllFavorites(id: string) {
 
     if (!res) {
       return {
-        statusCode: 404,
-        body: "No favorites found",
+        statuesCode: 200,
+        body: [],
       };
     }
 
@@ -49,14 +49,14 @@ export async function getAllFavorites(id: string) {
 
     for (const request of getRequests) {
       const res = await batchGetItems(PRODUCTS_TABLE_NAME, request);
-      response.push(res.Responses![`${PRODUCTS_TABLE_NAME}`]);
+      response.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
     }
   } catch (error) {
     throw error;
   }
 
   return {
-    statusCode: 200,
+    statuesCode: 200,
     body: response,
   };
 }

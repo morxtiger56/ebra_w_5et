@@ -54,8 +54,9 @@ class Product {
     isFavorite = false;
   }
 
-  likeProduct() {
+  bool likeProduct() {
     isFavorite = !isFavorite;
+    return isFavorite;
   }
 
   Map<String, dynamic> toMap() {

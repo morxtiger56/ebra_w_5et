@@ -20,6 +20,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     // TODO: implement initState
     super.initState();
     Provider.of<AuthProvider>(context, listen: false).getUserAttributes();
+    Provider.of<ProductProvider>(context, listen: false).getUserFavorites();
   }
 
   @override

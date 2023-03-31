@@ -21,16 +21,17 @@ class _FavoriteButtonWidgetState extends State<FavoriteButtonWidget> {
     return IconButton(
       onPressed: () {
         setState(() {
-          Provider.of<ProductProvider>(context, listen: false).toggleFavorite(
+          Provider.of<ProductProvider>(context, listen: false)
+              .toggleFavorite(
             widget.product.id,
-          ).then((value)  {
+          )
+              .then((value) {
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: const Text("Product added to favorites"))
-            );
-          }).catchError((e)  {
-            print(e);
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: const Text("Failed to product add to favorites"),)
+              SnackBar(
+                content: Text(
+                  value,
+                ),
+              ),
             );
           });
         });

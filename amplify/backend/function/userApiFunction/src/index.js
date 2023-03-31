@@ -1,20 +1,4 @@
-/* Amplify Params - DO NOT EDIT
-	ENV
-	REGION
-	STORAGE_CATEGORIES_ARN
-	STORAGE_CATEGORIES_NAME
-	STORAGE_CATEGORIES_STREAMARN
-	STORAGE_EBRAW5ETSTORAGE_BUCKETNAME
-	STORAGE_FAVORITES_ARN
-	STORAGE_FAVORITES_NAME
-	STORAGE_FAVORITES_STREAMARN
-	STORAGE_ORDERS_ARN
-	STORAGE_ORDERS_NAME
-	STORAGE_ORDERS_STREAMARN
-	STORAGE_PRODUCTS_ARN
-	STORAGE_PRODUCTS_NAME
-	STORAGE_PRODUCTS_STREAMARN
-Amplify Params - DO NOT EDIT */"use strict";
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -32,6 +16,7 @@ const addToFavorites_1 = require("./modules/favorites_operations/addToFavorites"
 const getAllOrders_1 = require("./modules/order_operations/getAllOrders");
 const checkout_1 = require("./modules/order_operations/checkout");
 const cognito_1 = require("./modules/cognito");
+const getFavorites_1 = require("./modules/favorites_operations/getFavorites");
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -57,6 +42,12 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters.id !== undefined &&
             event.queryStringParameters.productId !== undefined:
             response = yield (0, addToFavorites_1.addToFavorites)(event.queryStringParameters.id, event.queryStringParameters.productId);
+            break;
+        case event.path === "/favorites" &&
+            event.httpMethod === "GET" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== undefined:
+            response = yield (0, getFavorites_1.getAllFavorites)(event.queryStringParameters.id);
             break;
         case event.path === "/favorites" &&
             event.httpMethod === "DELETE" &&

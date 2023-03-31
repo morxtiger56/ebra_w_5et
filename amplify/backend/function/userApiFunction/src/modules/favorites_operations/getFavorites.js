@@ -32,8 +32,8 @@ function getAllFavorites(id) {
             })).Items;
             if (!res) {
                 return {
-                    statusCode: 404,
-                    body: "No favorites found",
+                    statuesCode: 200,
+                    body: [],
                 };
             }
             const productRequests = [];
@@ -53,14 +53,14 @@ function getAllFavorites(id) {
             }
             for (const request of getRequests) {
                 const res = yield (0, querys_1.batchGetItems)(config_1.PRODUCTS_TABLE_NAME, request);
-                response.push(res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
+                response.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
             }
         }
         catch (error) {
             throw error;
         }
         return {
-            statusCode: 200,
+            statuesCode: 200,
             body: response,
         };
     });
