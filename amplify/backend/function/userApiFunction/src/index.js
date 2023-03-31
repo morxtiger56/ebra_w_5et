@@ -79,6 +79,7 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.httpMethod === "POST" &&
             event.queryStringParameters &&
             event.queryStringParameters.id !== undefined &&
+            event.queryStringParameters.cartId !== undefined &&
             event.body === undefined:
             response = yield (0, addToCart_1.addToCart)(event.queryStringParameters.id, event.queryStringParameters.cartId, event.body);
             break;
