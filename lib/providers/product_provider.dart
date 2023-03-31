@@ -50,7 +50,7 @@ class ProductProvider with ChangeNotifier {
         )
         .response;
 
-    print(response);
+    print(response.body);
   }
 
   Future<String> toggleFavorite(String id) async {

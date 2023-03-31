@@ -1,5 +1,6 @@
 import { FAVORITES_TABLE_NAME, PRODUCTS_TABLE_NAME } from "./../config";
 import { batchGetItems, query } from "../querys";
+import { getProductsImages } from "../products_operations/getProductsImages";
 
 /**
  * It queries the database for all the products that a user has favorited, then it gets the product
@@ -8,7 +9,7 @@ import { batchGetItems, query } from "../querys";
  * @returns An array of arrays of objects.
  */
 export async function getAllFavorites(id: string) {
-  const response = [];
+  var response = [];
 
   try {
     const res = (
@@ -50,6 +51,7 @@ export async function getAllFavorites(id: string) {
       const res = await batchGetItems(PRODUCTS_TABLE_NAME, request);
       response.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
     }
+    response = await getProductsImages(response);
   } catch (error) {
     throw error;
   }
