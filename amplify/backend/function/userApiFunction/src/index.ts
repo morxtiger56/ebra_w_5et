@@ -94,10 +94,11 @@ export const handler = async (
       event.httpMethod === "POST" &&
       event.queryStringParameters &&
       event.queryStringParameters.id !== undefined &&
+      event.queryStringParameters.cartId !== undefined &&
       event.body === undefined:
       response = await addToCart(
         event.queryStringParameters!.id!,
-        event.queryStringParameters!.cartId,
+        event.queryStringParameters!.cartId!,
         event.body
       );
       break;

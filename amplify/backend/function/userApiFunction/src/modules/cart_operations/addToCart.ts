@@ -2,13 +2,9 @@ import { CARTS_TABLE_NAME } from "./../config";
 import { addItem, getItem } from "../querys";
 import * as uuid from "uuid";
 
-export async function addToCart(
-  id: string,
-  cartId: string | undefined,
-  item: any
-) {
+export async function addToCart(id: string, cartId: string, item: any) {
   var cart;
-  if (cartId !== undefined) {
+  if (cartId.length <= 0) {
     cart = (await getItem(CARTS_TABLE_NAME, { id: cartId, ownerId: id })).Item;
   } else {
     cart = {
@@ -31,6 +27,6 @@ export async function addToCart(
 
   return {
     statuesCode: 200,
-    body: "item added to cart",
+    body: cart.id,
   };
 }

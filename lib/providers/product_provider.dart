@@ -71,11 +71,6 @@ class ProductProvider with ChangeNotifier {
     for (var element in (jsonDecode(response.body) as List<dynamic>)) {
       favorites.add(Product.fromJson(element));
     }
-    print(favorites.length);
-
-    for (var prod in favorites) {
-      print(prod.toString());
-    }
   }
 
   Future<String> toggleFavorite(String id) async {

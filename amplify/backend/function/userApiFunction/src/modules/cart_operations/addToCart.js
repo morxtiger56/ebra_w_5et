@@ -39,7 +39,7 @@ const uuid = __importStar(require("uuid"));
 function addToCart(id, cartId, item) {
     return __awaiter(this, void 0, void 0, function* () {
         var cart;
-        if (cartId !== undefined) {
+        if (cartId.length <= 0) {
             cart = (yield (0, querys_1.getItem)(config_1.CARTS_TABLE_NAME, { id: cartId, ownerId: id })).Item;
         }
         else {
@@ -59,7 +59,7 @@ function addToCart(id, cartId, item) {
         yield (0, querys_1.addItem)(config_1.CARTS_TABLE_NAME, cart);
         return {
             statuesCode: 200,
-            body: "item added to cart",
+            body: cart.id,
         };
     });
 }
