@@ -1,12 +1,13 @@
+import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:ebra_w_5et/screens/my_cart_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../ui/address_card_widget.dart';
 import '../widgets/address_form_widget.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
-
+  static const routeName = "/checkout-screen";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,29 +29,31 @@ class CheckoutScreen extends StatelessWidget {
                 elevation: 3,
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: const [
-                      BillingSectionWidget(
-                        title: "Sub Total",
-                        amount: "100.00\$",
-                      ),
-                      BillingSectionWidget(
-                        title: "Tax",
-                        amount: "14.00\$",
-                      ),
-                      BillingSectionWidget(
-                        title: "Cash on delivery",
-                        amount: "5.00\$",
-                      ),
-                      Divider(),
-                      BillingSectionWidget(
-                        title: "Total",
-                        amount: "119.00\$",
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ],
+                  child: Consumer<CartProvider>(
+                    builder: (_, value, c) => Column(
+                      children: [
+                        BillingSectionWidget(
+                          title: "Sub Total",
+                          amount: "${value.totalBreakDown["subTotal"]!}\$",
+                        ),
+                        BillingSectionWidget(
+                          title: "Tax",
+                          amount: "${value.totalBreakDown["tax"]!}\$",
+                        ),
+                        const BillingSectionWidget(
+                          title: "Cash on delivery",
+                          amount: "5.00\$",
+                        ),
+                        const Divider(),
+                        BillingSectionWidget(
+                          title: "Total",
+                          amount: "${value.totalBreakDown["total"]! + 5}\$",
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -100,14 +103,6 @@ class CheckoutScreen extends StatelessWidget {
               ),
               const SizedBox(
                 height: 20,
-              ),
-              const Text("Choose shipping address :"),
-              const SizedBox(
-                height: 10,
-              ),
-              const AddressCardWidget(),
-              const SizedBox(
-                height: 10,
               ),
               const Text("Add new address:"),
               const SizedBox(

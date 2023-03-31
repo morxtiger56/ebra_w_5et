@@ -1,11 +1,24 @@
 import 'package:ebra_w_5et/providers/cart_provider.dart';
+import 'package:ebra_w_5et/screens/checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/expanded_product_card_widget.dart';
 
-class MyCartScreen extends StatelessWidget {
+class MyCartScreen extends StatefulWidget {
   const MyCartScreen({super.key});
+
+  @override
+  State<MyCartScreen> createState() => _MyCartScreenState();
+}
+
+class _MyCartScreenState extends State<MyCartScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CartProvider>(context, listen: false).getTotal();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,23 +28,25 @@ class MyCartScreen extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: [
           Container(
-            //TODO: Change height to be dynamic
-            height: MediaQuery.of(context).size.height - 70,
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 15,
             ),
-            child: Consumer<CartProvider>(builder: (context, value, child) {
-              var products = value.cart!.items;
-              return ListView.builder(
-                itemBuilder: (_, index) => ExpandedProductCardWidget(
-                  product: products[index].product,
-                  inCart: true,
-                ),
-                itemCount: products.length,
-              );
-            }),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height - 380,
+                child: Consumer<CartProvider>(builder: (_, value, child) {
+                  return ListView.builder(
+                    itemBuilder: (_, index) => ExpandedProductCardWidget(
+                      product: value.cart!.items[index].product,
+                      inCart: true,
+                    ),
+                    itemCount: value.cart!.items.length,
+                  );
+                }),
+              ),
+            ),
           ),
           Container(
             height: 200,
@@ -48,38 +63,41 @@ class MyCartScreen extends StatelessWidget {
                 )
               ],
             ),
-            //TODO: Add Consomer on the widget
-            //TODO: Get the values from the provider
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 30,
                 horizontal: 30,
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const BillingSectionWidget(
-                    title: "Sub Total",
-                    amount: "100.00\$",
-                  ),
-                  const BillingSectionWidget(
-                    title: "Tax",
-                    amount: "14.00\$",
-                  ),
-                  const Divider(),
-                  const BillingSectionWidget(
-                    title: "Total",
-                    amount: "114.00\$",
-                  ),
-                  FilledButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Checkout",
+              child: Consumer<CartProvider>(builder: (_, value, child) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    BillingSectionWidget(
+                      title: "Sub Total",
+                      amount: "${value.totalBreakDown["subTotal"]!}\$",
                     ),
-                  )
-                ],
-              ),
+                    BillingSectionWidget(
+                      title: "Tax",
+                      amount: "${value.totalBreakDown["tax"]!}\$",
+                    ),
+                    const Divider(),
+                    BillingSectionWidget(
+                      title: "Total",
+                      amount: "${value.totalBreakDown["total"]!}\$",
+                    ),
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(CheckoutScreen.routeName);
+                      },
+                      child: const Text(
+                        "Checkout",
+                      ),
+                    )
+                  ],
+                );
+              }),
             ),
           ),
         ],

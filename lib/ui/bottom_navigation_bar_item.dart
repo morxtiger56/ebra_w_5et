@@ -1,4 +1,3 @@
-import 'package:ebra_w_5et/color_schemes.g.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBarItemWidget extends StatefulWidget {
@@ -32,11 +31,12 @@ class _BottomNavBarItemWidgetState extends State<BottomNavBarItemWidget> {
         child: TextButton.icon(
           style: TextButton.styleFrom(
             foregroundColor: widget.active
-                ? lightColorScheme.onPrimary
-                : lightColorScheme.onTertiaryContainer,
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.onBackground,
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            backgroundColor:
-                widget.active ? lightColorScheme.primary : Colors.transparent,
+            backgroundColor: widget.active
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
           ),
           onPressed: widget.changeTab,
           icon: Icon(widget.icon, size: 20),

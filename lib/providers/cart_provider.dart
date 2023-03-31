@@ -9,6 +9,11 @@ import '../models/products_modal.dart';
 class CartProvider with ChangeNotifier {
   CartModal? cart;
   CartProvider();
+  Map<String, double> totalBreakDown = {
+    "subTotal": 0,
+    "tax": 0,
+    "total": 0,
+  };
 
   Future<void> getCart() async {
     try {
@@ -23,12 +28,35 @@ class CartProvider with ChangeNotifier {
             },
           ))
           .response;
-      print(response.body);
-    } catch (e) {
-      print(e);
 
+      cart = CartModal.fromMap(jsonDecode(response.body));
+      getTotal();
+      notifyListeners();
+    } catch (e) {
       rethrow;
     }
+  }
+
+  void getTotal() {
+    print("before");
+    if (cart!.items.isEmpty) {
+      return;
+    }
+    print("after");
+    totalBreakDown = {
+      "subTotal": 0,
+      "tax": 0,
+      "total": 0,
+    };
+    for (var element in cart!.items) {
+      totalBreakDown["subTotal"] =
+          totalBreakDown["subTotal"]! + element.product.price;
+    }
+    totalBreakDown["tax"] = totalBreakDown["subTotal"]! * 14 / 100;
+    totalBreakDown["total"] =
+        totalBreakDown["subTotal"]! + totalBreakDown["tax"]!;
+
+    notifyListeners();
   }
 
   Future<String> addToCart(

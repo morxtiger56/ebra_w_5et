@@ -192,6 +192,9 @@ class AuthProvider with ChangeNotifier {
         if (element.userAttributeKey == CognitoUserAttributeKey.email) {
           email = element.value;
         }
+        if (element.userAttributeKey == CognitoUserAttributeKey.name) {
+          user.name = element.value;
+        }
       }
 
       isSignedIn = userSession.isSignedIn;

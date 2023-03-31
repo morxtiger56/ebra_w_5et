@@ -1,3 +1,4 @@
+import 'package:ebra_w_5et/providers/auth_provider.dart';
 import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:ebra_w_5et/widgets/list_products_widget.dart';
@@ -31,26 +32,28 @@ class _HomePageScreenState extends State<HomePageScreen> {
         vertical: 10,
         horizontal: 15,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Hello Mohamed',
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            'Lets get a deal for you',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const FetchProductsWidget(),
-        ],
-      ),
+      child: Consumer<AuthProvider>(builder: (_, value, c) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Hello ${value.user.name}',
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              'Lets get a deal for you',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const FetchProductsWidget(),
+          ],
+        );
+      }),
     );
   }
 }

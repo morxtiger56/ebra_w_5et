@@ -19,7 +19,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Widget? _activeRoute;
   // loading ui state - initially set to a loading state
   bool _isLoading = true;
   final bool loggedIn = false;
@@ -27,8 +26,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _activeRoute = routes['Home']!['route'];
-    routes['Home']!['active'] = true;
+
     // kick off app initialization
     _initializeApp();
   }
@@ -40,12 +38,6 @@ class _HomeState extends State<Home> {
     // after configuring Amplify, update loading ui state to loaded state
     setState(() {
       _isLoading = false;
-    });
-  }
-
-  void _changeTab(label) {
-    setState(() {
-      _activeRoute = routes[label]!['route'];
     });
   }
 
@@ -77,34 +69,67 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Provider.of<custom.AuthProvider>(context, listen: false).getUserAttributes(),
-      builder: (_, snapShot) => snapShot.connectionState == ConnectionState.waiting ? const Center(
-        child: CircularProgressIndicator.adaptive(),
-      ) : Consumer<custom.AuthProvider>(
-          builder: (_, value, c) => value.isSignedIn
-              ? Scaffold(
-                  appBar: AppBar(
-                    shadowColor: Colors.transparent,
-                    foregroundColor: const Color(0xFFAE3203),
-                    title: const Text("Logo"),
-                    actions: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                          color: Color(0xFFAE3203),
-                        ),
-                      )
-                    ],
-                  ),
-                  body: _activeRoute,
-                  bottomNavigationBar: BottomNavBarWidget(
-                    navigateTo: _changeTab,
-                    routes: routes,
-                  ),
+      future: Provider.of<custom.AuthProvider>(context, listen: false)
+          .getUserAttributes(),
+      builder: (_, snapShot) =>
+          snapShot.connectionState == ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator.adaptive(),
                 )
-              : c!,
-          child: const AuthenticationScreen()),
+              : Consumer<custom.AuthProvider>(
+                  builder: (_, value, c) =>
+                      value.isSignedIn ? const MainBody() : c!,
+                  child: const AuthenticationScreen(),
+                ),
+    );
+  }
+}
+
+class MainBody extends StatefulWidget {
+  const MainBody({super.key});
+
+  @override
+  State<MainBody> createState() => _MainBodyState();
+}
+
+class _MainBodyState extends State<MainBody> {
+  Widget? _activeRoute;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _activeRoute = routes['Home']!['route'];
+    routes['Home']!['active'] = true;
+  }
+
+  void _changeTab(label) {
+    setState(() {
+      _activeRoute = routes[label]!['route'];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        shadowColor: Colors.transparent,
+        foregroundColor: const Color(0xFFAE3203),
+        title: const Text("Logo"),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.search,
+              color: Color(0xFFAE3203),
+            ),
+          )
+        ],
+      ),
+      body: _activeRoute,
+      bottomNavigationBar: BottomNavBarWidget(
+        navigateTo: _changeTab,
+        routes: routes,
+      ),
     );
   }
 }

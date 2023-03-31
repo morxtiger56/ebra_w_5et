@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 
 import '../ui/form_filed_widget.dart';
 
-class AddressFormWidget extends StatelessWidget {
+class AddressFormWidget extends StatefulWidget {
   const AddressFormWidget({
     super.key,
   });
 
   @override
+  State<AddressFormWidget> createState() => _AddressFormWidgetState();
+}
+
+class _AddressFormWidgetState extends State<AddressFormWidget> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  
+
+  @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
-          FormFieldWidget(label: "Country"),
-          const SizedBox(
-            height: 5,
-          ),
           FormFieldWidget(label: "City"),
           const SizedBox(
             height: 5,

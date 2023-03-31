@@ -1,4 +1,5 @@
 import 'package:ebra_w_5et/providers/cart_provider.dart';
+import 'package:ebra_w_5et/screens/checkout_screen.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
                   originalPrice: 0,
                 ),
               ),
+          CheckoutScreen.routeName: (context) => const CheckoutScreen(),
         },
         debugShowCheckedModeBanner: false,
         home: const Home(),

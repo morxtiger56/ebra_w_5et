@@ -73,17 +73,8 @@ class ExpandedProductCardWidget extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                inCart
-                    ? const ModifyProductInCartWidget()
-                    : FilledButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.add,
-                        ),
-                        label: const Text(
-                          "Add To Cart",
-                        ),
-                      )
+                //TODO: remove item from cart
+                inCart ? const ModifyProductInCartWidget() : const SizedBox()
               ],
             ),
           )
