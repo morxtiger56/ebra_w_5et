@@ -31,6 +31,42 @@
     "storageebraW5etStorageBucketName": {
       "Type": "String",
       "Default": "storageebraW5etStorageBucketName"
+    },
+    "storagecategoriesName": {
+      "Type": "String",
+      "Default": "storagecategoriesName"
+    },
+    "storagecategoriesArn": {
+      "Type": "String",
+      "Default": "storagecategoriesArn"
+    },
+    "storagecategoriesStreamArn": {
+      "Type": "String",
+      "Default": "storagecategoriesStreamArn"
+    },
+    "storagefavoritesName": {
+      "Type": "String",
+      "Default": "storagefavoritesName"
+    },
+    "storagefavoritesArn": {
+      "Type": "String",
+      "Default": "storagefavoritesArn"
+    },
+    "storagefavoritesStreamArn": {
+      "Type": "String",
+      "Default": "storagefavoritesStreamArn"
+    },
+    "storageordersName": {
+      "Type": "String",
+      "Default": "storageordersName"
+    },
+    "storageordersArn": {
+      "Type": "String",
+      "Default": "storageordersArn"
+    },
+    "storageordersStreamArn": {
+      "Type": "String",
+      "Default": "storageordersStreamArn"
     }
   },
   "Conditions": {
@@ -97,6 +133,33 @@
             },
             "STORAGE_EBRAW5ETSTORAGE_BUCKETNAME": {
               "Ref": "storageebraW5etStorageBucketName"
+            },
+            "STORAGE_CATEGORIES_NAME": {
+              "Ref": "storagecategoriesName"
+            },
+            "STORAGE_CATEGORIES_ARN": {
+              "Ref": "storagecategoriesArn"
+            },
+            "STORAGE_CATEGORIES_STREAMARN": {
+              "Ref": "storagecategoriesStreamArn"
+            },
+            "STORAGE_FAVORITES_NAME": {
+              "Ref": "storagefavoritesName"
+            },
+            "STORAGE_FAVORITES_ARN": {
+              "Ref": "storagefavoritesArn"
+            },
+            "STORAGE_FAVORITES_STREAMARN": {
+              "Ref": "storagefavoritesStreamArn"
+            },
+            "STORAGE_ORDERS_NAME": {
+              "Ref": "storageordersName"
+            },
+            "STORAGE_ORDERS_ARN": {
+              "Ref": "storageordersArn"
+            },
+            "STORAGE_ORDERS_STREAMARN": {
+              "Ref": "storageordersStreamArn"
             }
           }
         },
@@ -242,6 +305,33 @@
             },
             {
               "Effect": "Allow",
+              "Action": [
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storagecategoriesArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storagecategoriesArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
               "Action": "s3:ListBucket",
               "Resource": [
                 {
@@ -273,6 +363,72 @@
                         "Ref": "storageebraW5etStorageBucketName"
                       },
                       "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storagefavoritesArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storagefavoritesArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageordersArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageordersArn"
+                      },
+                      "index/*"
                     ]
                   ]
                 }

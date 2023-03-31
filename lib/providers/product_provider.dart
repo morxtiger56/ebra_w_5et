@@ -42,8 +42,7 @@ class ProductProvider with ChangeNotifier {
 
     try {
       var user = await Amplify.Auth.getCurrentUser();
-      print("adding");
-      print(user.userId);
+
       var params = RestOptions(
         path: "/favorites",
         apiName: "userApi",

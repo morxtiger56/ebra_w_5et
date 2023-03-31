@@ -1,4 +1,20 @@
-"use strict";
+/* Amplify Params - DO NOT EDIT
+	ENV
+	REGION
+	STORAGE_CATEGORIES_ARN
+	STORAGE_CATEGORIES_NAME
+	STORAGE_CATEGORIES_STREAMARN
+	STORAGE_EBRAW5ETSTORAGE_BUCKETNAME
+	STORAGE_FAVORITES_ARN
+	STORAGE_FAVORITES_NAME
+	STORAGE_FAVORITES_STREAMARN
+	STORAGE_ORDERS_ARN
+	STORAGE_ORDERS_NAME
+	STORAGE_ORDERS_STREAMARN
+	STORAGE_PRODUCTS_ARN
+	STORAGE_PRODUCTS_NAME
+	STORAGE_PRODUCTS_STREAMARN
+Amplify Params - DO NOT EDIT */"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {

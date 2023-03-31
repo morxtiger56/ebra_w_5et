@@ -58,10 +58,37 @@
         },
         {
           "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "categories"
+        },
+        {
+          "attributes": [
             "BucketName"
           ],
           "category": "storage",
           "resourceName": "ebraW5etStorage"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "favorites"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "orders"
         }
       ],
       "providerPlugin": "awscloudformation",
