@@ -9,7 +9,13 @@ import '../models/products_modal.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
-  final List<Product> _favorites = [];
+  List<Product> _favorites = [];
+
+  List<Product> get favorites => _favorites;
+
+  set favorites(List<Product> value) {
+    _favorites = value;
+  }
 
   List<Product> get products => _products;
 
@@ -49,8 +55,13 @@ class ProductProvider with ChangeNotifier {
           ),
         )
         .response;
+    for (var element in (jsonDecode(response.body) as List<dynamic>)) {
+      favorites.add(Product.fromJson(element));
+    }
 
-    print(response.body);
+    for (var prod in favorites) {
+      print(prod.toString());
+    }
   }
 
   Future<String> toggleFavorite(String id) async {

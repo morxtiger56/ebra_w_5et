@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllFavorites = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
+const getProductsImages_1 = require("../products_operations/getProductsImages");
 /**
  * It queries the database for all the products that a user has favorited, then it gets the product
  * information for each of those products.
@@ -20,7 +21,7 @@ const querys_1 = require("../querys");
  */
 function getAllFavorites(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const response = [];
+        var response = [];
         try {
             const res = (yield (0, querys_1.query)({
                 tableName: config_1.FAVORITES_TABLE_NAME,
@@ -54,6 +55,7 @@ function getAllFavorites(id) {
                 const res = yield (0, querys_1.batchGetItems)(config_1.PRODUCTS_TABLE_NAME, request);
                 response.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
             }
+            response = yield (0, getProductsImages_1.getProductsImages)(response);
         }
         catch (error) {
             throw error;
