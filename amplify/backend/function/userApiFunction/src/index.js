@@ -29,6 +29,12 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
     If all of these conditions are true then it will calls the right function and
     pass in the all the required parameters.
     **/
+    console.log(event.path === "/cart" &&
+        event.httpMethod === "POST" &&
+        event.queryStringParameters &&
+        event.queryStringParameters.id !== undefined &&
+        event.queryStringParameters.cartId !== undefined &&
+        event.body !== undefined);
     switch (true) {
         case event.path === "/products" &&
             event.httpMethod === "GET" &&
@@ -80,8 +86,8 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters &&
             event.queryStringParameters.id !== undefined &&
             event.queryStringParameters.cartId !== undefined &&
-            event.body === undefined:
-            response = yield (0, addToCart_1.addToCart)(event.queryStringParameters.id, event.queryStringParameters.cartId, event.body);
+            event.body !== undefined:
+            response = yield (0, addToCart_1.addToCart)(event.queryStringParameters.id, event.queryStringParameters.cartId, JSON.parse(event.body));
             break;
         default:
             response = {

@@ -4,7 +4,7 @@ import * as uuid from "uuid";
 
 export async function addToCart(id: string, cartId: string, item: any) {
   var cart;
-  if (cartId.length <= 0) {
+  if (cartId.length > 0) {
     cart = (await getItem(CARTS_TABLE_NAME, { id: cartId, ownerId: id })).Item;
   } else {
     cart = {
@@ -20,6 +20,8 @@ export async function addToCart(id: string, cartId: string, item: any) {
       body: "undefined",
     };
   }
+
+  console.log("here");
 
   cart.items.push(item);
 
