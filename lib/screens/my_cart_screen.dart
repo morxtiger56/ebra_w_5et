@@ -1,19 +1,11 @@
+import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/products_modal.dart';
 import '../widgets/expanded_product_card_widget.dart';
 
 class MyCartScreen extends StatelessWidget {
-  List<Product> products = [
-    Product(
-      id: "1",
-      name: "test",
-      price: 10,
-      description: "lorem",
-      originalPrice: 0.1,
-    )
-  ];
-  MyCartScreen({super.key});
+  const MyCartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +16,22 @@ class MyCartScreen extends StatelessWidget {
         children: [
           Container(
             //TODO: Change height to be dynamic
-            height: 600,
+            height: MediaQuery.of(context).size.height - 70,
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.symmetric(
               vertical: 10,
               horizontal: 15,
             ),
-            child: ListView.builder(
-              itemBuilder: (_, index) => ExpandedProductCardWidget(
-                product: products[index],
-                inCart: true,
-              ),
-              itemCount: products.length,
-            ),
+            child: Consumer<CartProvider>(builder: (context, value, child) {
+              var products = value.cart!.items;
+              return ListView.builder(
+                itemBuilder: (_, index) => ExpandedProductCardWidget(
+                  product: products[index].product,
+                  inCart: true,
+                ),
+                itemCount: products.length,
+              );
+            }),
           ),
           Container(
             height: 200,

@@ -15,7 +15,6 @@ class WooCommerceApi {
 
       return restResponse.response;
     } catch (e) {
-      safePrint(e);
       throw 'No Internet Connection';
     }
   }
@@ -36,7 +35,6 @@ class WooCommerceApi {
 
       return restResponse.response;
     } catch (e) {
-      safePrint(e);
       throw 'No Internet Connection';
     }
   }
@@ -57,7 +55,6 @@ class WooCommerceApi {
 
       return restResponse.response;
     } catch (e) {
-      safePrint(e);
       throw 'No Internet Connection';
     }
   }

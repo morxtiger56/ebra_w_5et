@@ -47,6 +47,7 @@ function addToCart(id, cartId, item) {
                 id: uuid.v4(),
                 ownerId: id,
                 items: [],
+                status: "open",
             };
         }
         if (cart === undefined) {
@@ -55,7 +56,6 @@ function addToCart(id, cartId, item) {
                 body: "undefined",
             };
         }
-        console.log("here");
         cart.items.push(item);
         yield (0, querys_1.addItem)(config_1.CARTS_TABLE_NAME, cart);
         return {

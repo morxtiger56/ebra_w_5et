@@ -19,7 +19,7 @@ function getOpenCart(id) {
         try {
             const res = (yield (0, querys_1.query)({
                 tableName: config_1.CARTS_TABLE_NAME,
-                queryBy: "cart_by_owner",
+                queryBy: "carts_by_owner",
                 fieldName: "ownerId",
                 value: id,
                 limit: 100,
@@ -44,7 +44,7 @@ function getOpenCart(id) {
             const productRequests = [];
             for (const product of response.items) {
                 productRequests.push({
-                    id: product.id,
+                    id: product.product,
                 });
             }
             const getRequests = [];
@@ -56,11 +56,16 @@ function getOpenCart(id) {
                     getRequests.push(productRequests.splice(0, productRequests.length));
                 }
             }
+            let products = [];
             for (const request of getRequests) {
                 const res = yield (0, querys_1.batchGetItems)(config_1.PRODUCTS_TABLE_NAME, request);
-                response.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
+                products.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
             }
-            response = yield (0, getProductsImages_1.getProductsImages)(response);
+            products = yield (0, getProductsImages_1.getProductsImages)(products);
+            for (const item of response.items) {
+                var product = products.find((e) => item.product === e.id);
+                item.product = product;
+            }
         }
         catch (error) {
             throw error;

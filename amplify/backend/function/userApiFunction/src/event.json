@@ -1,9 +1,7 @@
 {
   "path": "/cart",
-  "httpMethod": "POST",
+  "httpMethod": "GET",
   "queryStringParameters": {
-    "cartId": "",
     "id": "41153956-1a8a-4e2d-8e01-1fceeb9677f5"
-  },
-  "body": "{\"product\":\"642D5F4D-39C8-5C31-B591-5696D44A38D8\",\"options\":{\"color\":\"ff77b88b\",\"size\":\"Lg\"},\"quantity\":1}"
+  }
 }

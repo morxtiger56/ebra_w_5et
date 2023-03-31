@@ -10,7 +10,26 @@ class CartProvider with ChangeNotifier {
   CartModal? cart;
   CartProvider();
 
-  Future<void> getCart() async {}
+  Future<void> getCart() async {
+    try {
+      var user = await Amplify.Auth.getCurrentUser();
+      var response = await Amplify.API
+          .get(
+              restOptions: RestOptions(
+            path: "/cart",
+            apiName: "userApi",
+            queryParameters: {
+              "id": user.userId,
+            },
+          ))
+          .response;
+      print(response.body);
+    } catch (e) {
+      print(e);
+
+      rethrow;
+    }
+  }
 
   Future<String> addToCart(
     Product product,
@@ -44,13 +63,14 @@ class CartProvider with ChangeNotifier {
           "cartId": cartId,
         },
       );
-      print("here");
 
       var res = await Amplify.API.post(restOptions: params).response;
-      print(res.body);
+      if (cartId.isEmpty) {
+        cart = CartModal(id: res.body, items: []);
+        cart!.addToCart(product, options, quantity);
+      }
       return "Product Added";
     } catch (e) {
-      print(e);
       return "Failed to add item";
     }
   }

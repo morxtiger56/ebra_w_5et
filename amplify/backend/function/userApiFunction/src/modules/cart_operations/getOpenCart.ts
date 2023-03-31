@@ -9,7 +9,7 @@ export async function getOpenCart(id: string) {
     const res = (
       await query({
         tableName: CARTS_TABLE_NAME,
-        queryBy: "cart_by_owner",
+        queryBy: "carts_by_owner",
         fieldName: "ownerId",
         value: id,
         limit: 100,
@@ -37,10 +37,9 @@ export async function getOpenCart(id: string) {
     }
 
     const productRequests = [];
-
     for (const product of response.items) {
       productRequests.push({
-        id: product.id,
+        id: product.product,
       });
     }
 
@@ -53,12 +52,16 @@ export async function getOpenCart(id: string) {
         getRequests.push(productRequests.splice(0, productRequests.length));
       }
     }
-
+    let products = [];
     for (const request of getRequests) {
       const res = await batchGetItems(PRODUCTS_TABLE_NAME, request);
-      response.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
+      products.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
     }
-    response = await getProductsImages(response);
+    products = await getProductsImages(products);
+    for (const item of response.items) {
+      var product = products.find((e: any) => item.product === e.id);
+      item.product = product;
+    }
   } catch (error) {
     throw error;
   }

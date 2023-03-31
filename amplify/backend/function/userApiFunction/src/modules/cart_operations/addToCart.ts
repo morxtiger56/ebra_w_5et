@@ -11,6 +11,7 @@ export async function addToCart(id: string, cartId: string, item: any) {
       id: uuid.v4(),
       ownerId: id,
       items: [],
+      status: "open",
     };
   }
 
@@ -20,8 +21,6 @@ export async function addToCart(id: string, cartId: string, item: any) {
       body: "undefined",
     };
   }
-
-  console.log("here");
 
   cart.items.push(item);
 

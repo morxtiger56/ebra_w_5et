@@ -20,7 +20,7 @@ class _ListProductsWidgetState extends State<ListProductsWidget> {
   double height = 200;
 
   getHeight() {
-    height = MediaQuery.of(context).size.height - 70 - 200;
+    height = MediaQuery.of(context).size.height - 257;
     return height;
   }
 

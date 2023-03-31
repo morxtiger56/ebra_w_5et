@@ -100,7 +100,6 @@ class ProductProvider with ChangeNotifier {
         return "Product removed from favorites";
       }
     } catch (e) {
-      print(e);
       product.likeProduct();
       notifyListeners();
       if (isFavorite) {

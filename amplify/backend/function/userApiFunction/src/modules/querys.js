@@ -66,6 +66,11 @@ exports.scan = scan;
  * @returns A promise that resolves to an object with the following properties:
  */
 function getItem(tableName, id) {
+    console.log(typeof id === "string"
+        ? {
+            id: id,
+        }
+        : id);
     return documentClient
         .get({
         TableName: tableName,

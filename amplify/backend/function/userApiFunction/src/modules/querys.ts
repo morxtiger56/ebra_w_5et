@@ -86,6 +86,14 @@ export function scan(tableName: string, limit: number, startKey: string = "") {
  */
 
 export function getItem(tableName: string, id: any) {
+  console.log(
+    typeof id === "string"
+      ? {
+          id: id,
+        }
+      : id
+  );
+
   return documentClient
     .get({
       TableName: tableName,

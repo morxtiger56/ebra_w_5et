@@ -42,7 +42,6 @@ class _ProductPageScreenState extends State<ProductPageScreen> {
   }
 
   void _changeSize(String value) {
-    print(value);
     setState(() {
       currentSize = value;
     });
@@ -61,29 +60,25 @@ class _ProductPageScreenState extends State<ProductPageScreen> {
     );
 
     Future<void> _addToCart() async {
-      try {
-        Provider.of<CartProvider>(context, listen: false)
-            .addToCart(
-                product,
-                {
-                  "color": currentColor.isEmpty
-                      ? product.colors![0].value.toRadixString(16)
-                      : currentColor,
-                  "size": currentSize
-                },
-                1)
-            .then(
-              (value) => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    value,
-                  ),
+      Provider.of<CartProvider>(context, listen: false)
+          .addToCart(
+              product,
+              {
+                "color": currentColor.isEmpty
+                    ? product.colors![0].value.toRadixString(16)
+                    : currentColor,
+                "size": currentSize
+              },
+              1)
+          .then(
+            (value) => ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  value,
                 ),
               ),
-            );
-      } catch (e) {
-        print(e);
-      }
+            ),
+          );
     }
 
     return Scaffold(

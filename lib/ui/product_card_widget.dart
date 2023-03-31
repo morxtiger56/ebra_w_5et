@@ -42,7 +42,6 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.product.images);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).pushNamed(
