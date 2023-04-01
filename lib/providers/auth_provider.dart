@@ -128,7 +128,7 @@ class AuthProvider with ChangeNotifier {
         username: username,
         password: password,
       );
-
+      await getUserAttributes();
       isSignedIn = true;
       notifyListeners();
     } on AuthException {
@@ -166,33 +166,32 @@ class AuthProvider with ChangeNotifier {
           getAWSCredentials: true,
         ),
       ) as CognitoAuthSession);
+
       if (!userSession.isSignedIn) {
         authData = AuthData(
           authToken: "",
-          id: getStringAfterEuWest1(userSession.identityId!)!,
+          id: userSession.userSub!,
           email: "",
           password: "",
           isSignedIn: false,
           isSignUpComplete: false,
         );
 
-        final userAttributes = await Amplify.Auth.fetchUserAttributes();
-
-        for (var att in userAttributes) {
-          if (att.userAttributeKey == CognitoUserAttributeKey.name) {
-            user.name = att.value;
-          }
-        }
         return;
       }
 
       final userData = await Amplify.Auth.fetchUserAttributes();
+      print("userData $userData");
       var email = "";
       for (var element in userData) {
         if (element.userAttributeKey == CognitoUserAttributeKey.email) {
+          print("userData ${element.value}");
+
           email = element.value;
         }
         if (element.userAttributeKey == CognitoUserAttributeKey.name) {
+          print("userData ${element.value}");
+
           user.name = element.value;
         }
       }

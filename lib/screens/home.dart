@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../amplifyconfiguration.dart';
+import '../providers/cart_provider.dart';
+import '../providers/product_provider.dart';
 import '../routes.dart';
 import '../widgets/bottom_navigation_bar_widget.dart';
 import 'auth_screen.dart';
@@ -65,22 +67,42 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Future<void> _getUserData() async {
+    await Provider.of<ProductProvider>(
+      context,
+      listen: false,
+    ).getUserFavorites();
+    await Provider.of<CartProvider>(
+      context,
+      listen: false,
+    ).getCart();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: Provider.of<custom.AuthProvider>(context, listen: false)
           .getUserAttributes(),
-      builder: (_, snapShot) =>
-          snapShot.connectionState == ConnectionState.waiting
-              ? const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              : Consumer<custom.AuthProvider>(
-                  builder: (_, value, c) =>
-                      value.isSignedIn ? const MainBody() : c!,
-                  child: const AuthenticationScreen(),
-                ),
+      builder: (_, snapShot) => snapShot.connectionState ==
+              ConnectionState.waiting
+          ? const Center(
+              child: CircularProgressIndicator.adaptive(),
+            )
+          : Consumer<custom.AuthProvider>(
+              builder: (_, value, c) => value.isSignedIn
+                  ? FutureBuilder(
+                      future: _getUserData(),
+                      builder: (context, snapshot) =>
+                          snapShot.connectionState == ConnectionState.waiting
+                              ? const Center(
+                                  child: CircularProgressIndicator.adaptive(),
+                                )
+                              : const MainBody(),
+                    )
+                  : c!,
+              child: const AuthenticationScreen(),
+            ),
     );
   }
 }

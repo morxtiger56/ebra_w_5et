@@ -1,5 +1,4 @@
 import 'package:ebra_w_5et/providers/auth_provider.dart';
-import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:ebra_w_5et/providers/product_provider.dart';
 import 'package:ebra_w_5et/widgets/list_products_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<ProductProvider>(context, listen: false).getUserFavorites();
-    Provider.of<CartProvider>(context, listen: false).getCart();
   }
 
   @override
@@ -33,6 +30,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         horizontal: 15,
       ),
       child: Consumer<AuthProvider>(builder: (_, value, c) {
+        print(value.user);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
