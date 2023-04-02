@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.batchGetItems = exports.removeItem = exports.addItem = exports.getItem = exports.scan = exports.query = void 0;
+exports.updateItem = exports.batchGetItems = exports.removeItem = exports.addItem = exports.getItem = exports.scan = exports.query = void 0;
 const aws_sdk_1 = require("aws-sdk");
 const documentClient = new aws_sdk_1.DynamoDB.DocumentClient();
 /**
@@ -66,11 +66,6 @@ exports.scan = scan;
  * @returns A promise that resolves to an object with the following properties:
  */
 function getItem(tableName, id) {
-    console.log(typeof id === "string"
-        ? {
-            id: id,
-        }
-        : id);
     return documentClient
         .get({
         TableName: tableName,
@@ -134,3 +129,19 @@ function batchGetItems(tableName, keys) {
         .promise();
 }
 exports.batchGetItems = batchGetItems;
+function updateItem({ tableName, id, UpdateExpression, ExpressionAttributeNames, values, }) {
+    documentClient
+        .update({
+        TableName: "cart-dev",
+        Key: typeof id === "string"
+            ? {
+                id: id,
+            }
+            : id,
+        UpdateExpression: UpdateExpression,
+        ExpressionAttributeNames: ExpressionAttributeNames,
+        ExpressionAttributeValues: values,
+    })
+        .promise();
+}
+exports.updateItem = updateItem;

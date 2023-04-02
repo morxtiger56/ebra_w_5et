@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAllOrders = void 0;
 const config_1 = require("./../config");
 const querys_1 = require("../querys");
+const getProductsImages_1 = require("../products_operations/getProductsImages");
 /**
  * It gets all orders for a user, then gets all the products for each order, then returns the orders
  * with the products attached.
@@ -20,55 +21,64 @@ const querys_1 = require("../querys");
  */
 function getAllOrders(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        let ordersRes;
+        var response = null;
         try {
-            ordersRes = (yield (0, querys_1.query)({
+            const res = (yield (0, querys_1.query)({
+                tableName: config_1.CARTS_TABLE_NAME,
+                queryBy: "carts_by_owner",
                 fieldName: "ownerId",
-                limit: 3,
-                queryBy: "orders_by_owner",
-                tableName: config_1.ORDERS_TABLE_NAME,
                 value: id,
+                limit: 100,
             })).Items;
-            if (!ordersRes) {
+            if (res === null || res === undefined) {
                 return {
-                    statuesCode: 400,
-                    body: { message: "no orders found" },
+                    statuesCode: 200,
+                    body: "No carts found",
                 };
             }
-            const getRequest = [];
-            for (const item of ordersRes) {
-                for (const product of item.items) {
-                    getRequest.push({
-                        id: product.id,
-                    });
+            for (const cart of res) {
+                if (cart.status == "closed") {
+                    response = cart;
                 }
             }
-            const getRequests = [];
-            while (getRequest.length > 0) {
-                if (getRequest.length > 100) {
-                    getRequests.push(getRequest.splice(0, 100));
-                }
-                else {
-                    getRequests.push(getRequest.splice(0, getRequest.length));
-                }
+            if (response === null) {
+                return {
+                    statuesCode: 200,
+                    body: "No open cart found",
+                };
             }
-            const products = [];
-            for (const request of getRequests) {
-                const response = yield (0, querys_1.batchGetItems)(config_1.PRODUCTS_TABLE_NAME, request);
-                products.push(response.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
-            }
-            for (const order of ordersRes) {
-                order.items.forEach((element) => {
-                    element.product = products.find((e) => e.id === element.id);
+            const productRequests = [];
+            for (const product of response.items) {
+                productRequests.push({
+                    id: product.product,
                 });
             }
+            const getRequests = [];
+            while (productRequests.length > 0) {
+                if (productRequests.length > 100) {
+                    getRequests.push(productRequests.splice(0, 100));
+                }
+                else {
+                    getRequests.push(productRequests.splice(0, productRequests.length));
+                }
+            }
+            let products = [];
+            for (const request of getRequests) {
+                const res = yield (0, querys_1.batchGetItems)(config_1.PRODUCTS_TABLE_NAME, request);
+                products.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
+            }
+            products = yield (0, getProductsImages_1.getProductsImages)(products);
+            for (const item of response.items) {
+                var product = products.find((e) => item.product === e.id);
+                item.product = product;
+            }
         }
-        catch (e) {
-            throw e;
+        catch (error) {
+            throw error;
         }
         return {
             statuesCode: 200,
-            body: ordersRes,
+            body: response,
         };
     });
 }
