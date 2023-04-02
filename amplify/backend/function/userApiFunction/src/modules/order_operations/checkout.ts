@@ -10,17 +10,13 @@ import { addItem } from "../querys";
  * @param {any} items - [{id: "", price: 0, quantity: 0}]
  * @returns an object with a statusCode and a body.
  */
-export async function checkout(ownerId: string, items: any) {
-  var total = 0;
-  for (const item of items) {
-    total += item.price * item.quantity;
-  }
+export async function checkout(ownerId: string, cartId: any, total: string) {
   const order = {
     id: uuid.v4(),
     ownerId,
-    items,
+    cartId,
     createdAt: new Date(Date.now()).getTime() / 1000,
-    total: total,
+    total: Number(total),
   };
   try {
     await addItem(ORDERS_TABLE_NAME, order);

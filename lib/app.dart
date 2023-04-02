@@ -1,5 +1,7 @@
 import 'package:ebra_w_5et/providers/cart_provider.dart';
 import 'package:ebra_w_5et/screens/checkout_screen.dart';
+import 'package:ebra_w_5et/screens/edit_addresses.dart';
+import 'package:ebra_w_5et/screens/my_addresses.dart';
 
 import 'providers/auth_provider.dart';
 import 'providers/product_provider.dart';
@@ -44,7 +46,9 @@ class MyApp extends StatelessWidget {
                   originalPrice: 0,
                 ),
               ),
-          CheckoutScreen.routeName: (context) => const CheckoutScreen(),
+          MyAddresses.routeName: (_) => const MyAddresses(),
+          EditAddresses.routeName: (_) => const EditAddresses(),
+          CheckoutScreen.routeName: (_) => const CheckoutScreen(),
         },
         debugShowCheckedModeBanner: false,
         home: const Home(),

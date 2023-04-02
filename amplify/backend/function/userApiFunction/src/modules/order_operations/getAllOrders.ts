@@ -1,5 +1,10 @@
-import { ORDERS_TABLE_NAME, PRODUCTS_TABLE_NAME } from "./../config";
-import { batchGetItems, query } from "../querys";
+import {
+  CARTS_TABLE_NAME,
+  ORDERS_TABLE_NAME,
+  PRODUCTS_TABLE_NAME,
+} from "./../config";
+import { batchGetItems, getItem, query } from "../querys";
+import { getProductsImages } from "../products_operations/getProductsImages";
 
 /**
  * It gets all orders for a user, then gets all the products for each order, then returns the orders
@@ -25,37 +30,55 @@ export async function getAllOrders(id: string) {
         body: { message: "no orders found" },
       };
     }
-    const getRequest = [];
-    for (const item of ordersRes) {
-      for (const product of item.items) {
-        getRequest.push({
-          id: product.id,
+    for (var order of ordersRes) {
+      const res = (
+        await getItem(CARTS_TABLE_NAME, {
+          id: order.cartId,
+          ownerId: id,
+        })
+      ).Item;
+
+      if (res === null || res === undefined) {
+        return {
+          statuesCode: 200,
+          body: "No carts found",
+        };
+      }
+
+      const productRequests = [];
+      for (const product of res.items) {
+        productRequests.push({
+          id: product.product,
         });
       }
-    }
 
-    const getRequests = [];
+      const getRequests = [];
 
-    while (getRequest.length > 0) {
-      if (getRequest.length > 100) {
-        getRequests.push(getRequest.splice(0, 100));
-      } else {
-        getRequests.push(getRequest.splice(0, getRequest.length));
+      while (productRequests.length > 0) {
+        if (productRequests.length > 100) {
+          getRequests.push(productRequests.splice(0, 100));
+        } else {
+          getRequests.push(productRequests.splice(0, productRequests.length));
+        }
       }
-    }
-    const products: any[] = [];
-    for (const request of getRequests) {
-      const response = await batchGetItems(PRODUCTS_TABLE_NAME, request);
-      products.push(response.Responses![`${PRODUCTS_TABLE_NAME}`]);
-    }
-
-    for (const order of ordersRes) {
-      order.items.forEach((element: any) => {
-        element.product = products.find((e) => e.id === element.id);
-      });
+      let products = [];
+      for (const request of getRequests) {
+        const res = await batchGetItems(PRODUCTS_TABLE_NAME, request);
+        products.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
+      }
+      products = await getProductsImages(products);
+      for (const item of res.items) {
+        var product = products.find((e: any) => item.product === e.id);
+        item.product = product;
+      }
+      order.products = res.Items;
     }
   } catch (e) {
-    throw e;
+    console.log(e);
+    return {
+      statuesCode: 404,
+      body: e,
+    };
   }
   return {
     statuesCode: 200,
