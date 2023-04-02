@@ -76,6 +76,12 @@ class ProductProvider with ChangeNotifier {
   Future<String> toggleFavorite(String id) async {
     var product = products.firstWhere((element) => element.id == id);
     final isFavorite = product.likeProduct();
+    if (isFavorite) {
+      favorites.add(product);
+    } else {
+      favorites.removeWhere((element) => element.id == product.id);
+    }
+
     notifyListeners();
 
     try {
@@ -92,15 +98,18 @@ class ProductProvider with ChangeNotifier {
       );
       if (isFavorite) {
         var response = await Amplify.API.put(restOptions: params).response;
-        favorites.add(product);
         return "Product added to favorites";
       } else {
         var response = await Amplify.API.delete(restOptions: params).response;
-        favorites.removeWhere((element) => element.id == product.id);
         return "Product removed from favorites";
       }
     } catch (e) {
       product.likeProduct();
+      if (isFavorite) {
+        favorites.removeWhere((element) => element.id == product.id);
+      } else {
+        favorites.add(product);
+      }
       notifyListeners();
       if (isFavorite) {
         return "Failed to add product to favorites";

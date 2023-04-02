@@ -80,9 +80,19 @@ class AuthProvider with ChangeNotifier {
     ];
 
     try {
-      final result =
-          await Amplify.Auth.updateUserAttributes(attributes: attributes);
-
+      final result = await Amplify.Auth.updateUserAttributes(
+        attributes: attributes,
+      );
+      result.forEach((key, value) {
+        if (value.nextStep.updateAttributeStep ==
+            'CONFIRM_ATTRIBUTE_WITH_CODE') {
+          final destination = value.nextStep.codeDeliveryDetails?.destination;
+          print('Confirmation code sent to $destination for $key');
+        } else {
+          print('Update completed for $key');
+        }
+      });
+      print(result);
       isSignedIn = true;
       notifyListeners();
     } on AmplifyException {
@@ -176,22 +186,17 @@ class AuthProvider with ChangeNotifier {
           isSignedIn: false,
           isSignUpComplete: false,
         );
-
         return;
       }
 
       final userData = await Amplify.Auth.fetchUserAttributes();
-      print("userData $userData");
+
       var email = "";
       for (var element in userData) {
         if (element.userAttributeKey == CognitoUserAttributeKey.email) {
-          print("userData ${element.value}");
-
           email = element.value;
         }
         if (element.userAttributeKey == CognitoUserAttributeKey.name) {
-          print("userData ${element.value}");
-
           user.name = element.value;
         }
       }
@@ -206,7 +211,12 @@ class AuthProvider with ChangeNotifier {
         isSignUpComplete: true,
       );
       notifyListeners();
-    } catch (e) {
+    } on AuthException catch (e) {
+      if (e.message == "User not found in the system.") {
+        await Amplify.Auth.signOut();
+        print("signing out");
+      }
+
       rethrow;
     }
   }

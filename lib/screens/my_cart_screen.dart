@@ -37,6 +37,30 @@ class _MyCartScreenState extends State<MyCartScreen> {
               child: SizedBox(
                 height: MediaQuery.of(context).size.height - 380,
                 child: Consumer<CartProvider>(builder: (_, value, child) {
+                  if (value.cart == null) {
+                    return Container(
+                      alignment: Alignment.center,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(600),
+                            child: SizedBox(
+                              child: Image.asset("assets/45461.jpg"),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Add items first",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                   return ListView.builder(
                     itemBuilder: (_, index) => ExpandedProductCardWidget(
                       product: value.cart!.items[index].product,
@@ -48,28 +72,31 @@ class _MyCartScreenState extends State<MyCartScreen> {
               ),
             ),
           ),
-          Container(
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(50),
+          Consumer<CartProvider>(builder: (_, value, child) {
+            if (value.cart == null) {
+              return const Text("");
+            }
+            return Container(
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(50),
+                ),
+                color: Theme.of(context).colorScheme.background,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 20.0,
+                    spreadRadius: 1.0,
+                  )
+                ],
               ),
-              color: Theme.of(context).colorScheme.background,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 20.0,
-                  spreadRadius: 1.0,
-                )
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 30,
-                horizontal: 30,
-              ),
-              child: Consumer<CartProvider>(builder: (_, value, child) {
-                return Column(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 30,
+                  horizontal: 30,
+                ),
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -96,10 +123,10 @@ class _MyCartScreenState extends State<MyCartScreen> {
                       ),
                     )
                   ],
-                );
-              }),
-            ),
-          ),
+                ),
+              ),
+            );
+          }),
         ],
       ),
     );

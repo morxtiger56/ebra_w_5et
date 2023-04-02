@@ -39,6 +39,9 @@ class CartProvider with ChangeNotifier {
 
   void getTotal() {
     print("before");
+    if (cart == null) {
+      return;
+    }
     if (cart!.items.isEmpty) {
       return;
     }
@@ -94,7 +97,7 @@ class CartProvider with ChangeNotifier {
 
       var res = await Amplify.API.post(restOptions: params).response;
       if (cartId.isEmpty) {
-        cart = CartModal(id: res.body, items: []);
+        cart = CartModal(id: jsonDecode(res.body), items: []);
         cart!.addToCart(product, options, quantity);
       }
       return "Product Added";
