@@ -5,7 +5,6 @@ import { removeFromFavorites } from "./modules/favorites_operations/removeFromFa
 import { addToFavorites } from "./modules/favorites_operations/addToFavorites";
 import { getAllOrders } from "./modules/order_operations/getAllOrders";
 import { checkout } from "./modules/order_operations/checkout";
-import { getUserId } from "./modules/cognito";
 import { getAllFavorites } from "./modules/favorites_operations/getFavorites";
 import { getOpenCart } from "./modules/cart_operations/getOpenCart";
 import { addToCart } from "./modules/cart_operations/addToCart";
@@ -30,14 +29,6 @@ export const handler = async (
   If all of these conditions are true then it will calls the right function and
   pass in the all the required parameters. 
   **/
-  console.log(
-    event.path === "/cart" &&
-      event.httpMethod === "POST" &&
-      event.queryStringParameters &&
-      event.queryStringParameters.id !== undefined &&
-      event.queryStringParameters.cartId !== undefined &&
-      event.body !== undefined
-  );
 
   switch (true) {
     case event.path === "/products" &&
@@ -87,8 +78,15 @@ export const handler = async (
       event.httpMethod === "POST" &&
       event.queryStringParameters &&
       event.queryStringParameters.id !== undefined &&
+      event.queryStringParameters.cartId !== undefined &&
+      event.queryStringParameters.total !== undefined &&
       event.body !== undefined:
-      response = await checkout(event.queryStringParameters!.id!, event.body);
+      response = await checkout({
+        ownerId: event.queryStringParameters!.id!,
+        cartId: event.queryStringParameters!.cartId!,
+        total: event.queryStringParameters!.total!,
+        address: JSON.parse(event.body!),
+      });
       break;
 
     case event.path === "/cart" &&

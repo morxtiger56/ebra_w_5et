@@ -216,7 +216,7 @@ class ProductBottomNavBar extends StatelessWidget {
             width: 20,
           ),
           Expanded(
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: addToCart,
               child: Text("Add To Cart".toUpperCase()),
             ),

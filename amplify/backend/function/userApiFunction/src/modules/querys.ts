@@ -86,14 +86,6 @@ export function scan(tableName: string, limit: number, startKey: string = "") {
  */
 
 export function getItem(tableName: string, id: any) {
-  console.log(
-    typeof id === "string"
-      ? {
-          id: id,
-        }
-      : id
-  );
-
   return documentClient
     .get({
       TableName: tableName,
@@ -154,6 +146,35 @@ export function batchGetItems(tableName: string, keys: any) {
           Keys: keys,
         },
       },
+    })
+    .promise();
+}
+
+export function updateItem({
+  tableName,
+  id,
+  UpdateExpression,
+  ExpressionAttributeNames,
+  values,
+}: {
+  tableName: string;
+  id: any;
+  UpdateExpression: string;
+  ExpressionAttributeNames: any;
+  values: any;
+}) {
+  documentClient
+    .update({
+      TableName: "cart-dev",
+      Key:
+        typeof id === "string"
+          ? {
+              id: id,
+            }
+          : id,
+      UpdateExpression: UpdateExpression,
+      ExpressionAttributeNames: ExpressionAttributeNames,
+      ExpressionAttributeValues: values,
     })
     .promise();
 }

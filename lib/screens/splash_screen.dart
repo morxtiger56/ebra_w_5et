@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
               child: SizedBox(
@@ -30,6 +31,10 @@ class _SplashScreenState extends State<SplashScreen> {
               height: 10,
             ),
             const Text('Ebra w 5et'),
+            const SizedBox(
+              height: 10,
+            ),
+            const CircularProgressIndicator.adaptive(),
           ],
         ),
       ),

@@ -12,6 +12,7 @@ import '../providers/product_provider.dart';
 import '../routes.dart';
 import '../widgets/bottom_navigation_bar_widget.dart';
 import 'auth_screen.dart';
+import 'splash_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -72,6 +73,7 @@ class _HomeState extends State<Home> {
       context,
       listen: false,
     ).getUserFavorites();
+
     await Provider.of<CartProvider>(
       context,
       listen: false,
@@ -86,18 +88,14 @@ class _HomeState extends State<Home> {
           .getUserAttributes(),
       builder: (_, snapShot) => snapShot.connectionState ==
               ConnectionState.waiting
-          ? const Center(
-              child: CircularProgressIndicator.adaptive(),
-            )
+          ? const SplashScreen()
           : Consumer<custom.AuthProvider>(
               builder: (_, value, c) => value.isSignedIn
                   ? FutureBuilder(
                       future: _getUserData(),
                       builder: (context, snapshot) =>
                           snapShot.connectionState == ConnectionState.waiting
-                              ? const Center(
-                                  child: CircularProgressIndicator.adaptive(),
-                                )
+                              ? const SplashScreen()
                               : const MainBody(),
                     )
                   : c!,
