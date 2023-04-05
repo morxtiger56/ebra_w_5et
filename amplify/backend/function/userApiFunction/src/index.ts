@@ -8,6 +8,8 @@ import { checkout } from "./modules/order_operations/checkout";
 import { getAllFavorites } from "./modules/favorites_operations/getFavorites";
 import { getOpenCart } from "./modules/cart_operations/getOpenCart";
 import { addToCart } from "./modules/cart_operations/addToCart";
+import { addAddress } from "./modules/settings_operations/addAddress";
+import { modifyUserData } from "./modules/user_operations/modifyUserData";
 
 type CustomResponse = {
   statuesCode: number;
@@ -105,6 +107,30 @@ export const handler = async (
       response = await addToCart(
         event.queryStringParameters!.id!,
         event.queryStringParameters!.cartId!,
+        JSON.parse(event.body!)
+      );
+      break;
+
+    case event.path === "/settings" &&
+      event.httpMethod === "POST" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.operation === "modify user data" &&
+      event.queryStringParameters.id !== undefined &&
+      event.body !== undefined:
+      response = await modifyUserData(
+        event.queryStringParameters!.id!,
+        JSON.parse(event.body!)
+      );
+      break;
+
+    case event.path === "/settings" &&
+      event.httpMethod === "POST" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.operation === "add address" &&
+      event.queryStringParameters.id !== undefined &&
+      event.body !== undefined:
+      response = await addAddress(
+        event.queryStringParameters!.id!,
         JSON.parse(event.body!)
       );
       break;

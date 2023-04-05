@@ -49,6 +49,13 @@
       "dependsOn": [
         {
           "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "ebraw5et140089f9"
+        },
+        {
+          "attributes": [
             "Name",
             "Arn",
             "StreamArn"
@@ -98,6 +105,15 @@
           ],
           "category": "storage",
           "resourceName": "cart"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ],
+          "category": "storage",
+          "resourceName": "users"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -127,6 +143,10 @@
       "service": "DynamoDB"
     },
     "products": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
+    },
+    "users": {
       "providerPlugin": "awscloudformation",
       "service": "DynamoDB"
     }

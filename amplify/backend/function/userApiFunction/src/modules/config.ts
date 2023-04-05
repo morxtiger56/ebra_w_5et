@@ -4,4 +4,6 @@ export const FAVORITES_TABLE_NAME = `favorites-${process.env.ENV}`;
 export const PRODUCTS_TABLE_NAME = `products-${process.env.ENV}`;
 export const ORDERS_TABLE_NAME = `orders-${process.env.ENV}`;
 export const CARTS_TABLE_NAME = `cart-${process.env.ENV}`;
+export const USERS_TABLE_NAME = `users-${process.env.ENV}`;
+export const USER_POOL_ID = "eu-west-1_SCJACWYvg";
 export const BUCKET_NAME = "ebraw5et058a2e99386f439d978ebd1f93bf685c214445-dev";

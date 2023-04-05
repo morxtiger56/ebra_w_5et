@@ -49,11 +49,11 @@ class AddressCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: 220,
               child: Text(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Theme.of(context).hintColor),
               ),
             )
           ],

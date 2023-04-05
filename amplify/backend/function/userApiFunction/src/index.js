@@ -18,6 +18,8 @@ const checkout_1 = require("./modules/order_operations/checkout");
 const getFavorites_1 = require("./modules/favorites_operations/getFavorites");
 const getOpenCart_1 = require("./modules/cart_operations/getOpenCart");
 const addToCart_1 = require("./modules/cart_operations/addToCart");
+const addAddress_1 = require("./modules/settings_operations/addAddress");
+const modifyUserData_1 = require("./modules/user_operations/modifyUserData");
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -89,6 +91,22 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters.cartId !== undefined &&
             event.body !== undefined:
             response = yield (0, addToCart_1.addToCart)(event.queryStringParameters.id, event.queryStringParameters.cartId, JSON.parse(event.body));
+            break;
+        case event.path === "/settings" &&
+            event.httpMethod === "POST" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.operation === "modify user data" &&
+            event.queryStringParameters.id !== undefined &&
+            event.body !== undefined:
+            response = yield (0, modifyUserData_1.modifyUserData)(event.queryStringParameters.id, JSON.parse(event.body));
+            break;
+        case event.path === "/settings" &&
+            event.httpMethod === "POST" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.operation === "add address" &&
+            event.queryStringParameters.id !== undefined &&
+            event.body !== undefined:
+            response = yield (0, addAddress_1.addAddress)(event.queryStringParameters.id, JSON.parse(event.body));
             break;
         default:
             response = {

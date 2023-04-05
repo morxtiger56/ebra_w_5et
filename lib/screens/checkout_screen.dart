@@ -112,6 +112,14 @@ class CheckoutScreen extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.radio_button_off),
+                label: const Text('Make Default Address'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               FilledButton(
                 onPressed: () {},
                 child: const Text("Proceed Checkout"),

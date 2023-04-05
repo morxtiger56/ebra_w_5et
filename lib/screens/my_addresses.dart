@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/address_card.dart';
+import 'edit_addresses.dart';
 
 class MyAddresses extends StatelessWidget {
   static const routeName = "/my-addresses-management";
@@ -12,6 +13,13 @@ class MyAddresses extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Addresses'),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                Navigator.of(context).pushNamed(EditAddresses.routeName),
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
