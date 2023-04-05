@@ -1,6 +1,8 @@
 [
   {
-    "Action": [],
-    "Resource": []
+    "Action": ["cognito-idp:AdminUpdateUserAttributes"],
+    "Resource": [
+      "arn:aws:cognito-idp:us-west-2:362105585115:userpool/eu-west-1_SCJACWYvg"
+    ]
   }
 ]
