@@ -39,15 +39,19 @@ const querys_1 = require("../querys");
 function addAddress(userId, address) {
     return __awaiter(this, void 0, void 0, function* () {
         address.id = uuid.v4();
-        const user = (yield (0, querys_1.getItem)(config_1.USERS_TABLE_NAME, userId)).Item;
+        var user = (yield (0, querys_1.getItem)(config_1.USERS_TABLE_NAME, userId)).Item;
         if (!user) {
-            return {
-                statuesCode: 404,
-                body: "user not found",
+            user = {
+                id: userId,
             };
         }
         if (!user.addresses) {
             user.addresses = [];
+        }
+        if (address.isDefault) {
+            for (const address of user.addresses) {
+                address.isDefault = false;
+            }
         }
         user.addresses.push(address);
         yield (0, querys_1.addItem)(config_1.USERS_TABLE_NAME, user);
