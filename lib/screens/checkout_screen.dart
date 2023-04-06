@@ -3,7 +3,7 @@ import 'package:ebra_w_5et/screens/my_cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/address_form_widget.dart';
+import 'my_addresses.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -104,19 +104,7 @@ class CheckoutScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text("Add new address:"),
-              const SizedBox(
-                height: 10,
-              ),
-              const AddressFormWidget(),
-              const SizedBox(
-                height: 10,
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.radio_button_off),
-                label: const Text('Make Default Address'),
-              ),
+              const UserAddressesWidget(),
               const SizedBox(
                 height: 10,
               ),

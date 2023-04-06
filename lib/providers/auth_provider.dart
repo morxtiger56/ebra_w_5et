@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:ebra_w_5et/models/address_modal.dart';
@@ -189,13 +191,27 @@ class AuthProvider with ChangeNotifier {
       },
       body: Uint8List.fromList(address.toJson().codeUnits),
     );
-    print(address.toString());
     try {
       await Amplify.API.post(restOptions: params).response;
       if (user.addresses.isEmpty) {
         user.addresses = [];
       }
-      user.addresses.add(address);
+
+      if (operation == "add address") {
+        user.addresses.add(address);
+      } else {
+        var index =
+            user.addresses.indexWhere((element) => element.id == address.id);
+        user.addresses[index] = address;
+      }
+      user.addresses = List.from(user.addresses)
+        ..sort(
+          (a, b) => a.isDefault
+              ? -1
+              : b.isDefault
+                  ? 1
+                  : 0,
+        );
       notifyListeners();
       return "address updated successfully";
     } catch (e) {
@@ -266,6 +282,32 @@ class AuthProvider with ChangeNotifier {
         isSignedIn: true,
         isSignUpComplete: true,
       );
+      var params = RestOptions(
+        path: '/settings',
+        apiName: 'userApi',
+        queryParameters: {
+          "id": authData!.id,
+        },
+      );
+
+      print("getting addresses");
+
+      var response = await Amplify.API.get(restOptions: params).response;
+      var body = json.decode(response.body);
+      print(body);
+
+      for (var address in body["addresses"]) {
+        user.addresses.add(AddressModal.fromMap(address));
+      }
+      user.addresses = List.from(user.addresses)
+        ..sort(
+          (a, b) => a.isDefault
+              ? -1
+              : b.isDefault
+                  ? 1
+                  : 0,
+        );
+
       notifyListeners();
     } on AuthException catch (e) {
       if (e.message == "User not found in the system.") {

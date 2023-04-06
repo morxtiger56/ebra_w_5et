@@ -1,11 +1,12 @@
 import 'package:ebra_w_5et/models/address_modal.dart';
-import 'package:ebra_w_5et/screens/edit_addresses.dart';
 import 'package:flutter/material.dart';
 
 class AddressCard extends StatelessWidget {
   final String myTitle;
   final AddressModal address;
-  const AddressCard(this.myTitle, {super.key, required this.address});
+  final void Function() action;
+  const AddressCard(this.myTitle,
+      {super.key, required this.address, required this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,7 @@ class AddressCard extends StatelessWidget {
               children: [
                 Text(myTitle),
                 IconButton(
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(EditAddresses.routeName),
+                  onPressed: action,
                   icon: const Icon(Icons.edit),
                 )
               ],

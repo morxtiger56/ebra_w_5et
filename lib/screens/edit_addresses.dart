@@ -23,15 +23,12 @@ class _EditAddressesState extends State<EditAddresses> {
   }
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _areaController = TextEditingController();
-  final TextEditingController _buildingNumberController =
-      TextEditingController();
-  final TextEditingController _apartmentNumberController =
-      TextEditingController();
-  final TextEditingController _addressDetailsController =
-      TextEditingController();
+  TextEditingController _countryController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
+  TextEditingController _areaController = TextEditingController();
+  TextEditingController _buildingNumberController = TextEditingController();
+  TextEditingController _apartmentNumberController = TextEditingController();
+  TextEditingController _addressDetailsController = TextEditingController();
 
   AddressModal address = AddressModal(
     id: "",
@@ -143,6 +140,18 @@ class _EditAddressesState extends State<EditAddresses> {
       address = Provider.of<AuthProvider>(context, listen: false)
           .getAddress(args["id"]!);
       operation = "modify address";
+      setState(() {
+        _cityController = TextEditingController(text: address.city);
+        _countryController = TextEditingController(text: address.country);
+        _areaController = TextEditingController(text: address.area);
+        _buildingNumberController =
+            TextEditingController(text: address.buildingNumber);
+        _apartmentNumberController =
+            TextEditingController(text: address.apartmentNumber);
+        _addressDetailsController =
+            TextEditingController(text: address.addressDetails);
+        makeDefault = address.isDefault;
+      });
     }
 
     return Scaffold(

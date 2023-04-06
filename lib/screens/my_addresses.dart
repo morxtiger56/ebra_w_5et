@@ -23,48 +23,66 @@ class MyAddresses extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(
+          padding: EdgeInsets.symmetric(
             vertical: 30,
             horizontal: 20,
           ),
-          child: Consumer<AuthProvider>(
-            builder: (_, value, c) => Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                c!,
-                value.user.addresses.isEmpty
-                    ? Center(
-                        child: FilledButton(
-                          onPressed: () => Navigator.of(context)
-                              .pushNamed(EditAddresses.routeName),
-                          child: const Text("Add new address"),
+          child: UserAddressesWidget(),
+        ),
+      ),
+    );
+  }
+}
+
+class UserAddressesWidget extends StatelessWidget {
+  const UserAddressesWidget({
+    super.key,
+  });
+
+  final isChoose = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(
+      builder: (_, value, c) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          c!,
+          value.user.addresses.isEmpty
+              ? Center(
+                  child: FilledButton(
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      EditAddresses.routeName,
+                    ),
+                    child: const Text("Add new address"),
+                  ),
+                )
+              : Column(
+                  children: value.user.addresses
+                      .map(
+                        (e) => AddressCard(
+                          e.isDefault ? "Default Address" : "Address",
+                          action: () => Navigator.of(context).pushNamed(
+                            EditAddresses.routeName,
+                            arguments: {"id": e.id},
+                          ),
+                          address: e,
                         ),
                       )
-                    : Column(
-                        children: value.user.addresses
-                            .map(
-                              (e) => AddressCard(
-                                e.isDefault ? "Default Address" : "Address",
-                                address: e,
-                              ),
-                            )
-                            .toList(),
-                      )
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text('SAVED ADDRESSES'),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+                      .toList(),
+                )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text('SAVED ADDRESSES'),
+          SizedBox(
+            height: 20,
           ),
-        ),
+        ],
       ),
     );
   }
