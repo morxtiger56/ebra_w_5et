@@ -8,13 +8,10 @@ export async function addAddress(
 ): Promise<{ statuesCode: number; body: any }> {
   address.id = uuid.v4();
 
-  const user = (await getItem(USERS_TABLE_NAME, userId)).Item;
+  var user = (await getItem(USERS_TABLE_NAME, userId)).Item;
 
   if (!user) {
-    return {
-      statuesCode: 404,
-      body: "user not found",
-    };
+    user = {};
   }
 
   if (!user.addresses) {

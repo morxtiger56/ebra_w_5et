@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:ebra_w_5et/models/address_modal.dart';
 
 import 'package:ebra_w_5et/models/auth_modal.dart';
 import 'package:ebra_w_5et/models/user_modal.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 enum AuthState {
   login,
@@ -63,28 +62,43 @@ class AuthProvider with ChangeNotifier {
     country = String,
     phoneNumber = String,
   }) async {
-    var body = json.encode({
-      "name": name,
-      "address": country,
-      "phoneNumber": phoneNumber,
-      "birthdate": dateOfBirth,
-    });
+    print(name);
+    final attributes = [
+      AuthUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.email,
+        value: authData!.email,
+      ),
+      AuthUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.name,
+        value: name,
+      ),
+      AuthUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.address,
+        value: country,
+      ),
+      AuthUserAttribute(
+        userAttributeKey: CognitoUserAttributeKey.phoneNumber,
+        value: '+2$phoneNumber',
+      ),
+    ];
+
     try {
-      await Amplify.API
-          .post(
-            restOptions: RestOptions(
-              path: "/settings",
-              apiName: "userApi",
-              queryParameters: {
-                "id": user.id,
-                "operation": "modify user data",
-              },
-              body: Uint8List.fromList(
-                body.codeUnits,
-              ),
-            ),
-          )
-          .response;
+      final result = await Amplify.Auth.updateUserAttributes(
+        attributes: attributes,
+      );
+      result.forEach((key, value) {
+        if (value.nextStep.updateAttributeStep ==
+            'CONFIRM_ATTRIBUTE_WITH_CODE') {
+          final destination = value.nextStep.codeDeliveryDetails?.destination;
+          print('Confirmation code sent to $destination for $key');
+        } else {
+          print('Update completed for $key');
+        }
+      });
+      user.phoneNumber = phoneNumber;
+      user.name = name;
+      user.dateOfBirth = dateOfBirth;
+      print(result);
       isSignedIn = true;
       notifyListeners();
     } on AmplifyException {
@@ -161,6 +175,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  AddressModal getAddress(String id) {
+    return user.addresses.firstWhere((element) => element.id == id);
+  }
+
   Future<void> getUserAttributes() async {
     try {
       final userSession = (await Amplify.Auth.fetchAuthSession(
@@ -190,6 +208,9 @@ class AuthProvider with ChangeNotifier {
         }
         if (element.userAttributeKey == CognitoUserAttributeKey.name) {
           user.name = element.value;
+        }
+        if (element.userAttributeKey == CognitoUserAttributeKey.phoneNumber) {
+          user.phoneNumber = element.value;
         }
       }
       authData = AuthData(

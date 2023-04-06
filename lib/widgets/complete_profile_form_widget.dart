@@ -45,7 +45,8 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
       _loading = true;
     });
     try {
-      await Provider.of<custom.AuthProvider>(context,listen: false)
+      print(_nameController.value.text);
+      await Provider.of<custom.AuthProvider>(context, listen: false)
           .updateMultipleUserAttributes(
         name: _nameController.value.text,
         dateOfBirth: _dateController.value.text,
@@ -75,7 +76,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
         context: context,
         builder: (_) => alert,
       );
-    } finally{
+    } finally {
       _loading = false;
     }
   }
@@ -90,6 +91,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
           FormFieldWidget(
             label: "Full name",
             icon: const Icon(Icons.person_2_outlined),
+            controller: _nameController,
           ),
           const SizedBox(
             height: 10,
@@ -97,6 +99,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
           FormFieldWidget(
             label: "Date of birth",
             icon: const Icon(Icons.email_outlined),
+            controller: _dateController,
           ),
           const SizedBox(
             height: 10,
@@ -104,6 +107,7 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
           FormFieldWidget(
             label: "Country",
             icon: const Icon(Icons.location_city_outlined),
+            controller: _countryController,
           ),
           const SizedBox(
             height: 10,
@@ -111,12 +115,13 @@ class _CompleteProfileFormWidgetState extends State<CompleteProfileFormWidget> {
           FormFieldWidget(
             label: "Phone number",
             icon: const Icon(Icons.phone_callback_outlined),
+            controller: _phoneNumberController,
           ),
           const SizedBox(
             height: 10,
           ),
           FilledButton(
-            onPressed: _loading? () {} : _updateAttributes,
+            onPressed: _loading ? () {} : _updateAttributes,
             child: const Text("Proceed"),
           ),
         ],

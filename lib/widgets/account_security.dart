@@ -1,4 +1,6 @@
+import 'package:ebra_w_5et/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AccountSecurity extends StatelessWidget {
   const AccountSecurity({super.key});
@@ -19,58 +21,40 @@ class AccountSecurity extends StatelessWidget {
           elevation: 5,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Username',
-                      hintText: 'test1234',
+            child: Consumer<AuthProvider>(builder: (_, value, c) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: value.authData!.email,
+                        hintText: 'test@test.com',
+                      ),
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: '********',
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: value.user.phoneNumber,
+                        hintText: '+20********271',
+                      ),
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                      hintText: 'test@test.com',
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Phone Number',
-                      hintText: '+20********271',
-                    ),
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: FilledButton(
-                    onPressed: () {},
-                    child: const Text('Save Changes'),
-                  ),
-                ),
-              ],
-            ),
+                  // Container(
+                  //   width: double.infinity,
+                  //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                  //   child: FilledButton(
+                  //     onPressed: () {},
+                  //     child: const Text('Save Changes'),
+                  //   ),
+                  // ),
+                ],
+              );
+            }),
           ),
         ),
       ],
