@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../Screens/my_addresses.dart';
 import './card.dart';
-import './address_card.dart';
 
 class OrdersManagement extends StatelessWidget {
   const OrdersManagement({super.key});
@@ -30,7 +29,7 @@ class OrdersManagement extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        AddressCard('Default Address'),
+        // AddressCard('Default Address'),
         Divider(
           indent: 35,
           endIndent: 35,

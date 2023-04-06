@@ -7,6 +7,7 @@ class AddressModal {
   String buildingNumber;
   String apartmentNumber;
   String addressDetails;
+  String country;
   bool isDefault;
 
   AddressModal({
@@ -16,6 +17,7 @@ class AddressModal {
     required this.buildingNumber,
     required this.apartmentNumber,
     required this.addressDetails,
+    required this.country,
     required this.isDefault,
   });
 
@@ -26,6 +28,7 @@ class AddressModal {
     String? buildingNumber,
     String? apartmentNumber,
     String? addressDetails,
+    String? country,
     bool? isDefault,
   }) {
     return AddressModal(
@@ -35,6 +38,7 @@ class AddressModal {
       buildingNumber: buildingNumber ?? this.buildingNumber,
       apartmentNumber: apartmentNumber ?? this.apartmentNumber,
       addressDetails: addressDetails ?? this.addressDetails,
+      country: country ?? this.country,
       isDefault: isDefault ?? this.isDefault,
     );
   }
@@ -47,6 +51,7 @@ class AddressModal {
       'buildingNumber': buildingNumber,
       'apartmentNumber': apartmentNumber,
       'addressDetails': addressDetails,
+      'country': country,
       'isDefault': isDefault,
     };
   }
@@ -59,6 +64,7 @@ class AddressModal {
       buildingNumber: map['buildingNumber'] ?? '',
       apartmentNumber: map['apartmentNumber'] ?? '',
       addressDetails: map['addressDetails'] ?? '',
+      country: map['country'] ?? '',
       isDefault: map['isDefault'] ?? false,
     );
   }
@@ -70,7 +76,7 @@ class AddressModal {
 
   @override
   String toString() {
-    return 'AddressModal(id: $id, city: $city, area: $area, buildingNumber: $buildingNumber, apartmentNumber: $apartmentNumber, addressDetails: $addressDetails, isDefault: $isDefault)';
+    return 'AddressModal(id: $id, city: $city, area: $area, buildingNumber: $buildingNumber, apartmentNumber: $apartmentNumber, addressDetails: $addressDetails, country: $country, isDefault: $isDefault)';
   }
 
   @override
@@ -84,6 +90,7 @@ class AddressModal {
         other.buildingNumber == buildingNumber &&
         other.apartmentNumber == apartmentNumber &&
         other.addressDetails == addressDetails &&
+        other.country == country &&
         other.isDefault == isDefault;
   }
 
@@ -95,6 +102,7 @@ class AddressModal {
         buildingNumber.hashCode ^
         apartmentNumber.hashCode ^
         addressDetails.hashCode ^
+        country.hashCode ^
         isDefault.hashCode;
   }
 }

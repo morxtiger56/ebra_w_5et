@@ -20,6 +20,7 @@ const getOpenCart_1 = require("./modules/cart_operations/getOpenCart");
 const addToCart_1 = require("./modules/cart_operations/addToCart");
 const addAddress_1 = require("./modules/settings_operations/addAddress");
 const modifyAddress_1 = require("./modules/settings_operations/modifyAddress");
+const getUserData_1 = require("./modules/settings_operations/getUserData");
 let response;
 const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
@@ -107,6 +108,13 @@ const handler = (event, context) => __awaiter(void 0, void 0, void 0, function* 
             event.queryStringParameters.id !== undefined &&
             event.body !== undefined:
             response = yield (0, modifyAddress_1.modifyAddress)(event.queryStringParameters.id, JSON.parse(event.body));
+            break;
+        case event.path === "/settings" &&
+            event.httpMethod === "GET" &&
+            event.queryStringParameters &&
+            event.queryStringParameters.id !== undefined &&
+            event.body !== undefined:
+            response = yield (0, getUserData_1.getUserData)(event.queryStringParameters.id);
             break;
         default:
             response = {

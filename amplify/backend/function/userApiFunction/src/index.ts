@@ -10,6 +10,7 @@ import { getOpenCart } from "./modules/cart_operations/getOpenCart";
 import { addToCart } from "./modules/cart_operations/addToCart";
 import { addAddress } from "./modules/settings_operations/addAddress";
 import { modifyAddress } from "./modules/settings_operations/modifyAddress";
+import { getUserData } from "./modules/settings_operations/getUserData";
 
 type CustomResponse = {
   statuesCode: number;
@@ -133,6 +134,14 @@ export const handler = async (
         event.queryStringParameters!.id!,
         JSON.parse(event.body!)
       );
+      break;
+
+    case event.path === "/settings" &&
+      event.httpMethod === "GET" &&
+      event.queryStringParameters &&
+      event.queryStringParameters.id !== undefined &&
+      event.body !== undefined:
+      response = await getUserData(event.queryStringParameters!.id!);
       break;
 
     default:

@@ -4,7 +4,7 @@ import 'package:ebra_w_5et/models/address_modal.dart';
 
 import 'package:ebra_w_5et/models/auth_modal.dart';
 import 'package:ebra_w_5et/models/user_modal.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 enum AuthState {
   login,
@@ -177,6 +177,30 @@ class AuthProvider with ChangeNotifier {
 
   AddressModal getAddress(String id) {
     return user.addresses.firstWhere((element) => element.id == id);
+  }
+
+  Future<String> updateAddress(AddressModal address, String operation) async {
+    var params = RestOptions(
+      path: '/settings',
+      apiName: 'userApi',
+      queryParameters: {
+        "id": authData!.id,
+        "operation": operation,
+      },
+      body: Uint8List.fromList(address.toJson().codeUnits),
+    );
+    print(address.toString());
+    try {
+      await Amplify.API.post(restOptions: params).response;
+      if (user.addresses.isEmpty) {
+        user.addresses = [];
+      }
+      user.addresses.add(address);
+      notifyListeners();
+      return "address updated successfully";
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> getUserAttributes() async {

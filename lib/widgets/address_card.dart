@@ -1,10 +1,11 @@
+import 'package:ebra_w_5et/models/address_modal.dart';
 import 'package:ebra_w_5et/screens/edit_addresses.dart';
 import 'package:flutter/material.dart';
 
 class AddressCard extends StatelessWidget {
-  final String myText;
-
-  const AddressCard(this.myText, {super.key});
+  final String myTitle;
+  final AddressModal address;
+  const AddressCard(this.myTitle, {super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class AddressCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(myText),
+                Text(myTitle),
                 IconButton(
                   onPressed: () =>
                       Navigator.of(context).pushNamed(EditAddresses.routeName),
@@ -44,7 +45,7 @@ class AddressCard extends StatelessWidget {
                   const Icon(Icons.location_on),
                   Container(
                     margin: const EdgeInsets.only(left: 5),
-                    child: const Text('Egypt'),
+                    child: Text(address.country),
                   ),
                 ],
               ),
@@ -52,7 +53,7 @@ class AddressCard extends StatelessWidget {
             SizedBox(
               width: 220,
               child: Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                '${address.apartmentNumber}, ${address.buildingNumber} ${address.area}, ${address.city}, ${address.addressDetails} ',
                 style: TextStyle(color: Theme.of(context).hintColor),
               ),
             )
