@@ -21,7 +21,7 @@ const getProductsImages_1 = require("../products_operations/getProductsImages");
  */
 function getAllOrders(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        var response = null;
+        var response = [];
         try {
             const res = (yield (0, querys_1.query)({
                 tableName: config_1.CARTS_TABLE_NAME,
@@ -38,20 +38,22 @@ function getAllOrders(id) {
             }
             for (const cart of res) {
                 if (cart.status == "closed") {
-                    response = cart;
+                    response.push(cart);
                 }
             }
             if (response === null) {
                 return {
                     statuesCode: 200,
-                    body: "No open cart found",
+                    body: [],
                 };
             }
             const productRequests = [];
-            for (const product of response.items) {
-                productRequests.push({
-                    id: product.product,
-                });
+            for (const order of response) {
+                for (const item of order.items) {
+                    productRequests.push({
+                        id: item.product,
+                    });
+                }
             }
             const getRequests = [];
             while (productRequests.length > 0) {
@@ -68,9 +70,11 @@ function getAllOrders(id) {
                 products.push(...res.Responses[`${config_1.PRODUCTS_TABLE_NAME}`]);
             }
             products = yield (0, getProductsImages_1.getProductsImages)(products);
-            for (const item of response.items) {
-                var product = products.find((e) => item.product === e.id);
-                item.product = product;
+            for (const order of response) {
+                for (const item of order.items) {
+                    var product = products.find((e) => item.product === e.id);
+                    item.product = product;
+                }
             }
         }
         catch (error) {

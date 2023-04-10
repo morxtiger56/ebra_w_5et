@@ -1,7 +1,10 @@
 {
-  "path": "/cart",
+  "resource": "/orders",
+  "path": "/orders",
   "httpMethod": "GET",
   "queryStringParameters": {
-    "id": "41153956-1a8a-4e2d-8e01-1fceeb9677f5"
-  }
+    "id": "3a1f9803-dc9c-4433-93de-b644b909f219"
+  },
+  "body": "\"{\\\"id\\\":\\\"b66b0b31-0949-46eb-abb1-2568d60cc77d\\\",\\\"city\\\":\\\"Alexandria\\\",\\\"area\\\":\\\"smouha\\\",\\\"buildingNumber\\\":\\\"152\\\",\\\"apartmentNumber\\\":\\\"53\\\",\\\"addressDetails\\\":\\\"fifth floor with iron door\\\",\\\"country\\\":\\\"Egypt\\\",\\\"isDefault\\\":true}\"",
+  "isBase64Encoded": false
 }

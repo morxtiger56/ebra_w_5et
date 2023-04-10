@@ -1,13 +1,41 @@
+import 'package:ebra_w_5et/models/address_modal.dart';
+import 'package:ebra_w_5et/providers/auth_provider.dart';
 import 'package:ebra_w_5et/providers/cart_provider.dart';
+import 'package:ebra_w_5et/screens/edit_addresses.dart';
 import 'package:ebra_w_5et/screens/my_cart_screen.dart';
+import 'package:ebra_w_5et/widgets/address_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'my_addresses.dart';
-
-class CheckoutScreen extends StatelessWidget {
+class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
   static const routeName = "/checkout-screen";
+
+  @override
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
+}
+
+class _CheckoutScreenState extends State<CheckoutScreen> {
+  String id = "";
+  Future<void> _checkout() async {
+    AddressModal address =
+        Provider.of<AuthProvider>(context, listen: false).getAddress(id);
+    try {
+      await Provider.of<CartProvider>(context, listen: false)
+          .checkout(address)
+          .then(
+            (value) => Navigator.of(context).pop(),
+          );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void _chooseAddress(String id) {
+    this.id = id;
+    Provider.of<CartProvider>(context, listen: false).changeSelectedAddress(id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,12 +132,43 @@ class CheckoutScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const UserAddressesWidget(),
+              Consumer<AuthProvider>(
+                builder: (context, value, child) => Column(
+                  children: value.user.addresses
+                      .map(
+                        (e) => Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                _chooseAddress(e.id);
+                              },
+                              icon: Consumer<CartProvider>(
+                                builder: (_, value, child) => Icon(
+                                  value.selectedAddress == e.id
+                                      ? Icons.radio_button_checked_outlined
+                                      : Icons.radio_button_off_outlined,
+                                ),
+                              ),
+                            ),
+                            AddressCard(
+                              e.isDefault ? "Default Address" : "Address",
+                              action: () => Navigator.of(context).pushNamed(
+                                EditAddresses.routeName,
+                                arguments: {"id": e.id},
+                              ),
+                              address: e,
+                            )
+                          ],
+                        ),
+                      )
+                      .toList(),
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
               FilledButton(
-                onPressed: () {},
+                onPressed: _checkout,
                 child: const Text("Proceed Checkout"),
               ),
             ],

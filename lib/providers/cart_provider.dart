@@ -1,19 +1,24 @@
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:ebra_w_5et/models/address_modal.dart';
 import 'package:ebra_w_5et/models/cart_modal.dart';
 import 'package:flutter/foundation.dart';
 
+import '../models/order_modal.dart';
 import '../models/products_modal.dart';
 
 class CartProvider with ChangeNotifier {
   CartModal? cart;
+  List<Order> orders = [];
   CartProvider();
   Map<String, double> totalBreakDown = {
     "subTotal": 0,
     "tax": 0,
     "total": 0,
   };
+
+  String selectedAddress = "";
 
   Future<void> getCart() async {
     try {
@@ -35,6 +40,27 @@ class CartProvider with ChangeNotifier {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Future<void> getOrders() async {
+    try {
+      var user = await Amplify.Auth.getCurrentUser();
+      var response = await Amplify.API
+          .get(
+              restOptions: RestOptions(
+            path: "/orders",
+            apiName: "userApi",
+            queryParameters: {
+              "id": user.userId,
+            },
+          ))
+          .response;
+    } catch (e) {}
+  }
+
+  void changeSelectedAddress(String id) {
+    selectedAddress = id;
+    notifyListeners();
   }
 
   void getTotal() {
@@ -60,6 +86,38 @@ class CartProvider with ChangeNotifier {
         totalBreakDown["subTotal"]! + totalBreakDown["tax"]!;
 
     notifyListeners();
+  }
+
+  Future<String> checkout(AddressModal address) async {
+    getTotal();
+    Order order = Order(
+      id: cart!.id,
+      total: totalBreakDown["total"]!,
+      items: cart!.items,
+    );
+
+    var user = await Amplify.Auth.getCurrentUser();
+
+    var params = RestOptions(
+      path: '/orders',
+      apiName: "userApi",
+      queryParameters: {
+        "cartId": cart!.id,
+        "id": user.userId,
+        "total": totalBreakDown["total"]!.toString()
+      },
+      body: Uint8List.fromList(json.encode(address).codeUnits),
+    );
+    try {
+      await Amplify.API.post(restOptions: params).response;
+      orders.add(order);
+      cart = CartModal(id: "", items: []);
+      notifyListeners();
+      return "Order Added";
+    } catch (e) {
+      print(e);
+      return "Order not found";
+    }
   }
 
   Future<String> addToCart(

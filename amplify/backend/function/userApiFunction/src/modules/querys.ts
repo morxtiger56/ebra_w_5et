@@ -165,7 +165,7 @@ export function updateItem({
 }) {
   documentClient
     .update({
-      TableName: "cart-dev",
+      TableName: tableName,
       Key:
         typeof id === "string"
           ? {

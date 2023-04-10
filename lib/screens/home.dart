@@ -69,15 +69,19 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _getUserData() async {
-    await Provider.of<ProductProvider>(
-      context,
-      listen: false,
-    ).getUserFavorites();
-
-    await Provider.of<CartProvider>(
-      context,
-      listen: false,
-    ).getCart();
+    try {
+      await Provider.of<ProductProvider>(
+        context,
+        listen: false,
+      ).getUserFavorites().then(
+            (value) async => await Provider.of<CartProvider>(
+              context,
+              listen: false,
+            ).getCart(),
+          );
+    } catch (e) {
+      print(e);
+    }
   }
 
   // This widget is the root of your application.

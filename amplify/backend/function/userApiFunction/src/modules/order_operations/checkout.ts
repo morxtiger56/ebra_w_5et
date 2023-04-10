@@ -1,6 +1,7 @@
 import { CARTS_TABLE_NAME, ORDERS_TABLE_NAME } from "../config";
-import * as uuid from "uuid";
-import { addItem, updateItem } from "../querys";
+import DynamoDB, { DocumentClient } from "aws-sdk/clients/dynamodb";
+
+const documentClient: DynamoDB.DocumentClient = new DynamoDB.DocumentClient();
 
 /**
  * It takes in an ownerId, cartId, total, and address, and then creates an order object with the given
@@ -22,25 +23,35 @@ export async function checkout({
   total: string;
   address: any;
 }) {
-  await updateItem({
-    tableName: CARTS_TABLE_NAME,
-    id: {
-      id: cartId,
-      ownerId: ownerId,
-    },
-    ExpressionAttributeNames: {
-      "#04d60": "address",
-      "#04d61": "status",
-      "#04d62": "total",
-    },
-    UpdateExpression: "SET #04d60 = :04d60, #04d61 = :04d61, #04d62 = :04d62",
-    values: {
-      ":04d60": address,
-      ":04d61": "closed",
-      ":04d62": total,
-    },
-  });
+  console.log("here");
 
+  try {
+    const response = await documentClient
+      .update({
+        TableName: CARTS_TABLE_NAME,
+        Key: {
+          id: cartId,
+          ownerId: ownerId,
+        },
+        UpdateExpression:
+          "SET #04d60 = :04d60, #04d61 = :04d61, #04d62 = :04d62",
+        ExpressionAttributeNames: {
+          "#04d60": "address",
+          "#04d61": "status",
+          "#04d62": "total",
+        },
+        ExpressionAttributeValues: {
+          ":04d60": address,
+          ":04d61": "closed",
+          ":04d62": Number(total),
+        },
+      })
+      .promise();
+
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
   return {
     statuesCode: 200,
     body: { message: "order created" },

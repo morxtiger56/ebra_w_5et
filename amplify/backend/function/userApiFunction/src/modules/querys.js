@@ -132,7 +132,7 @@ exports.batchGetItems = batchGetItems;
 function updateItem({ tableName, id, UpdateExpression, ExpressionAttributeNames, values, }) {
     documentClient
         .update({
-        TableName: "cart-dev",
+        TableName: tableName,
         Key: typeof id === "string"
             ? {
                 id: id,

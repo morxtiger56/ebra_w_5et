@@ -13,7 +13,7 @@ import { getProductsImages } from "../products_operations/getProductsImages";
  * @returns An array of objects.
  */
 export async function getAllOrders(id: string) {
-  var response = null;
+  var response = [];
 
   try {
     const res = (
@@ -35,22 +35,25 @@ export async function getAllOrders(id: string) {
 
     for (const cart of res) {
       if (cart.status == "closed") {
-        response = cart;
+        response.push(cart);
       }
     }
 
     if (response === null) {
       return {
         statuesCode: 200,
-        body: "No open cart found",
+        body: [],
       };
     }
 
     const productRequests = [];
-    for (const product of response.items) {
-      productRequests.push({
-        id: product.product,
-      });
+
+    for (const order of response) {
+      for (const item of order.items) {
+        productRequests.push({
+          id: item.product,
+        });
+      }
     }
 
     const getRequests = [];
@@ -68,9 +71,12 @@ export async function getAllOrders(id: string) {
       products.push(...res.Responses![`${PRODUCTS_TABLE_NAME}`]);
     }
     products = await getProductsImages(products);
-    for (const item of response.items) {
-      var product = products.find((e: any) => item.product === e.id);
-      item.product = product;
+
+    for (const order of response) {
+      for (const item of order.items) {
+        var product = products.find((e: any) => item.product === e.id);
+        item.product = product;
+      }
     }
   } catch (error) {
     throw error;
