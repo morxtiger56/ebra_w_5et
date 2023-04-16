@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:ebra_w_5et/models/address_modal.dart';
+import '../models/address_modal.dart';
 
 class User {
   String id;

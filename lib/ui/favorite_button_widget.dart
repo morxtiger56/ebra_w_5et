@@ -1,4 +1,4 @@
-import 'package:ebra_w_5et/providers/product_provider.dart';
+import '../providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

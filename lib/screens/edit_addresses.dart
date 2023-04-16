@@ -1,5 +1,5 @@
-import 'package:ebra_w_5et/models/address_modal.dart';
-import 'package:ebra_w_5et/providers/auth_provider.dart';
+import '../models/address_modal.dart';
+import '../providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,6 +1,6 @@
-import 'package:ebra_w_5et/providers/auth_provider.dart';
-import 'package:ebra_w_5et/providers/product_provider.dart';
-import 'package:ebra_w_5et/widgets/list_products_widget.dart';
+import '../providers/auth_provider.dart';
+import '../providers/product_provider.dart';
+import '../widgets/list_products_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

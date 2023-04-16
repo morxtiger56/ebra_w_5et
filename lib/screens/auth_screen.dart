@@ -1,7 +1,7 @@
-import 'package:ebra_w_5et/widgets/complete_profile_form_widget.dart';
-import 'package:ebra_w_5et/widgets/confirm_code_form_widget.dart';
-import 'package:ebra_w_5et/widgets/login_form_widget.dart';
-import 'package:ebra_w_5et/widgets/register_form_widget.dart';
+import '../widgets/complete_profile_form_widget.dart';
+import '../widgets/confirm_code_form_widget.dart';
+import '../widgets/login_form_widget.dart';
+import '../widgets/register_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
@@ -67,7 +67,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                         changeStateFunction: _changeCurrentState,
                       );
                     } else if (value.authState == AuthState.completeProfile) {
-                      return CompleteProfileFormWidget();
+                      return const CompleteProfileFormWidget();
                     } else if (value.authState == AuthState.confirmCode) {
                       return const ConfirmCodeFormWidget();
                     }

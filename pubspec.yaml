@@ -1,4 +1,4 @@
-name: ebra_w_5et
+name: WomenIncome
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -38,6 +38,7 @@ dependencies:
   email_validator: ^2.1.17
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.0
   google_fonts: ^4.0.3
   intl: ^0.17.0
   provider: ^6.0.5
@@ -46,6 +47,11 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -1,6 +1,6 @@
-import 'package:ebra_w_5et/screens/favorites_screen.dart';
-import 'package:ebra_w_5et/screens/home_page_screen.dart';
-import 'package:ebra_w_5et/screens/my_cart_screen.dart';
+import './screens/favorites_screen.dart';
+import './screens/home_page_screen.dart';
+import './screens/my_cart_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/my_profile_screen.dart';

@@ -1,4 +1,4 @@
-import 'package:ebra_w_5et/ui/bottom_navigation_bar_item.dart';
+import '../ui/bottom_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBarWidget extends StatefulWidget {

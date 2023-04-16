@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:ebra_w_5et/models/products_modal.dart';
-import 'package:ebra_w_5et/screens/product_page_screen.dart';
+import '../models/products_modal.dart';
+import '../screens/product_page_screen.dart';
 
 import 'favorite_button_widget.dart';
 

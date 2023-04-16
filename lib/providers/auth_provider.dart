@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:ebra_w_5et/models/address_modal.dart';
+import '../models/address_modal.dart';
 
-import 'package:ebra_w_5et/models/auth_modal.dart';
-import 'package:ebra_w_5et/models/user_modal.dart';
+import '../models/auth_modal.dart';
+import '../models/user_modal.dart';
 import 'package:flutter/foundation.dart';
 
 enum AuthState {
@@ -221,6 +221,15 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> getUserAttributes() async {
     try {
+      user = User(
+        id: "",
+        name: "",
+        email: "",
+        likedProducts: [],
+        dateOfBirth: "",
+        phoneNumber: "",
+        addresses: [],
+      );
       final userSession = (await Amplify.Auth.fetchAuthSession(
         options: CognitoSessionOptions(
           getAWSCredentials: true,

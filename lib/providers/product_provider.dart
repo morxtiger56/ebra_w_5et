@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:ebra_w_5et/helpers/api_service.dart';
+import '../helpers/api_service.dart';
 import 'package:flutter/material.dart';
 
 import '../models/products_modal.dart';
@@ -71,6 +71,8 @@ class ProductProvider with ChangeNotifier {
     for (var element in (jsonDecode(response.body) as List<dynamic>)) {
       favorites.add(Product.fromJson(element));
     }
+
+    print(favorites);
     notifyListeners();
   }
 

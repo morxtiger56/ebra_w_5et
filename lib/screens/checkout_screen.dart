@@ -1,9 +1,9 @@
-import 'package:ebra_w_5et/models/address_modal.dart';
-import 'package:ebra_w_5et/providers/auth_provider.dart';
-import 'package:ebra_w_5et/providers/cart_provider.dart';
-import 'package:ebra_w_5et/screens/edit_addresses.dart';
-import 'package:ebra_w_5et/screens/my_cart_screen.dart';
-import 'package:ebra_w_5et/widgets/address_card.dart';
+import '../models/address_modal.dart';
+import '../providers/auth_provider.dart';
+import '../providers/cart_provider.dart';
+import '../screens/edit_addresses.dart';
+import '../screens/my_cart_screen.dart';
+import '../widgets/address_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

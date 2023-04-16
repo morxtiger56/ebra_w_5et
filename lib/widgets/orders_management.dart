@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../Screens/my_addresses.dart';
+import '../screens/my_orders_screen.dart';
 import './card.dart';
 
 class OrdersManagement extends StatelessWidget {
@@ -17,7 +18,7 @@ class OrdersManagement extends StatelessWidget {
         ),
         MyCard(
           'My orders',
-          route: '',
+          route: MyOrdersScreen.routeName,
         ),
         SizedBox(
           height: 10,

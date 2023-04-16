@@ -70,14 +70,14 @@ class _HomeState extends State<Home> {
 
   Future<void> _getUserData() async {
     try {
-      await Provider.of<ProductProvider>(
+      await Provider.of<CartProvider>(
         context,
         listen: false,
-      ).getUserFavorites().then(
-            (value) async => await Provider.of<CartProvider>(
+      ).getCart().then(
+            (value) async => await Provider.of<ProductProvider>(
               context,
               listen: false,
-            ).getCart(),
+            ).getUserFavorites(),
           );
     } catch (e) {
       print(e);
@@ -118,6 +118,7 @@ class MainBody extends StatefulWidget {
 
 class _MainBodyState extends State<MainBody> {
   Widget? _activeRoute;
+  String _activeTitle = "Home";
   @override
   void initState() {
     // TODO: implement initState
@@ -129,6 +130,7 @@ class _MainBodyState extends State<MainBody> {
   void _changeTab(label) {
     setState(() {
       _activeRoute = routes[label]!['route'];
+      _activeTitle = label;
     });
   }
 
@@ -138,7 +140,7 @@ class _MainBodyState extends State<MainBody> {
       appBar: AppBar(
         shadowColor: Colors.transparent,
         foregroundColor: const Color(0xFFAE3203),
-        title: const Text("Logo"),
+        title: Text(_activeTitle),
         actions: [
           IconButton(
             onPressed: () {},

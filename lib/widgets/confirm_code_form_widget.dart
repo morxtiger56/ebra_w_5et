@@ -1,6 +1,6 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:ebra_w_5et/providers/auth_provider.dart' as custom;
-import 'package:ebra_w_5et/ui/form_filed_widget.dart';
+import '../providers/auth_provider.dart' as custom;
+import '../ui/form_filed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +34,8 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
       _loading = true;
     });
     try {
-      await Provider.of<custom.AuthProvider>(context, listen: false).confirmUser(
+      await Provider.of<custom.AuthProvider>(context, listen: false)
+          .confirmUser(
         _confirmationCodeController.value.text,
       );
     } on AuthException catch (e) {
@@ -90,17 +91,16 @@ class _ConfirmCodeFormWidgetState extends State<ConfirmCodeFormWidget> {
             height: 20,
           ),
           FilledButton(
-            onPressed: _loading? ()  {}: _confirmCode,
-
+            onPressed: _loading ? () {} : _confirmCode,
             child: _loading
                 ? const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Center(
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            )
+                    padding: EdgeInsets.all(8.0),
+                    child: Center(
+                      child: CircularProgressIndicator.adaptive(
+                        backgroundColor: Colors.white,
+                      ),
+                    ),
+                  )
                 : const Text("Proceed"),
           ),
         ],

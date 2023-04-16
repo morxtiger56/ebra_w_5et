@@ -1,5 +1,5 @@
-import 'package:ebra_w_5et/models/products_modal.dart';
-import 'package:ebra_w_5et/ui/product_card_widget.dart';
+import '../models/products_modal.dart';
+import '../ui/product_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class ListProductsWidget extends StatefulWidget {

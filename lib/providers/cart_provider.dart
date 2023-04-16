@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:ebra_w_5et/models/address_modal.dart';
-import 'package:ebra_w_5et/models/cart_modal.dart';
+import '../models/address_modal.dart';
+import '../models/cart_modal.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/order_modal.dart';
@@ -34,6 +34,10 @@ class CartProvider with ChangeNotifier {
           ))
           .response;
 
+      if (jsonDecode(response.body) == "No open cart found") {
+        return;
+      }
+
       cart = CartModal.fromMap(jsonDecode(response.body));
       getTotal();
       notifyListeners();
@@ -64,14 +68,12 @@ class CartProvider with ChangeNotifier {
   }
 
   void getTotal() {
-    print("before");
     if (cart == null) {
       return;
     }
     if (cart!.items.isEmpty) {
       return;
     }
-    print("after");
     totalBreakDown = {
       "subTotal": 0,
       "tax": 0,
@@ -112,6 +114,12 @@ class CartProvider with ChangeNotifier {
       await Amplify.API.post(restOptions: params).response;
       orders.add(order);
       cart = CartModal(id: "", items: []);
+
+      totalBreakDown = {
+        "subTotal": 0,
+        "tax": 0,
+        "total": 0,
+      };
       notifyListeners();
       return "Order Added";
     } catch (e) {

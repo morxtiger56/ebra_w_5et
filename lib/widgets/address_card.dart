@@ -1,4 +1,4 @@
-import 'package:ebra_w_5et/models/address_modal.dart';
+import '../models/address_modal.dart';
 import 'package:flutter/material.dart';
 
 class AddressCard extends StatelessWidget {

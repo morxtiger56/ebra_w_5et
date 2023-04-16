@@ -1,5 +1,5 @@
-import 'package:ebra_w_5et/providers/cart_provider.dart';
-import 'package:ebra_w_5et/screens/checkout_screen.dart';
+import '../providers/cart_provider.dart';
+import '../screens/checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
