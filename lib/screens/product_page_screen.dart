@@ -210,7 +210,7 @@ class ProductBottomNavBar extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            "Price: ${(product.price - 0.01).toString()}\$",
+            "Price: ${(product.price - 0.01).toString()} EGP",
           ),
           const SizedBox(
             width: 20,

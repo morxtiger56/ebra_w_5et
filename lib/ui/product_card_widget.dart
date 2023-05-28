@@ -95,7 +95,7 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              "${NumberFormat("###.0#", "en_US").format(widget.product.price - 0.01)}\$",
+              "${NumberFormat("###.0#", "en_US").format(widget.product.price - 0.01)} EGP",
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
               ),

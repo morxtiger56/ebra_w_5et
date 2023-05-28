@@ -61,7 +61,7 @@ class ExpandedProductCardWidget extends StatelessWidget {
                   height: 3,
                 ),
                 Text(
-                  "${NumberFormat("###.0#", "en_US").format(product.price - 0.01)}\$",
+                  "${NumberFormat("###.0#", "en_US").format(product.price - 0.01)} EGP",
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                   ),

@@ -62,20 +62,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       children: [
                         BillingSectionWidget(
                           title: "Sub Total",
-                          amount: "${value.totalBreakDown["subTotal"]!}\$",
+                          amount: "${value.totalBreakDown["subTotal"]!} EGP",
                         ),
                         BillingSectionWidget(
                           title: "Tax",
-                          amount: "${value.totalBreakDown["tax"]!}\$",
+                          amount: "${value.totalBreakDown["tax"]!} EGP",
                         ),
                         const BillingSectionWidget(
                           title: "Cash on delivery",
-                          amount: "5.00\$",
+                          amount: "5.00 EGP",
                         ),
                         const Divider(),
                         BillingSectionWidget(
                           title: "Total",
-                          amount: "${value.totalBreakDown["total"]! + 5}\$",
+                          amount: "${value.totalBreakDown["total"]! + 5} EGP",
                         ),
                         const SizedBox(
                           height: 10,

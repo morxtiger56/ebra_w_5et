@@ -102,16 +102,16 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   children: [
                     BillingSectionWidget(
                       title: "Sub Total",
-                      amount: "${value.totalBreakDown["subTotal"]!}\$",
+                      amount: "${value.totalBreakDown["subTotal"]!} EGP",
                     ),
                     BillingSectionWidget(
                       title: "Tax",
-                      amount: "${value.totalBreakDown["tax"]!}\$",
+                      amount: "${value.totalBreakDown["tax"]!} EGP",
                     ),
                     const Divider(),
                     BillingSectionWidget(
                       title: "Total",
-                      amount: "${value.totalBreakDown["total"]!}\$",
+                      amount: "${value.totalBreakDown["total"]!} EGP",
                     ),
                     FilledButton(
                       onPressed: () {
