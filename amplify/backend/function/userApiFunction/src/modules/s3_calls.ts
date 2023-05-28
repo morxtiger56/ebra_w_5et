@@ -12,7 +12,7 @@ export async function getObjectUrl(key: string) {
   return {
     url: s3.getSignedUrl("getObject", {
       Bucket: BUCKET_NAME,
-      Key: "jacket.png",
+      Key: `${key}.jpg`,
       Expires: 60 * 60,
     }),
     key: key,

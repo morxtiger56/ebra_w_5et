@@ -23,7 +23,7 @@ function getObjectUrl(key) {
         return {
             url: s3.getSignedUrl("getObject", {
                 Bucket: config_1.BUCKET_NAME,
-                Key: "jacket.png",
+                Key: `${key}.jpg`,
                 Expires: 60 * 60,
             }),
             key: key,
