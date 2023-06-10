@@ -61,17 +61,12 @@ class _EditAddressesState extends State<EditAddresses> {
 
   Future<void> _editAddress() async {
     if (_formKey.currentState == null) {
-      print("test");
-
       return;
     }
     _formKey.currentState!.save();
     if (!_formKey.currentState!.validate()) {
-      print("not valid");
-
       return;
     }
-    print("test");
 
     address.addressDetails = _addressDetailsController.value.text;
     address.city = _cityController.value.text;

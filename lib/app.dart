@@ -1,3 +1,5 @@
+import 'package:WomenIncome/screens/add_product_screen.dart';
+
 import './providers/cart_provider.dart';
 import './screens/checkout_screen.dart';
 import './screens/edit_addresses.dart';
@@ -51,6 +53,7 @@ class MyApp extends StatelessWidget {
           EditAddresses.routeName: (_) => const EditAddresses(),
           CheckoutScreen.routeName: (_) => const CheckoutScreen(),
           MyOrdersScreen.routeName: (_) => const MyOrdersScreen(),
+          AddProduct.routeName: (_) => AddProduct(),
         },
         debugShowCheckedModeBanner: false,
         home: const Home(),

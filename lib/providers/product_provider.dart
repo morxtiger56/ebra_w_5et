@@ -25,6 +25,24 @@ class ProductProvider with ChangeNotifier {
 
   ProductProvider();
 
+  Future<void> addProduct(Map<String, dynamic> product) async {
+    final id = await Amplify.API
+        .put(
+          restOptions: RestOptions(
+            path: '/products',
+            body: Uint8List.fromList(
+              json.encode(product).codeUnits,
+            ),
+            apiName: 'userApi',
+          ),
+        )
+        .response;
+    print(id.body);
+    // await Amplify.Storage.uploadFile(local: , key: id.body, options: UploadFileOptions(
+    //   contentType: "",
+    // ));
+  }
+
   Future<void> getProducts() async {
     if (products.isNotEmpty) {
       return;

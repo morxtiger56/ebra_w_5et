@@ -1,3 +1,4 @@
+import 'package:WomenIncome/screens/add_product_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../Screens/my_addresses.dart';
@@ -26,6 +27,13 @@ class OrdersManagement extends StatelessWidget {
         MyCard(
           'My addresses',
           route: MyAddresses.routeName,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        MyCard(
+          'Add product',
+          route: AddProduct.routeName,
         ),
         SizedBox(
           height: 10,
