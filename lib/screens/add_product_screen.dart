@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:WomenIncome/providers/product_provider.dart';
 import 'package:WomenIncome/ui/form_filed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({super.key});
@@ -118,16 +120,17 @@ class _AddProductState extends State<AddProduct> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
-
-    print(
-      {
+    try {
+      await Provider.of<ProductProvider>(context).addProduct({
         "text": _nameController.value.text,
         "price": _priceController.value.text,
-        "desc": _descController.value.text,
+        "description": _descController.value.text,
         "colors": colors,
         "sizes": selectedSizes,
-      }.toString(),
-    );
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
