@@ -11,6 +11,7 @@ import { addToCart } from "./modules/cart_operations/addToCart";
 import { addAddress } from "./modules/settings_operations/addAddress";
 import { modifyAddress } from "./modules/settings_operations/modifyAddress";
 import { getUserData } from "./modules/settings_operations/getUserData";
+import { addProduct } from "./modules/products_operations/addProduct";
 
 type CustomResponse = {
   statuesCode: number;
@@ -39,6 +40,12 @@ export const handler = async (
       event.queryStringParameters &&
       event.queryStringParameters.get === "getProducts":
       response = await getProducts(event.body);
+      break;
+    case event.path === "/products" &&
+      event.httpMethod === "PUT" &&
+      event.body !== null &&
+      event.body !== undefined:
+      response = await addProduct(JSON.parse(event.body!));
       break;
 
     case event.path === "/favorites" &&
